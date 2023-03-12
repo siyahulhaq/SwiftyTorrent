@@ -461,6 +461,14 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
     return YES;
 }
 
+- (BOOL)pauseTorrentWithInfoHash:(NSData *)infoHash  {
+    lt::sha1_hash hash((const char *)infoHash.bytes);
+    auto th = _session->find_torrent(hash);
+    if (!th.is_valid()) { return NO; }
+    _session->pause();
+    return YES;
+}
+
 - (BOOL)removeAllTorrentsWithFiles:(BOOL)deleteFiles {
     auto handles = _session->get_torrents();
     for (auto it = handles.begin(); it != handles.end(); ++it) {

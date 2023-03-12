@@ -8,6 +8,12 @@
 
 import SwiftUI
 
+extension View {
+    @ViewBuilder func onlyStackView() -> some View {
+        self.navigationViewStyle(.stack)
+    }
+}
+
 struct MainView: View {
     
     var body: some View {
@@ -27,7 +33,6 @@ struct MainView: View {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
-        }
+        }.onlyStackView()
     }
-    
 }

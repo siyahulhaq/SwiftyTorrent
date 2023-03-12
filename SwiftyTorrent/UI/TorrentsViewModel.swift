@@ -19,6 +19,8 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
     private let torrentsWillChangeSubject = PassthroughSubject<Void, Never>()
 
     var objectWillChange: AnyPublisher<Void, Never>
+    
+    @Published private(set) var showAlert: AlertInfo?
 
     @Published private(set) var activeError: Error?
     
@@ -30,6 +32,8 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
             self.activeError = nil
         })
     }
+    
+    var isPresentingRemoveAlert: Bool = false
     
     override init() {
         objectWillChange = torrentsWillChangeSubject
@@ -52,6 +56,10 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
         torrentManager.removeTorrent(withInfoHash: torrent.infoHash, deleteFiles: deleteFiles)
     }
     
+    func pause(_ torrent: Torrent) {
+        
+    }
+    
     // MARK: - TorrentManagerDelegate
     
     func torrentManager(_ manager: TorrentManager, didAdd torrent: Torrent) {
@@ -63,6 +71,9 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
     }
     
     func torrentManager(_ manager: TorrentManager, didReceiveUpdateFor torrent: Torrent) {
+        if(isPresentingRemoveAlert) {
+            return
+        }
         reloadData()
     }
     

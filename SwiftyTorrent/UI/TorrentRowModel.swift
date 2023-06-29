@@ -17,6 +17,8 @@ protocol TorrentRowModel {
     
     var connectionDetails: String { get }
     
+    var sizeDetails: String { get }
+    
 }
 
 extension Torrent: TorrentRowModel {
@@ -34,6 +36,10 @@ extension Torrent: TorrentRowModel {
         let downloadRateString = ByteCountFormatter.string(fromByteCount: Int64(downloadRate), countStyle: .binary)
         let uploadRateString = ByteCountFormatter.string(fromByteCount: Int64(uploadRate), countStyle: .binary)
         return "↓ \(downloadRateString), ↑ \(uploadRateString)"
+    }
+    
+    var sizeDetails: String {
+        return "\(total) \\ \(totalDone) Bytes"
     }
 
 }

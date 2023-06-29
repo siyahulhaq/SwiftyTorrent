@@ -22,6 +22,8 @@
 @property (readwrite, nonatomic) NSUInteger uploadRate;
 @property (readwrite, nonatomic) BOOL paused;
 @property (readwrite, nonatomic) BOOL hasMetadata;
+@property (readwrite, nonatomic) NSUInteger total;
+@property (readwrite, nonatomic) NSUInteger totalDone;
 @end
 
 @implementation STTorrent

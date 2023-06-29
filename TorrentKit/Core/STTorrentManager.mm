@@ -39,6 +39,8 @@
 @property (readwrite, nonatomic) NSUInteger uploadRate;
 @property (readwrite, nonatomic) BOOL hasMetadata;
 @property (readwrite, nonatomic) BOOL paused;
+@property (readwrite, nonatomic) NSUInteger total;
+@property (readwrite, nonatomic) NSUInteger totalDone;
 @end
 
 @interface STFileEntry ()
@@ -541,6 +543,8 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
     torrent.downloadRate = ts.download_payload_rate;
     torrent.hasMetadata = ts.has_metadata;
     torrent.paused = ts.paused;
+    torrent.total = ts.total;
+    torrent.totalDone = ts.total_done;
     return torrent;
 }
 

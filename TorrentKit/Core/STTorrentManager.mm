@@ -125,59 +125,73 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
 - (void)alertsLoop {
     auto max_wait = lt::milliseconds(ALERTS_LOOP_WAIT_MILLIS);
     while (YES) {
-        auto alert_ptr = _session->wait_for_alert(max_wait);
-        std::vector<lt::alert *> alerts_queue;
-        if (alert_ptr != nullptr) {
-            _session->pop_alerts(&alerts_queue);
-        } else {
-            continue;
-        }
-        
-        for (auto it = alerts_queue.begin(); it != alerts_queue.end(); ++it) {
-            auto alert = (*it);
-//            NSLog(@"type:%d msg:%s", alert->type(), alert->message().c_str());
-            switch (alert->type()) {
-                case lt::metadata_received_alert::alert_type: {
-                } break;
-                    
-                case lt::metadata_failed_alert::alert_type: {
-                    [self metadataReceivedAlert:(lt::torrent_alert *)alert];
-                } break;
-                
-                case lt::block_finished_alert::alert_type: {
-                } break;
-
-                case lt::add_torrent_alert::alert_type: {
-                    [self torrentAddedAlert:(lt::torrent_alert *)alert];
-                } break;
-                    
-                case lt::torrent_removed_alert::alert_type: {
-                    [self torrentRemovedAlert:(lt::torrent_alert *)alert];
-                } break;
-
-                case lt::torrent_finished_alert::alert_type: {
-                } break;
-
-                case lt::torrent_paused_alert::alert_type: {
-                } break;
-
-                case lt::torrent_resumed_alert::alert_type: {
-                } break;
-
-                case lt::torrent_error_alert::alert_type: {
-                } break;
-                
-                default: break;
+        @autoreleasepool {
+            auto alert_ptr = _session->wait_for_alert(max_wait);
+            if (alert_ptr == nullptr) {
+                continue;
             }
             
-            if (dynamic_cast<lt::torrent_alert *>(alert) != nullptr) {
-                auto th = ((lt::torrent_alert *)alert)->handle;
-                if (!th.is_valid()) { break; }
-                [self notifyDelegatesWithUpdate:th];
+            std::vector<lt::alert *> alerts_queue;
+            _session->pop_alerts(&alerts_queue);
+            
+            // Batch torrent updates instead of sending individual notifications
+            NSMutableSet *updatedTorrents = [NSMutableSet set];
+            
+            for (auto it = alerts_queue.begin(); it != alerts_queue.end(); ++it) {
+                auto alert = (*it);
+                
+                // Handle specific alert types...
+                switch (alert->type()) {
+                    case lt::metadata_received_alert::alert_type: {
+                    } break;
+                        
+                    case lt::metadata_failed_alert::alert_type: {
+                        [self metadataReceivedAlert:(lt::torrent_alert *)alert];
+                    } break;
+                    
+                    case lt::block_finished_alert::alert_type: {
+                    } break;
+
+                    case lt::add_torrent_alert::alert_type: {
+                        [self torrentAddedAlert:(lt::torrent_alert *)alert];
+                    } break;
+                        
+                    case lt::torrent_removed_alert::alert_type: {
+                        [self torrentRemovedAlert:(lt::torrent_alert *)alert];
+                    } break;
+
+                    case lt::torrent_finished_alert::alert_type: {
+                    } break;
+
+                    case lt::torrent_paused_alert::alert_type: {
+                    } break;
+
+                    case lt::torrent_resumed_alert::alert_type: {
+                    } break;
+
+                    case lt::torrent_error_alert::alert_type: {
+                    } break;
+                    
+                    default: break;
+                }
+                
+                // Collect torrent handles that need updates
+                if (auto* torrent_alert = dynamic_cast<lt::torrent_alert *>(alert)) {
+                    auto th = torrent_alert->handle;
+                    if (th.is_valid()) {
+                        NSData *hashData = [self hashDataFromInfoHash:th.info_hash()];
+                        [updatedTorrents addObject:hashData];
+                    }
+                }
             }
+            
+            // Send batch updates for all modified torrents
+            if (updatedTorrents.count > 0) {
+                [self notifyDelegatesWithUpdatesForTorrents:updatedTorrents];
+            }
+            
+            alerts_queue.clear();
         }
-        
-        alerts_queue.clear();
     }
 }
 
@@ -192,13 +206,6 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
     NSData *hashData = [self hashDataFromInfoHash:th.info_hash()];
     for (id<STTorrentManagerDelegate>delegate in self.delegates) {
         [delegate torrentManager:self didRemoveTorrentWithHash:hashData];
-    }
-}
-
-- (void)notifyDelegatesWithUpdate:(lt::torrent_handle)th {
-    STTorrent *torrent = [self torrentFromHandle:th];
-    for (id<STTorrentManagerDelegate>delegate in self.delegates) {
-        [delegate torrentManager:self didReceiveUpdateForTorrent:torrent];
     }
 }
 
@@ -531,12 +538,22 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
 }
 
 - (NSArray<STTorrent *> *)torrents {
-    auto handles = _session->get_torrents();
-    NSMutableArray *torrents = [[NSMutableArray alloc] init];
-    for (auto it = handles.begin(); it != handles.end(); ++it) {
-        auto th = (*it);
-        [torrents addObject:[self torrentFromHandle:th]];
+    // Get torrent handles from session
+    std::vector<lt::torrent_handle> handles = _session->get_torrents();
+    
+    // Pre-allocate array with capacity
+    NSMutableArray *torrents = [[NSMutableArray alloc] initWithCapacity:handles.size()];
+    
+    // Use modern range-based for loop
+    for (const auto& handle : handles) {
+        @autoreleasepool {
+            STTorrent *torrent = [self torrentFromHandle:handle];
+            if (torrent) {
+                [torrents addObject:torrent];
+            }
+        }
     }
+    
     return [torrents copy];
 }
 
@@ -566,6 +583,18 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
         [results addObject:fileEntry];
     }
     return [results copy];
+}
+
+- (void)notifyDelegatesWithUpdatesForTorrents:(NSSet *)torrentHashes {
+    // Get all torrents from session to ensure complete state
+    NSArray *allTorrents = [self torrents];
+    
+    // Notify delegates with all torrents
+    if (allTorrents.count > 0) {
+        for (id<STTorrentManagerDelegate>delegate in self.delegates) {
+            [delegate torrentManager:self didReceiveUpdatesForTorrents:allTorrents];
+        }
+    }
 }
 
 @end

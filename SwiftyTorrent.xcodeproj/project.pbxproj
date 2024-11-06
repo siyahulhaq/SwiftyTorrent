@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -124,6 +124,11 @@
 		77D8122522CA336A001CA13E /* TorrentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D8122422CA336A001CA13E /* TorrentsView.swift */; };
 		77E4CA0824AB747500C21354 /* SearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E4CA0724AB747500C21354 /* SearchRow.swift */; };
 		77FC2AF422D896F100A544AA /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FC2AF322D896F100A544AA /* AppCoordinator.swift */; };
+		D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB692CDA51A6005F9F1C /* WidgetKit.framework */; };
+		D329DB6C2CDA51A7005F9F1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */; };
+		D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D329DB8D2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
+		D329DB8E2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +159,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 774321A624AA37ED00777C0A;
 			remoteInfo = TorrentKit;
+		};
+		D329DB7B2CDA51A8005F9F1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 773FF94222C10278008D58E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D329DB672CDA51A6005F9F1C;
+			remoteInfo = Torrents_WidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -204,6 +216,17 @@
 			files = (
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D329DB7E2CDA51A8005F9F1C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -298,7 +321,33 @@
 		77ED892324ACE20700D499DD /* QLViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLViewHost.swift; sourceTree = "<group>"; };
 		77ED893224AD277900D499DD /* VLCViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCViewHost.swift; sourceTree = "<group>"; };
 		77FC2AF322D896F100A544AA /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Torrents_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D329DB692CDA51A6005F9F1C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
+		D329DBA42CDA934F005F9F1C /* SwiftyTorrent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftyTorrent.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */;
+		};
+		D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				TorrentsWidgetAttributes.swift,
+			);
+			target = 773FF94922C10278008D58E4 /* SwiftyTorrent */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Torrents_Widget; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		773FF94722C10278008D58E4 /* Frameworks */ = {
@@ -358,12 +407,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D329DB652CDA51A6005F9F1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D329DB6C2CDA51A7005F9F1C /* SwiftUI.framework in Frameworks */,
+				D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		7723376322DB9331008ECD5F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */,
 				773FF94D22C10278008D58E4 /* AppDelegate.swift */,
 				773FF94F22C10278008D58E4 /* SceneDelegate.swift */,
 				77FC2AF322D896F100A544AA /* AppCoordinator.swift */,
@@ -390,6 +449,7 @@
 				7748DC7524AE38EA00AC5095 /* MediaKit */,
 				773FF94C22C10278008D58E4 /* SwiftyTorrent */,
 				7748DCB324AE702E00AC5095 /* SwiftyTV */,
+				D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */,
 				773FF94B22C10278008D58E4 /* Products */,
 				773FF96722C105CE008D58E4 /* Frameworks */,
 			);
@@ -402,6 +462,7 @@
 				774321A724AA37ED00777C0A /* TorrentKit.framework */,
 				7748DC7424AE38EA00AC5095 /* MediaKit.framework */,
 				7748DCB224AE702E00AC5095 /* SwiftyTV.app */,
+				D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -409,6 +470,7 @@
 		773FF94C22C10278008D58E4 /* SwiftyTorrent */ = {
 			isa = PBXGroup;
 			children = (
+				D329DBA42CDA934F005F9F1C /* SwiftyTorrent.entitlements */,
 				7723376322DB9331008ECD5F /* Core */,
 				774321EE24AB43E500777C0A /* Models */,
 				77D8122322CA336A001CA13E /* UI */,
@@ -446,6 +508,8 @@
 				777A0E5124AF8D9A00713146 /* libc++.tbd */,
 				777A0E4F24AF8D9300713146 /* libiconv.tbd */,
 				777A0E4D24AF8D8C00713146 /* libxml2.tbd */,
+				D329DB692CDA51A6005F9F1C /* WidgetKit.framework */,
+				D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -640,12 +704,14 @@
 				773FF94722C10278008D58E4 /* Frameworks */,
 				773FF94822C10278008D58E4 /* Resources */,
 				774321AF24AA37EE00777C0A /* Embed Frameworks */,
+				D329DB7E2CDA51A8005F9F1C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				774321AD24AA37EE00777C0A /* PBXTargetDependency */,
 				7748DC7A24AE38EA00AC5095 /* PBXTargetDependency */,
+				D329DB7C2CDA51A8005F9F1C /* PBXTargetDependency */,
 			);
 			name = SwiftyTorrent;
 			packageProductDependencies = (
@@ -713,6 +779,28 @@
 			productReference = 7748DCB224AE702E00AC5095 /* SwiftyTV.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D329DB822CDA51A8005F9F1C /* Build configuration list for PBXNativeTarget "Torrents_WidgetExtension" */;
+			buildPhases = (
+				D329DB642CDA51A6005F9F1C /* Sources */,
+				D329DB652CDA51A6005F9F1C /* Frameworks */,
+				D329DB662CDA51A6005F9F1C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */,
+			);
+			name = Torrents_WidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = Torrents_WidgetExtension;
+			productReference = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -720,7 +808,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ST;
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Danylo Kostyshyn";
 				TargetAttributes = {
@@ -737,6 +825,9 @@
 					};
 					7748DCB124AE702E00AC5095 = {
 						CreatedOnToolsVersion = 11.5;
+					};
+					D329DB672CDA51A6005F9F1C = {
+						CreatedOnToolsVersion = 16.1;
 					};
 				};
 			};
@@ -759,6 +850,7 @@
 				7748DCB124AE702E00AC5095 /* SwiftyTV */,
 				774321A624AA37ED00777C0A /* TorrentKit */,
 				7748DC7324AE38EA00AC5095 /* MediaKit */,
+				D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -795,6 +887,13 @@
 			files = (
 				7748DCBF24AE703000AC5095 /* LaunchScreen.storyboard in Resources */,
 				774FE51D289649FF0021A5DF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D329DB662CDA51A6005F9F1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -865,6 +964,7 @@
 				77E4CA0824AB747500C21354 /* SearchRow.swift in Sources */,
 				7774229C267C0191008FAA57 /* StubEZTVDataProvider.swift in Sources */,
 				7748DCAB24AE4E1900AC5095 /* File+UTI.swift in Sources */,
+				D329DB8D2CDA5823005F9F1C /* ActivityManager.swift in Sources */,
 				772CEA0A22DDFC47000CD2BD /* FileRow.swift in Sources */,
 				774321E924AA9A0E00777C0A /* IMDBDataProvider.swift in Sources */,
 				77742299267C0185008FAA57 /* StubIMDBDataProvider.swift in Sources */,
@@ -921,6 +1021,7 @@
 				7748DCD024AE70A900AC5095 /* TorrentsView.swift in Sources */,
 				7748DCD524AE70A900AC5095 /* FilesViewModel.swift in Sources */,
 				7748DCC824AE70A900AC5095 /* File+PreviewItem.swift in Sources */,
+				D329DB8E2CDA5823005F9F1C /* ActivityManager.swift in Sources */,
 				7748DCC624AE70A900AC5095 /* Torrent+Files.swift in Sources */,
 				77742296267C010F008FAA57 /* StubTorrentManager.swift in Sources */,
 				7748DCB524AE702E00AC5095 /* AppDelegate.swift in Sources */,
@@ -928,6 +1029,13 @@
 				77AD95482678CAFB00B57B0B /* SettingsViewModel.swift in Sources */,
 				7748DCD724AE70A900AC5095 /* FileRowModel.swift in Sources */,
 				7748DCD224AE70A900AC5095 /* TorrentRow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D329DB642CDA51A6005F9F1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -953,6 +1061,11 @@
 			isa = PBXTargetDependency;
 			target = 774321A624AA37ED00777C0A /* TorrentKit */;
 			targetProxy = 7748DCDF24AE713500AC5095 /* PBXContainerItemProxy */;
+		};
+		D329DB7C2CDA51A8005F9F1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */;
+			targetProxy = D329DB7B2CDA51A8005F9F1C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1103,6 +1216,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SwiftyTorrent/SwiftyTorrent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZXH2LGQX9F;
@@ -1112,6 +1226,7 @@
 				);
 				INFOPLIST_FILE = SwiftyTorrent/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iTorrent;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1132,6 +1247,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SwiftyTorrent/SwiftyTorrent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZXH2LGQX9F;
@@ -1141,6 +1257,7 @@
 				);
 				INFOPLIST_FILE = SwiftyTorrent/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iTorrent;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1232,6 +1349,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				INFOPLIST_FILE = MediaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1243,6 +1361,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TVOS_DEPLOYMENT_TARGET = 17;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1262,6 +1381,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				INFOPLIST_FILE = MediaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1273,6 +1393,7 @@
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TVOS_DEPLOYMENT_TARGET = 17;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1328,6 +1449,75 @@
 			};
 			name = Release;
 		};
+		D329DB7F2CDA51A8005F9F1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZXH2LGQX9F;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Torrents_Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Torrents_Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Danylo Kostyshyn. All rights reserved.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.siyahul.SwiftyTorrent.Torrents-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D329DB802CDA51A8005F9F1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZXH2LGQX9F;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Torrents_Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Torrents_Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Danylo Kostyshyn. All rights reserved.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.siyahul.SwiftyTorrent.Torrents-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1372,6 +1562,15 @@
 			buildConfigurations = (
 				7748DCC124AE703000AC5095 /* Debug */,
 				7748DCC224AE703000AC5095 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D329DB822CDA51A8005F9F1C /* Build configuration list for PBXNativeTarget "Torrents_WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D329DB7F2CDA51A8005F9F1C /* Debug */,
+				D329DB802CDA51A8005F9F1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

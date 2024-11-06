@@ -25,6 +25,7 @@ NS_SWIFT_NAME(Torrent)
 @property (readonly, nonatomic) NSUInteger downloadRate;
 @property (readonly, nonatomic) NSUInteger uploadRate;
 @property (readonly, nonatomic) BOOL hasMetadata;
+@property (readonly, nonatomic) int64_t size;
 
 #ifdef DEBUG
 + (instancetype)randomStubTorrent;

@@ -21,6 +21,7 @@
 @property (readwrite, nonatomic) NSUInteger downloadRate;
 @property (readwrite, nonatomic) NSUInteger uploadRate;
 @property (readwrite, nonatomic) BOOL hasMetadata;
+@property (readwrite, nonatomic) int64_t size;
 @end
 
 @implementation STTorrent
@@ -39,6 +40,7 @@ static NSUInteger stubIdx = 0;
     torrent.downloadRate = arc4random_uniform(1024 * 1024 * 1024);
     torrent.uploadRate = arc4random_uniform(1024 * 1024 * 1024);
     torrent.hasMetadata = torrent.state != STTorrentStateDownloadingMetadata;
+    torrent.size = 2002;
     stubIdx += 1;
     return torrent;
 }

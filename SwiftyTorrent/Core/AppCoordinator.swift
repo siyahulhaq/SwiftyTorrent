@@ -17,6 +17,7 @@ protocol ApplicationCoordinator {
     
 }
 
+@available(iOS 17.0, *)
 final class AppCoordinator: ApplicationCoordinator {
     
     private var window: UIWindow!

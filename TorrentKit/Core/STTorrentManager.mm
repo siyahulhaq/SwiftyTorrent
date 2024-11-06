@@ -38,6 +38,7 @@
 @property (readwrite, nonatomic) NSUInteger downloadRate;
 @property (readwrite, nonatomic) NSUInteger uploadRate;
 @property (readwrite, nonatomic) BOOL hasMetadata;
+@property (readwrite, nonatomic) int64_t size;
 @end
 
 @interface STFileEntry ()
@@ -534,6 +535,7 @@ static NSErrorDomain STErrorDomain = @"org.kostyshyn.SwiftyTorrent.STTorrentMana
     torrent.uploadRate = ts.upload_payload_rate;
     torrent.downloadRate = ts.download_payload_rate;
     torrent.hasMetadata = ts.has_metadata;
+    torrent.size = th.get_file_priorities().size();
     return torrent;
 }
 

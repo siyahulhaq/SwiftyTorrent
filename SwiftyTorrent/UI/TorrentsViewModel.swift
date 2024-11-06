@@ -9,38 +9,35 @@
 import Combine
 import SwiftUI
 import TorrentKit
+import Observation
 
-final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegate {
+@available(iOS 17.0, *)
+@Observable
+final class TorrentsViewModel {
+    private(set) var torrents: [Torrent] = []
+    var isPresentingRemoveAlert = false
     
-    private let torrentManager = resolveComponent(TorrentManagerProtocol.self)
-
-    @Published private(set) var torrents = [Torrent]()
-
-    @Published private(set) var showAlert: AlertInfo?
-
-    @Published private(set) var activeError: Error?
-    
-    // Add a timer to throttle UI updates
     private var updateTimer: Timer?
-    private var pendingTorrents: [Torrent]?
-    private let updateInterval: TimeInterval = 1.0 // Update UI every second
+    private var cancellables = Set<AnyCancellable>()
+    private let torrentManager: TorrentManagerProtocol
+    private let updateInterval: TimeInterval = 1.0
     
-    var isPresentingAlert: Binding<Bool> {
-        return Binding<Bool>(get: {
-            return self.activeError != nil
-        }, set: { newValue in
-            guard !newValue else { return }
-            self.activeError = nil
-        })
+    init(torrentManager: TorrentManagerProtocol = TorrentManager.shared()) {
+        self.torrentManager = torrentManager
+        setupUpdateTimer()
+        setupTorrentUpdates()
     }
     
-    var isPresentingRemoveAlert: Bool = false
-    
-    override init() {
-        super.init()
-        torrentManager.addDelegate(self)
-        setupUpdateTimer()
-        reloadData()
+    private func setupTorrentUpdates() {
+        // Use Combine for torrent updates
+        Timer.publish(every: updateInterval, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                Task {
+                    await self?.reloadData()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func setupUpdateTimer() {
@@ -50,16 +47,8 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
     }
     
     private func processPendingUpdates() {
-        guard let pending = pendingTorrents else { return }
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            // Only update if there are actual changes
-            if !self.areArraysEqual(self.torrents, pending) {
-                self.torrents = pending.sorted(by: { $0.name < $1.name })
-            }
-            self.pendingTorrents = nil
+        Task {
+            reloadData()
         }
     }
     
@@ -69,69 +58,82 @@ final class TorrentsViewModel: NSObject, ObservableObject, TorrentManagerDelegat
         // Compare relevant properties that affect UI
         return zip(current, new).allSatisfy { currentTorrent, newTorrent in
             return currentTorrent.infoHash == newTorrent.infoHash &&
-                   currentTorrent.progress == newTorrent.progress &&
-                   currentTorrent.state == newTorrent.state &&
-                   currentTorrent.downloadRate == newTorrent.downloadRate &&
-                   currentTorrent.uploadRate == newTorrent.uploadRate &&
-                   currentTorrent.numberOfPeers == newTorrent.numberOfPeers &&
-                   currentTorrent.numberOfSeeds == newTorrent.numberOfSeeds
+            currentTorrent.progress == newTorrent.progress &&
+            currentTorrent.state == newTorrent.state &&
+            currentTorrent.numberOfPeers == newTorrent.numberOfPeers &&
+            currentTorrent.numberOfSeeds == newTorrent.numberOfSeeds &&
+            currentTorrent.downloadRate == newTorrent.downloadRate &&
+            currentTorrent.uploadRate == newTorrent.uploadRate
         }
     }
     
     func reloadData() {
         guard !isPresentingRemoveAlert else { return }
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            let sortedTorrents = self.torrentManager.torrents()
-                .sorted(by: { $0.name < $1.name })
+        Task {
+            let sortedTorrents = torrentManager.torrents()
+                .sorted { $0.name < $1.name }
             
-            DispatchQueue.main.async {
-                self.torrents = sortedTorrents
+            // Update activities for all incomplete torrents
+            for torrent in sortedTorrents where torrent.progress < 1.0 {
+                await ActivityManager.shared.updateActivity(with: torrent)
+            }
+            
+            // Only update the torrents array if there are changes
+            if !areArraysEqual(torrents, sortedTorrents) {
+                torrents = sortedTorrents
             }
         }
     }
     
+    // Add this new method to start activities for all downloading torrents
+    func startAllActivities() async {
+//        await ActivityManager.shared.startActivities()
+    }
+    
+    // Add this method to end all activities
+    func endAllActivities() async {
+//        await ActivityManager.shared.endAllActivities()
+    }
+    
     func remove(_ torrent: Torrent, deleteFiles: Bool = false) {
-        torrentManager.removeTorrent(withInfoHash: torrent.infoHash, deleteFiles: deleteFiles)
-    }
-    
-    func pause(_ torrent: Torrent) {
-        
-    }
-    
-    // MARK: - TorrentManagerDelegate
-    
-    func torrentManager(_ manager: TorrentManager, didAdd torrent: Torrent) {
-        reloadData()
-    }
-    
-    func torrentManager(_ manager: TorrentManager, didRemoveTorrentWithHash hashData: Data) {
-        reloadData()
-    }
-    
-    func torrentManager(_ manager: TorrentManager, didErrorOccur error: Error) {
-        DispatchQueue.main.async {
-            self.activeError = error
+        Task {
+            // End the activity before removing the torrent
+            await ActivityManager.shared.endActivity(for: torrent)
+            
+            torrentManager.removeTorrent(withInfoHash: torrent.infoHash,
+                                       deleteFiles: deleteFiles)
+            reloadData()
         }
     }
     
-    func torrentManager(_ manager: TorrentManager, didReceiveUpdatesFor torrents: [Torrent]) {
-        // Store updates in pending queue instead of updating immediately
-        pendingTorrents = torrents
+    func importTorrentFile(from url: URL) {
+        Task {
+            do {
+                let data = try Data(contentsOf: url)
+                let torrentFile = TorrentFile()
+                torrentManager.add(torrentFile)
+                await reloadData()
+            } catch {
+                print("Error importing torrent file: \(error)")
+            }
+        }
     }
     
-    deinit {
-        updateTimer?.invalidate()
-        updateTimer = nil
-        torrentManager.removeDelegate(self)
+    func importMagnet(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        let magnetURI = MagnetURI(magnetURI: url)
+        torrentManager.add(magnetURI)
+        Task {
+            await reloadData()
+        }
     }
-    
 }
 
 #if DEBUG
+@available(iOS 17.0, *)
 extension TorrentsViewModel {
-
+    
     func addTestTorrentFiles() {
         torrentManager.add(TorrentFile.test_1())
         torrentManager.add(TorrentFile.test_2())

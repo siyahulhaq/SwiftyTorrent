@@ -14,6 +14,7 @@ extension View {
     }
 }
 
+@available(iOS 17.0, *)
 struct MainView: View {
     
     var body: some View {

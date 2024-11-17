@@ -15,9 +15,14 @@ protocol FileRowModel {
     
     var sizeDetails: String? { get }
     
+    var isDirectory: Bool { get }
+    
 }
 
 extension FileEntry: FileRowModel {
+    var isDirectory: Bool {
+        false
+    }
     
     var title: String { name }
     

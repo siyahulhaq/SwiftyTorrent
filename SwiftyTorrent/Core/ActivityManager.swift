@@ -10,11 +10,13 @@ import ActivityKit
 import Combine
 import Foundation
 import TorrentKit
+import SwiftUI
 
 final class ActivityManager: ObservableObject {
     @MainActor @Published private(set) var activityID: String?
     private var activityIDs: [String: String] = [:]
     private let torrentManager: TorrentManagerProtocol
+    @AppStorage("enableBackgroundMode") private var enableBackgroundMode = false
 
     static let shared = ActivityManager()
 
@@ -23,6 +25,7 @@ final class ActivityManager: ObservableObject {
     }
 
     func startActivity(for torrent: Torrent) async {
+        return
         let torrentKey = torrent.infoHash.base64EncodedString()
         if activityIDs[torrentKey] != nil {
             return
@@ -152,6 +155,20 @@ final class ActivityManager: ObservableObject {
             print("Ended all activities")
         } catch {
             print("Error ending all activities: \(error.localizedDescription)")
+        }
+    }
+
+    func updateBackgroundMode(_ enabled: Bool) {
+        enableBackgroundMode = enabled
+        if enabled {
+            (UIApplication.shared.delegate as? AppDelegate)?.setupBackgroundAudio()
+        } else {
+            do {
+                try (UIApplication.shared.delegate as? AppDelegate)?.audioSession?.setActive(false)
+            } catch {
+                print("Error \(error)")
+            }
+            
         }
     }
 }

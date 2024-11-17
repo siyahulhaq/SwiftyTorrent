@@ -28,4 +28,11 @@ extension File {
         return mimeUTI.conforms(to: .audiovisualContent)
     }
     
+    var isImage: Bool {
+        guard
+            let mimeUTI = UTType(filenameExtension: fileExtension)
+        else { return false }
+        return mimeUTI.conforms(to: .image)
+    }
+    
 }

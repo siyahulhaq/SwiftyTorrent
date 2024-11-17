@@ -20,6 +20,7 @@ struct FilesView: View {
             ForEach(model.directory.allSubDirectories, id: \.path) { subDir in
                 NavigationLink(destination: FilesView(model: subDir)) {
                     FileRow(model: subDir)
+                    .padding(.bottom, 10)
                 }
             }
             ForEach(model.directory.allFiles, id: \.path) { item in
@@ -31,6 +32,7 @@ struct FilesView: View {
                     }
                 }) {
                     FileRow(model: item)
+                    .padding(.bottom, 10)
                 }
             }
         }.listStyle(PlainListStyle())

@@ -57,9 +57,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+        // Start background task when entering background
+        let taskIdentifier = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        
+        if taskIdentifier != .invalid {
+            // Keep the torrent manager running
+            Task {
+                await ActivityManager.shared.updateActivity(with: /* current torrent */)
+            }
+        }
+    }
+
+    private func endBackgroundTask() {
+        Task {
+            await ActivityManager.shared.endAllActivities()
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

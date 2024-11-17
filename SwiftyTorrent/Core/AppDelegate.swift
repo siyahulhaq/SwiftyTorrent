@@ -7,14 +7,37 @@
 //
 
 import UIKit
+import AVFoundation
+import BackgroundTasks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var audioSession: AVAudioSession?
+
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+//        setupBackgroundAudio()
+//        setupBackgroudMode()
         return true
+    }
+    
+    
+    func setupBackgroundAudio() {
+        do {
+            audioSession = AVAudioSession.sharedInstance()
+            try audioSession?.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try audioSession?.setActive(true)
+            
+            // Create a silent audio player to keep app alive
+            guard let audioUrl = Bundle.main.url(forResource: "silence", withExtension: "mp3") else { return }
+            let player = try AVAudioPlayer(contentsOf: audioUrl)
+            player.numberOfLoops = -1 // Infinite loop
+            player.volume = 0.0
+            player.play()
+        } catch {
+            print("Failed to setup audio session: \(error.localizedDescription)")
+        }
     }
 
     // MARK: UISceneSession Lifecycle

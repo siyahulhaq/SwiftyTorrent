@@ -17,9 +17,12 @@ extension File: PreviewItem {
     }
     
     public var previewItemURL: URL? {
-        return torrentManager
-            .downloadsDirectoryURL()
-            .appendingPathComponent(path)
+        if (self.isDownloads) {
+            return torrentManager
+                .downloadsDirectoryURL()
+                .appendingPathComponent(path)
+        }
+        return URL(string: "file://\(path)")
     }
     
     public var previewItemTitle: String? {

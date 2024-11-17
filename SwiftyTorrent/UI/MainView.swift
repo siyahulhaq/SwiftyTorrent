@@ -24,6 +24,12 @@ struct MainView: View {
                     Image(systemName: "square.and.arrow.down")
                     Text("Torrents")
                 }
+            FilesExplorerView()
+                .tabItem {
+                    Image(systemName: "folder")
+                    Text("Files")
+                }
+                
             SearchView(model: SearchViewModel())
                 .tabItem {
                     Image(systemName: "magnifyingglass")

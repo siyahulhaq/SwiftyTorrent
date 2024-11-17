@@ -17,6 +17,8 @@ protocol FileProtocol: FileRowModel {
     
     func recursiveDescription(_ level: Int)
     
+    var isDownloads: Bool { get set }
+    
 }
 
 extension FileProtocol {
@@ -31,10 +33,15 @@ public class File: NSObject, FileProtocol {
     let path: String
     var sizeDetails: String?
     
-    init(name: String, path: String, size: UInt64) {
+    var isDirectory: Bool { false }
+    var isDownloads: Bool
+    
+    init(name: String, path: String, size: UInt64, isDownloads: Bool = true) {
         self.name = name
         self.path = path
         self.sizeDetails = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .file)
+        self.isDownloads = isDownloads
+        
     }
     
     public override var description: String {
@@ -58,8 +65,11 @@ public class Directory: FileProtocol, CustomStringConvertible {
     let name: String
     let path: String
     var sizeDetails: String?
+    var isDownloads: Bool
 
     var files: [FileProtocol]
+    
+    var isDirectory: Bool { true }
     
     var allSubDirectories: [Directory] {
         //swiftlint:disable:next force_cast
@@ -71,10 +81,11 @@ public class Directory: FileProtocol, CustomStringConvertible {
         return files.filter({ type(of: $0) == File.self }) as! [File]
     }
     
-    init(name: String, path: String, files: [FileProtocol]? = nil) {
+    init(name: String, path: String, files: [FileProtocol]? = nil, isDownloads: Bool = true) {
         self.name = name
         self.path = path
         self.files = files ?? []
+        self.isDownloads = isDownloads
     }
     
     public var description: String {
@@ -119,6 +130,32 @@ public class Directory: FileProtocol, CustomStringConvertible {
                         lastDir.files.append(dir)
                     }
                     lastDir = dir
+                }
+            }
+        }
+        return rootDir
+    }
+    
+    class func directory(with path: String) -> Directory {
+        let fileName = (path as NSString).lastPathComponent
+        let rootDir = Directory(name: fileName, path: path, isDownloads: false)
+        let fileManager = FileManager.default
+        
+        if let contents = try? fileManager.contentsOfDirectory(atPath: path) {
+            for item in contents {
+                let fullPath = (path as NSString).appendingPathComponent(item)
+                var isDir: ObjCBool = false
+                
+                if fileManager.fileExists(atPath: fullPath, isDirectory: &isDir) {
+                    if isDir.boolValue {
+                        let subDir = directory(with: fullPath) // Recursive call for subdirectories
+                        rootDir.files.append(subDir)
+                    } else {
+                        let attr = try? fileManager.attributesOfItem(atPath: fullPath)
+                        let size = attr?[FileAttributeKey.size] as? UInt64 ?? 0
+                        let file = File(name: item, path: fullPath, size: size, isDownloads: false)
+                        rootDir.files.append(file)
+                    }
                 }
             }
         }

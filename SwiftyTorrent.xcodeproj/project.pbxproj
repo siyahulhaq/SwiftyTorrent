@@ -129,6 +129,13 @@
 		D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D329DB8D2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
 		D329DB8E2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
+		D3F862E52CE9C5BE00A9CA6A /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */; };
+		D3F862E72CE9D96700A9CA6A /* ControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */; };
+		D3F862E92CE9DDEB00A9CA6A /* PlayerControlsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */; };
+		D3F863152CEA154300A9CA6A /* FilesExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */; };
+		D3F863162CEA154300A9CA6A /* FilesExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */; };
+		D3F863392CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */; };
+		D3F8633A2CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +333,11 @@
 		D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
 		D329DBA42CDA934F005F9F1C /* SwiftyTorrent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftyTorrent.entitlements; sourceTree = "<group>"; };
+		D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
+		D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsViewModel.swift; sourceTree = "<group>"; };
+		D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlsProtocol.swift; sourceTree = "<group>"; };
+		D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerView.swift; sourceTree = "<group>"; };
+		D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -347,6 +359,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Torrents_Widget; sourceTree = "<group>"; };
+		D329DBCB2CDB5032005F9F1C /* Medias */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Medias; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +530,7 @@
 		773FF97222C10B22008D58E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D329DBCB2CDB5032005F9F1C /* Medias */,
 				773FF95B22C10279008D58E4 /* Info.plist */,
 				773FF95322C10279008D58E4 /* Assets.xcassets */,
 				774321E124AA516B00777C0A /* Icons */,
@@ -611,6 +625,9 @@
 		7748DC8224AE392800AC5095 /* VLC */ = {
 			isa = PBXGroup;
 			children = (
+				D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */,
+				D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */,
+				D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */,
 				77ED893224AD277900D499DD /* VLCViewHost.swift */,
 			);
 			path = VLC;
@@ -646,6 +663,7 @@
 		77D8122322CA336A001CA13E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */,
 				774321E224AA58F600777C0A /* MainView.swift */,
 				77D8122422CA336A001CA13E /* TorrentsView.swift */,
 				7729BDB022D8B34D00D02566 /* TorrentsViewModel.swift */,
@@ -660,6 +678,7 @@
 				772CEA0B22DDFC4D000CD2BD /* FileRowModel.swift */,
 				77AD95422678CAEF00B57B0B /* SettingsView.swift */,
 				77AD95462678CAFB00B57B0B /* SettingsViewModel.swift */,
+				D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -712,6 +731,9 @@
 				774321AD24AA37EE00777C0A /* PBXTargetDependency */,
 				7748DC7A24AE38EA00AC5095 /* PBXTargetDependency */,
 				D329DB7C2CDA51A8005F9F1C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D329DBCB2CDB5032005F9F1C /* Medias */,
 			);
 			name = SwiftyTorrent;
 			packageProductDependencies = (
@@ -955,6 +977,7 @@
 				774321EB24AA9A7000777C0A /* EZTVDataProvider.swift in Sources */,
 				77D8122522CA336A001CA13E /* TorrentsView.swift in Sources */,
 				7729BDB122D8B34D00D02566 /* TorrentsViewModel.swift in Sources */,
+				D3F863162CEA154300A9CA6A /* FilesExplorerView.swift in Sources */,
 				7703512222DA513B00A9CC84 /* TorrentRow.swift in Sources */,
 				7729BDB322D8B38300D02566 /* TorrentRowModel.swift in Sources */,
 				774321E524AA5BBA00777C0A /* SearchView.swift in Sources */,
@@ -968,6 +991,7 @@
 				772CEA0A22DDFC47000CD2BD /* FileRow.swift in Sources */,
 				774321E924AA9A0E00777C0A /* IMDBDataProvider.swift in Sources */,
 				77742299267C0185008FAA57 /* StubIMDBDataProvider.swift in Sources */,
+				D3F8633A2CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */,
 				7774228C267BB037008FAA57 /* AppAssembly.swift in Sources */,
 				772CEA0C22DDFC4D000CD2BD /* FileRowModel.swift in Sources */,
 				77AD95432678CAEF00B57B0B /* SettingsView.swift in Sources */,
@@ -992,8 +1016,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3F862E72CE9D96700A9CA6A /* ControlsViewModel.swift in Sources */,
+				D3F862E52CE9C5BE00A9CA6A /* ControlsView.swift in Sources */,
 				7748DCE324AE728700AC5095 /* PreviewItem.swift in Sources */,
 				7748DCA624AE3C0500AC5095 /* QLViewHost.swift in Sources */,
+				D3F862E92CE9DDEB00A9CA6A /* PlayerControlsProtocol.swift in Sources */,
 				7748DC8124AE392100AC5095 /* VLCViewHost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1003,6 +1030,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77AD95442678CAEF00B57B0B /* SettingsView.swift in Sources */,
+				D3F863152CEA154300A9CA6A /* FilesExplorerView.swift in Sources */,
 				7748DCCE24AE70A900AC5095 /* SearchViewModel.swift in Sources */,
 				7748DCCD24AE70A900AC5095 /* SearchView.swift in Sources */,
 				7748DCD424AE70A900AC5095 /* FilesView.swift in Sources */,
@@ -1013,6 +1041,7 @@
 				7748DCC524AE70A000AC5095 /* AppCoordinator.swift in Sources */,
 				7774229A267C0185008FAA57 /* StubIMDBDataProvider.swift in Sources */,
 				7748DCCA24AE70A900AC5095 /* IMDBDataProvider.swift in Sources */,
+				D3F863392CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */,
 				7748DCD324AE70A900AC5095 /* TorrentRowModel.swift in Sources */,
 				7774228D267BB037008FAA57 /* AppAssembly.swift in Sources */,
 				7748DCD124AE70A900AC5095 /* TorrentsViewModel.swift in Sources */,

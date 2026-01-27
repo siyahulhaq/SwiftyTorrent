@@ -81,7 +81,6 @@ public final class VLCPlayerViewController: UIViewController {
         self.previewItem = previewItem
         self.player = VLCMediaPlayer()
         super.init(nibName: nil, bundle: nil)
-        print("previewItemURL: \(previewItem.previewItemURL?.absoluteString ?? "NO URL")")
         if let url = previewItem.previewItemURL {
             player.media = VLCMedia(url: url)
         }

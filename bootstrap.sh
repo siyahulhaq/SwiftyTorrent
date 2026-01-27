@@ -32,9 +32,9 @@ BOOST_DIR="$DEPS_DIR/boost-$BOOST_VER"
 BOOST_TARBALL="$BOOST_DIR/boost-$BOOST_VER.tar.gz"
 
 echo "[*] downloading boost..."
-BOOST_VER_FIX=$(echo $BOOST_VER | sed -r "s/\./_/g")
+BOOST_VER_FIX=$(echo $BOOST_VER | sed -E "s/\./_/g")
 curl -L -o "$BOOST_TARBALL" --create-dirs \
-  "https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VER/source/boost_$BOOST_VER_FIX.tar.gz"
+  "https://archives.boost.io/release/$BOOST_VER/source/boost_$BOOST_VER_FIX.tar.gz"
 
 echo "[*] extracting boost..."
 mkdir -p "$BOOST_DIR"

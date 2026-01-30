@@ -67,17 +67,17 @@ struct TorrentsView: View {
                 }
                 .contextMenu {
                     // Pause/Resume based on state
-                    if torrent.state == .downloading {
-                        Button {
-                            model.pause(torrent)
-                        } label: {
-                            Label("Pause", systemImage: "pause.fill")
-                        }
-                    } else if torrent.state == .finished || torrent.state == .seeding {
+                    if torrent.isPaused {
                         Button {
                             model.resume(torrent)
                         } label: {
                             Label("Resume", systemImage: "play.fill")
+                        }
+                    } else if torrent.state == .downloading || torrent.state == .downloadingMetadata || torrent.state == .seeding {
+                        Button {
+                            model.pause(torrent)
+                        } label: {
+                            Label("Pause", systemImage: "pause.fill")
                         }
                     }
                     

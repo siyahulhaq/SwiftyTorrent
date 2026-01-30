@@ -39,6 +39,7 @@
 @property(readwrite, nonatomic) NSUInteger uploadRate;
 @property(readwrite, nonatomic) BOOL hasMetadata;
 @property(readwrite, nonatomic) int64_t size;
+@property(readwrite, nonatomic) BOOL isPaused;
 @end
 
 @interface STFileEntry ()
@@ -552,7 +553,9 @@ static NSErrorDomain STErrorDomain =
   if (!th.is_valid()) {
     return NO;
   }
-  th.pause(); // Pause individual torrent, not entire session
+  // Disable auto_managed to prevent auto-resuming
+  th.unset_flags(lt::torrent_flags::auto_managed);
+  th.pause();
   return YES;
 }
 
@@ -562,6 +565,8 @@ static NSErrorDomain STErrorDomain =
   if (!th.is_valid()) {
     return NO;
   }
+  // Re-enable auto_managed to allow queue management
+  th.set_flags(lt::torrent_flags::auto_managed);
   th.resume();
   return YES;
 }
@@ -631,6 +636,12 @@ static NSErrorDomain STErrorDomain =
   torrent.uploadRate = ts.upload_payload_rate;
   torrent.downloadRate = ts.download_payload_rate;
   torrent.hasMetadata = ts.has_metadata;
+  // Check if torrent is paused (flags & torrent_flags::paused) or state is
+  // checking_resume_data (which can be paused) libtorrent 1.2+ uses flags for
+  // paused state
+  torrent.isPaused = (ts.flags & lt::torrent_flags::paused) ||
+                     (ts.flags & lt::torrent_flags::auto_managed &&
+                      ts.state == lt::torrent_status::checking_resume_data);
 
   // Get actual total size in bytes from torrent_info
   if (ts.has_metadata) {

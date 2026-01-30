@@ -16,16 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Torrent)
 @interface STTorrent : NSObject
-@property (readonly, strong, nonatomic) NSData *infoHash;
-@property (readonly, strong, nonatomic) NSString *name;
-@property (readonly, nonatomic) STTorrentState state;
-@property (readonly, nonatomic) double progress;
-@property (readonly, nonatomic) NSUInteger numberOfPeers;
-@property (readonly, nonatomic) NSUInteger numberOfSeeds;
-@property (readonly, nonatomic) NSUInteger downloadRate;
-@property (readonly, nonatomic) NSUInteger uploadRate;
-@property (readonly, nonatomic) BOOL hasMetadata;
-@property (readonly, nonatomic) int64_t size;
+@property(readonly, strong, nonatomic) NSData *infoHash;
+@property(readonly, strong, nonatomic) NSString *name;
+@property(readonly, nonatomic) STTorrentState state;
+@property(readonly, nonatomic) double progress;
+@property(readonly, nonatomic) NSUInteger numberOfPeers;
+@property(readonly, nonatomic) NSUInteger numberOfSeeds;
+@property(readonly, nonatomic) NSUInteger downloadRate;
+@property(readonly, nonatomic) NSUInteger uploadRate;
+@property(readonly, nonatomic) BOOL hasMetadata;
+@property(readonly, nonatomic) int64_t size;
+@property(readonly, nonatomic) BOOL isPaused;
 
 #ifdef DEBUG
 + (instancetype)randomStubTorrent;

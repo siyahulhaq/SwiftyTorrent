@@ -52,7 +52,7 @@ final class ActivityManager: ObservableObject {
         do {
             let activity = try Activity.request(
                 attributes: attributes,
-                contentState: initialState,
+                content: ActivityContent(state: initialState, staleDate: nil),
                 pushType: nil
             )
 
@@ -171,3 +171,4 @@ final class ActivityManager: ObservableObject {
         }
     }
 }
+

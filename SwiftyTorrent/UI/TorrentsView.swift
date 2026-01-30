@@ -66,6 +66,27 @@ struct TorrentsView: View {
                     TorrentRow(model: torrent)
                 }
                 .contextMenu {
+                    // Pause/Resume based on state
+                    if torrent.state == .downloading {
+                        Button {
+                            model.pause(torrent)
+                        } label: {
+                            Label("Pause", systemImage: "pause.fill")
+                        }
+                    } else if torrent.state == .finished || torrent.state == .seeding {
+                        Button {
+                            model.resume(torrent)
+                        } label: {
+                            Label("Resume", systemImage: "play.fill")
+                        }
+                    }
+                    
+                    Button {
+                        model.copyMagnetURL(for: torrent)
+                    } label: {
+                        Label("Copy Magnet URL", systemImage: "link")
+                    }
+                    
                     Button(role: .destructive) {
                         showAlert(deleteFiles: false, for: torrent)
                     } label: {

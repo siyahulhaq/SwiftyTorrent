@@ -13,28 +13,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(TorrentManagerProtocol)
 @protocol STTorrentManagerProtocol
-@property (readonly, nonatomic, getter=isSessionActive) BOOL sessionActive;
+@property(readonly, nonatomic, getter=isSessionActive) BOOL sessionActive;
 
 - (void)addDelegate:(id<STTorrentManagerDelegate>)delegate
-NS_SWIFT_NAME(addDelegate(_:));
+    NS_SWIFT_NAME(addDelegate(_:));
 
 - (void)removeDelegate:(id<STTorrentManagerDelegate>)delegate
-NS_SWIFT_NAME(removeDelegate(_:));
+    NS_SWIFT_NAME(removeDelegate(_:));
 
 - (void)restoreSession;
 
-- (BOOL)addTorrent:(id<STDownloadable>)torrent
-NS_SWIFT_NAME(add(_:));
+- (BOOL)addTorrent:(id<STDownloadable>)torrent NS_SWIFT_NAME(add(_:));
 
-- (BOOL)removeTorrentWithInfoHash:(NSData *)infoHash deleteFiles:(BOOL)deleteFiles;
+- (BOOL)removeTorrentWithInfoHash:(NSData *)infoHash
+                      deleteFiles:(BOOL)deleteFiles;
 
 - (BOOL)removeAllTorrentsWithFiles:(BOOL)deleteFiles;
+
+- (BOOL)pauseTorrentWithInfoHash:(NSData *)infoHash
+    NS_SWIFT_NAME(pause(torrentWithInfoHash:));
+
+- (BOOL)resumeTorrentWithInfoHash:(NSData *)infoHash
+    NS_SWIFT_NAME(resume(torrentWithInfoHash:));
 
 - (NSArray<STTorrent *> *)torrents;
 
 - (void)openURL:(NSURL *)URL;
 
 - (NSArray<STFileEntry *> *)filesForTorrentWithHash:(NSData *)infoHash;
+
+- (nullable NSString *)magnetURLForTorrentWithInfoHash:(NSData *)infoHash
+    NS_SWIFT_NAME(magnetURL(for:));
 
 - (NSURL *)downloadsDirectoryURL;
 

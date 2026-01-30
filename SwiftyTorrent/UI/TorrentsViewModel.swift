@@ -128,6 +128,35 @@ final class TorrentsViewModel {
             await reloadData()
         }
     }
+    
+    func copyMagnetURL(for torrent: Torrent) {
+        guard let magnetURL = torrentManager.magnetURL(for: torrent.infoHash) else {
+            print("Failed to generate magnet URL for torrent: \(torrent.name)")
+            return
+        }
+        
+        #if os(iOS)
+        UIPasteboard.general.string = magnetURL
+        #elseif os(tvOS)
+        UIPasteboard.general.string = magnetURL
+        #endif
+        
+        print("Copied magnet URL to clipboard: \(magnetURL)")
+    }
+    
+    func pause(_ torrent: Torrent) {
+        _ = torrentManager.pause(torrentWithInfoHash: torrent.infoHash)
+        Task {
+            await reloadData()
+        }
+    }
+    
+    func resume(_ torrent: Torrent) {
+        _ = torrentManager.resume(torrentWithInfoHash: torrent.infoHash)
+        Task {
+            await reloadData()
+        }
+    }
 }
 
 #if DEBUG

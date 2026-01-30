@@ -124,6 +124,7 @@
 		77D8122522CA336A001CA13E /* TorrentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D8122422CA336A001CA13E /* TorrentsView.swift */; };
 		77E4CA0824AB747500C21354 /* SearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E4CA0724AB747500C21354 /* SearchRow.swift */; };
 		77FC2AF422D896F100A544AA /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FC2AF322D896F100A544AA /* AppCoordinator.swift */; };
+		98B22AA25FCAD5804374089F /* BackgroundDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */; };
 		D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB692CDA51A6005F9F1C /* WidgetKit.framework */; };
 		D329DB6C2CDA51A7005F9F1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */; };
 		D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -328,6 +329,7 @@
 		77ED892324ACE20700D499DD /* QLViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLViewHost.swift; sourceTree = "<group>"; };
 		77ED893224AD277900D499DD /* VLCViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCViewHost.swift; sourceTree = "<group>"; };
 		77FC2AF322D896F100A544AA /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackgroundDownloadManager.swift; path = SwiftyTorrent/Core/BackgroundDownloadManager.swift; sourceTree = SOURCE_ROOT; };
 		D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Torrents_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D329DB692CDA51A6005F9F1C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -341,14 +343,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		D329DB812CDA51A8005F9F1C /* Exceptions for "Torrents_Widget" folder in "Torrents_WidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */;
 		};
-		D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		D329DB902CDA5961005F9F1C /* Exceptions for "Torrents_Widget" folder in "SwiftyTorrent" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				TorrentsWidgetAttributes.swift,
@@ -358,8 +360,30 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Torrents_Widget; sourceTree = "<group>"; };
-		D329DBCB2CDB5032005F9F1C /* Medias */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Medias; sourceTree = "<group>"; };
+		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D329DB902CDA5961005F9F1C /* Exceptions for "Torrents_Widget" folder in "SwiftyTorrent" target */,
+				D329DB812CDA51A8005F9F1C /* Exceptions for "Torrents_Widget" folder in "Torrents_WidgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = Torrents_Widget;
+			sourceTree = "<group>";
+		};
+		D329DBCB2CDB5032005F9F1C /* Medias */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = Medias;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -440,6 +464,7 @@
 				773FF94F22C10278008D58E4 /* SceneDelegate.swift */,
 				77FC2AF322D896F100A544AA /* AppCoordinator.swift */,
 				7774228B267BB037008FAA57 /* AppAssembly.swift */,
+				C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -736,8 +761,6 @@
 				D329DBCB2CDB5032005F9F1C /* Medias */,
 			);
 			name = SwiftyTorrent;
-			packageProductDependencies = (
-			);
 			productName = SwiftyTorrent;
 			productReference = 773FF94A22C10278008D58E4 /* SwiftyTorrent.app */;
 			productType = "com.apple.product-type.application";
@@ -817,8 +840,6 @@
 				D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */,
 			);
 			name = Torrents_WidgetExtension;
-			packageProductDependencies = (
-			);
 			productName = Torrents_WidgetExtension;
 			productReference = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -862,8 +883,6 @@
 				Base,
 			);
 			mainGroup = 773FF94122C10278008D58E4;
-			packageReferences = (
-			);
 			productRefGroup = 773FF94B22C10278008D58E4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -995,6 +1014,7 @@
 				7774228C267BB037008FAA57 /* AppAssembly.swift in Sources */,
 				772CEA0C22DDFC4D000CD2BD /* FileRowModel.swift in Sources */,
 				77AD95432678CAEF00B57B0B /* SettingsView.swift in Sources */,
+				98B22AA25FCAD5804374089F /* BackgroundDownloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

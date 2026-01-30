@@ -25,7 +25,6 @@ final class ActivityManager: ObservableObject {
     }
 
     func startActivity(for torrent: Torrent) async {
-        return
         let torrentKey = torrent.infoHash.base64EncodedString()
         if activityIDs[torrentKey] != nil {
             return

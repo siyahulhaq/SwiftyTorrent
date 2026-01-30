@@ -17,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Register background download tasks
+        // iOS 26+: BGContinuedProcessingTask for extended background execution with user visibility
+        // iOS 13-25: BGProcessingTask for limited background time
+        BackgroundDownloadManager.shared.registerBackgroundTasks()
+        
 //        setupBackgroundAudio()
 //        setupBackgroudMode()
         return true

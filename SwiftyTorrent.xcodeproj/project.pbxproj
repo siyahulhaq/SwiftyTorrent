@@ -51,7 +51,6 @@
 		77438331267E924B00AB9F4D /* STTorrentManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77438323267E924B00AB9F4D /* STTorrentManager.mm */; };
 		7748DC7824AE38EA00AC5095 /* MediaKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7748DC7624AE38EA00AC5095 /* MediaKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7748DC7C24AE38EA00AC5095 /* MediaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7748DC7424AE38EA00AC5095 /* MediaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7748DC8124AE392100AC5095 /* VLCViewHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77ED893224AD277900D499DD /* VLCViewHost.swift */; };
 		7748DCA624AE3C0500AC5095 /* QLViewHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77ED892324ACE20700D499DD /* QLViewHost.swift */; };
 		7748DCA924AE3C9000AC5095 /* File+PreviewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748DCA824AE3C9000AC5095 /* File+PreviewItem.swift */; };
 		7748DCAB24AE4E1900AC5095 /* File+UTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7748DCAA24AE4E1900AC5095 /* File+UTI.swift */; };
@@ -126,14 +125,27 @@
 		77FC2AF422D896F100A544AA /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FC2AF322D896F100A544AA /* AppCoordinator.swift */; };
 		98B22AA25FCAD5804374089F /* BackgroundDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */; };
 		98B22AA35FCAD580437408A0 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C3E3A940707493201B7903 /* NetworkMonitor.swift */; };
+		AA0000000000000000000001 /* Domain/Models/Tracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* Domain/Models/Tracks.swift */; };
+		AA0000000000000000000002 /* Domain/Models/VideoAspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000002 /* Domain/Models/VideoAspectRatio.swift */; };
+		AA0000000000000000000003 /* Domain/Models/HUDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000003 /* Domain/Models/HUDState.swift */; };
+		AA0000000000000000000004 /* Domain/Models/DoubleTapRippleSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000004 /* Domain/Models/DoubleTapRippleSide.swift */; };
+		AA0000000000000000000005 /* Domain/Protocols/PlayerControlsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000005 /* Domain/Protocols/PlayerControlsProtocol.swift */; };
+		AA0000000000000000000006 /* Presentation/ViewModels/PlaybackProgressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000006 /* Presentation/ViewModels/PlaybackProgressModel.swift */; };
+		AA0000000000000000000007 /* Presentation/ViewModels/PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000007 /* Presentation/ViewModels/PlayerViewModel.swift */; };
+		AA0000000000000000000008 /* UI/Components/PlayerTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000008 /* UI/Components/PlayerTopBarView.swift */; };
+		AA0000000000000000000009 /* UI/Components/PlayerCenterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000009 /* UI/Components/PlayerCenterControlsView.swift */; };
+		AA000000000000000000000A /* UI/Components/PlayerBottomContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000A /* UI/Components/PlayerBottomContainerView.swift */; };
+		AA000000000000000000000B /* UI/Components/PlayerHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000B /* UI/Components/PlayerHUDView.swift */; };
+		AA000000000000000000000C /* UI/Components/PlayerRippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000C /* UI/Components/PlayerRippleView.swift */; };
+		AA000000000000000000000D /* UI/ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000D /* UI/ControlsView.swift */; };
+		AA000000000000000000000E /* Engine/VLCPlaybackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */; };
+		AA000000000000000000000F /* Engine/VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */; };
+		AA0000000000000000000010 /* Engine/VLCVideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */; };
 		D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB692CDA51A6005F9F1C /* WidgetKit.framework */; };
 		D329DB6C2CDA51A7005F9F1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */; };
 		D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D329DB8D2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
 		D329DB8E2CDA5823005F9F1C /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */; };
-		D3F862E52CE9C5BE00A9CA6A /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */; };
-		D3F862E72CE9D96700A9CA6A /* ControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */; };
-		D3F862E92CE9DDEB00A9CA6A /* PlayerControlsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */; };
 		D3F863152CEA154300A9CA6A /* FilesExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */; };
 		D3F863162CEA154300A9CA6A /* FilesExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */; };
 		D3F863392CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */; };
@@ -328,8 +340,23 @@
 		77D8122422CA336A001CA13E /* TorrentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TorrentsView.swift; sourceTree = "<group>"; };
 		77E4CA0724AB747500C21354 /* SearchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRow.swift; sourceTree = "<group>"; };
 		77ED892324ACE20700D499DD /* QLViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QLViewHost.swift; sourceTree = "<group>"; };
-		77ED893224AD277900D499DD /* VLCViewHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCViewHost.swift; sourceTree = "<group>"; };
 		77FC2AF322D896F100A544AA /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		BB0000000000000000000001 /* Domain/Models/Tracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain/Models/Tracks.swift; sourceTree = "<group>"; };
+		BB0000000000000000000002 /* Domain/Models/VideoAspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain/Models/VideoAspectRatio.swift; sourceTree = "<group>"; };
+		BB0000000000000000000003 /* Domain/Models/HUDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain/Models/HUDState.swift; sourceTree = "<group>"; };
+		BB0000000000000000000004 /* Domain/Models/DoubleTapRippleSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain/Models/DoubleTapRippleSide.swift; sourceTree = "<group>"; };
+		BB0000000000000000000005 /* Domain/Protocols/PlayerControlsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain/Protocols/PlayerControlsProtocol.swift; sourceTree = "<group>"; };
+		BB0000000000000000000006 /* Presentation/ViewModels/PlaybackProgressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation/ViewModels/PlaybackProgressModel.swift; sourceTree = "<group>"; };
+		BB0000000000000000000007 /* Presentation/ViewModels/PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation/ViewModels/PlayerViewModel.swift; sourceTree = "<group>"; };
+		BB0000000000000000000008 /* UI/Components/PlayerTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PlayerTopBarView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000009 /* UI/Components/PlayerCenterControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PlayerCenterControlsView.swift; sourceTree = "<group>"; };
+		BB000000000000000000000A /* UI/Components/PlayerBottomContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PlayerBottomContainerView.swift; sourceTree = "<group>"; };
+		BB000000000000000000000B /* UI/Components/PlayerHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PlayerHUDView.swift; sourceTree = "<group>"; };
+		BB000000000000000000000C /* UI/Components/PlayerRippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PlayerRippleView.swift; sourceTree = "<group>"; };
+		BB000000000000000000000D /* UI/ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/ControlsView.swift; sourceTree = "<group>"; };
+		BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCPlaybackEngine.swift; sourceTree = "<group>"; };
+		BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCPlayerViewController.swift; sourceTree = "<group>"; };
+		BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCVideoContainerView.swift; sourceTree = "<group>"; };
 		C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackgroundDownloadManager.swift; path = SwiftyTorrent/Core/BackgroundDownloadManager.swift; sourceTree = SOURCE_ROOT; };
 		C0C3E3A940707493201B7903 /* NetworkMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = SwiftyTorrent/Core/NetworkMonitor.swift; sourceTree = SOURCE_ROOT; };
 		D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Torrents_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -337,9 +364,6 @@
 		D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
 		D329DBA42CDA934F005F9F1C /* SwiftyTorrent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftyTorrent.entitlements; sourceTree = "<group>"; };
-		D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
-		D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsViewModel.swift; sourceTree = "<group>"; };
-		D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlsProtocol.swift; sourceTree = "<group>"; };
 		D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerView.swift; sourceTree = "<group>"; };
 		D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -631,10 +655,22 @@
 		7748DC8224AE392800AC5095 /* VLC */ = {
 			isa = PBXGroup;
 			children = (
-				D3F862E82CE9DDDD00A9CA6A /* PlayerControlsProtocol.swift */,
-				D3F862E62CE9D95900A9CA6A /* ControlsViewModel.swift */,
-				D3F862E42CE9C5B900A9CA6A /* ControlsView.swift */,
-				77ED893224AD277900D499DD /* VLCViewHost.swift */,
+				BB0000000000000000000001 /* Domain/Models/Tracks.swift */,
+				BB0000000000000000000002 /* Domain/Models/VideoAspectRatio.swift */,
+				BB0000000000000000000003 /* Domain/Models/HUDState.swift */,
+				BB0000000000000000000004 /* Domain/Models/DoubleTapRippleSide.swift */,
+				BB0000000000000000000005 /* Domain/Protocols/PlayerControlsProtocol.swift */,
+				BB0000000000000000000006 /* Presentation/ViewModels/PlaybackProgressModel.swift */,
+				BB0000000000000000000007 /* Presentation/ViewModels/PlayerViewModel.swift */,
+				BB0000000000000000000008 /* UI/Components/PlayerTopBarView.swift */,
+				BB0000000000000000000009 /* UI/Components/PlayerCenterControlsView.swift */,
+				BB000000000000000000000A /* UI/Components/PlayerBottomContainerView.swift */,
+				BB000000000000000000000B /* UI/Components/PlayerHUDView.swift */,
+				BB000000000000000000000C /* UI/Components/PlayerRippleView.swift */,
+				BB000000000000000000000D /* UI/ControlsView.swift */,
+				BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */,
+				BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */,
+				BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */,
 			);
 			path = VLC;
 			sourceTree = "<group>";
@@ -834,7 +870,7 @@
 				CLASSPREFIX = ST;
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1210;
-				ORGANIZATIONNAME = "Danylo Kostyshyn";
+				ORGANIZATIONNAME = "Siyahul Haq";
 				TargetAttributes = {
 					773FF94922C10278008D58E4 = {
 						CreatedOnToolsVersion = 11.0;
@@ -1018,12 +1054,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3F862E72CE9D96700A9CA6A /* ControlsViewModel.swift in Sources */,
-				D3F862E52CE9C5BE00A9CA6A /* ControlsView.swift in Sources */,
 				7748DCE324AE728700AC5095 /* PreviewItem.swift in Sources */,
 				7748DCA624AE3C0500AC5095 /* QLViewHost.swift in Sources */,
-				D3F862E92CE9DDEB00A9CA6A /* PlayerControlsProtocol.swift in Sources */,
-				7748DC8124AE392100AC5095 /* VLCViewHost.swift in Sources */,
+				AA0000000000000000000001 /* Domain/Models/Tracks.swift in Sources */,
+				AA0000000000000000000002 /* Domain/Models/VideoAspectRatio.swift in Sources */,
+				AA0000000000000000000003 /* Domain/Models/HUDState.swift in Sources */,
+				AA0000000000000000000004 /* Domain/Models/DoubleTapRippleSide.swift in Sources */,
+				AA0000000000000000000005 /* Domain/Protocols/PlayerControlsProtocol.swift in Sources */,
+				AA0000000000000000000006 /* Presentation/ViewModels/PlaybackProgressModel.swift in Sources */,
+				AA0000000000000000000007 /* Presentation/ViewModels/PlayerViewModel.swift in Sources */,
+				AA0000000000000000000008 /* UI/Components/PlayerTopBarView.swift in Sources */,
+				AA0000000000000000000009 /* UI/Components/PlayerCenterControlsView.swift in Sources */,
+				AA000000000000000000000A /* UI/Components/PlayerBottomContainerView.swift in Sources */,
+				AA000000000000000000000B /* UI/Components/PlayerHUDView.swift in Sources */,
+				AA000000000000000000000C /* UI/Components/PlayerRippleView.swift in Sources */,
+				AA000000000000000000000D /* UI/ControlsView.swift in Sources */,
+				AA000000000000000000000E /* Engine/VLCPlaybackEngine.swift in Sources */,
+				AA000000000000000000000F /* Engine/VLCPlayerViewController.swift in Sources */,
+				AA0000000000000000000010 /* Engine/VLCVideoContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1505,7 +1553,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Torrents_Widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Torrents_Widget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Danylo Kostyshyn. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Siyahul Haq. All rights reserved.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1540,7 +1588,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Torrents_Widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Torrents_Widget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Danylo Kostyshyn. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Siyahul Haq. All rights reserved.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (

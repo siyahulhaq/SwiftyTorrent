@@ -2,8 +2,8 @@
 //  IMDBDataProvider.swift
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 30.06.2020.
-//  Copyright © 2020 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 30.06.2026.
+//  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
 //swiftlint:disable nesting

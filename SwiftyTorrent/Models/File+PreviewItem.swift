@@ -2,8 +2,8 @@
 //  File+PreviewItem.swift
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 02.07.2020.
-//  Copyright © 2020 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 31.08.2026.
+//  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
 import Foundation

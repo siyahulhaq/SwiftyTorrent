@@ -3,7 +3,7 @@
 //  SwiftyTorrent
 //
 //  Created by Siyahul Haq on 17/11/24.
-//  Copyright © 2024 Danylo Kostyshyn. All rights reserved.
+//  Copyright © 2024 Siyahul Haq. All rights reserved.
 //
 import SwiftUI
 

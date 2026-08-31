@@ -2,8 +2,8 @@
 //  StubTorrentManager.swift
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 18.06.2021.
-//  Copyright © 2021 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 18.06.2021.
+//  Copyright © 2021 Siyahul Haq. All rights reserved.
 //
 
 import Foundation
@@ -36,5 +36,12 @@ class StubTorrentManager: TorrentManagerProtocol {
         URL(fileURLWithPath: NSTemporaryDirectory())        
     }
 
+    func pause(torrentWithInfoHash infoHash: Data) -> Bool { true }
+
+    func resume(torrentWithInfoHash infoHash: Data) -> Bool { true }
+
+    func magnetURL(for infoHash: Data) -> String? { nil }
+
+    func updateNetworkInterfaces(wifiOnly: Bool, wifiInterfaceName: String?) { }
 }
 #endif

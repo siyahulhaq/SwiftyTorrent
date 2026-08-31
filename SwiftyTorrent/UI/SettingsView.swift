@@ -2,8 +2,8 @@
 //  SettingsView.swift
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 15.06.2021.
-//  Copyright © 2021 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 15.06.2021.
+//  Copyright © 2021 Siyahul Haq. All rights reserved.
 //
 
 import SwiftUI

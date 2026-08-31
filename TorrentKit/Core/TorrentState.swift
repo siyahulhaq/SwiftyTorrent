@@ -2,8 +2,8 @@
 //  TorrentState.swift
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 6/26/19.
-//  Copyright © 2019 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 6/26/19.
+//  Copyright © 2019 Siyahul Haq. All rights reserved.
 //
 
 import Foundation

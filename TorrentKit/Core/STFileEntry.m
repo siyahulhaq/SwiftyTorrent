@@ -2,8 +2,8 @@
 //  STFileEntry.m
 //  SwiftyTorrent
 //
-//  Created by Danylo Kostyshyn on 7/15/19.
-//  Copyright © 2019 Danylo Kostyshyn. All rights reserved.
+//  Created by Siyahul Haq on 7/15/19.
+//  Copyright © 2019 Siyahul Haq. All rights reserved.
 //
 
 #import "STFileEntry.h"

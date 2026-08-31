@@ -3,8 +3,8 @@
 set -e
 set -o pipefail
 
-LIBTORRENT_VER=1.2.17
-BOOST_VER=1.69.0
+LIBTORRENT_VER=2.1.1
+BOOST_VER=1.84.0
 
 ROOT_DIR=$(pwd)
 DEPS_DIR="$ROOT_DIR/Thirdparties"
@@ -18,13 +18,12 @@ LIBTORRENT_XCFRAMEWORK_ZIP="$LIBTORRENT_DIR/libtorrent.xcframework.zip"
 
 echo "[*] downloading libtorrent..."
 curl -L -o "$LIBTORRENT_XCFRAMEWORK_ZIP" --create-dirs \
-  "https://github.com/danylokos/libtorrent-Apple/releases/download/$LIBTORRENT_VER/libtorrent.xcframework.zip"
+  "https://github.com/siyahulhaq/libtorrent-Apple/releases/download/$LIBTORRENT_VER/libtorrent.xcframework.zip"
 
 echo "[*] extracting libtorrent..."
 cd "$LIBTORRENT_DIR"
-unzip "$LIBTORRENT_XCFRAMEWORK_ZIP"
-
-rm "$LIBTORRENT_XCFRAMEWORK_ZIP"
+unzip -q -o "libtorrent.xcframework.zip"
+rm -f "libtorrent.xcframework.zip"
 
 ## boost
 

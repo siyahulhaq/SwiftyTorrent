@@ -540,7 +540,7 @@ static NSErrorDomain STErrorDomain =
 
   // Remove torrrent from session
   if (deleteFiles) {
-    _session->remove_torrent(th, lt::session::delete_files);
+    _session->remove_torrent(th, lt::session_handle::delete_files);
   } else {
     _session->remove_torrent(th);
   }
@@ -580,7 +580,7 @@ static NSErrorDomain STErrorDomain =
 
     // Remove torrrent from session
     if (deleteFiles) {
-      _session->remove_torrent(th, lt::session::delete_files);
+      _session->remove_torrent(th, lt::session_handle::delete_files);
     } else {
       _session->remove_torrent(th);
     }
@@ -616,8 +616,6 @@ static NSErrorDomain STErrorDomain =
     return STTorrentStateFinished;
   case lt::torrent_status::state_t::seeding:
     return STTorrentStateSeeding;
-  case lt::torrent_status::state_t::allocating:
-    return STTorrentStateAllocating;
   case lt::torrent_status::state_t::checking_resume_data:
     return STTorrentStateCheckingResumeData;
   default:
@@ -696,9 +694,10 @@ static NSErrorDomain STErrorDomain =
   }
   auto files = ti.get()->files();
   for (int i = 0; i < files.num_files(); i++) {
-    auto name = std::string(files.file_name(i));
-    auto path = files.file_path(i);
-    auto size = files.file_size(i);
+    auto fileIndex = lt::file_index_t(i);
+    auto name = std::string(files.file_name(fileIndex));
+    auto path = files.file_path(fileIndex);
+    auto size = files.file_size(fileIndex);
 
     STFileEntry *fileEntry = [[STFileEntry alloc] init];
     fileEntry.name = [NSString stringWithUTF8String:name.c_str()];

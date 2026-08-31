@@ -27,16 +27,20 @@
 
 #pragma mark - STDownloadable
 
-- (lt::torrent_info)torrent_info {
-    uint8_t *buffer = (uint8_t *)[self.fileData bytes];
-    size_t size = [self.fileData length];
-    return lt::torrent_info((char *)buffer, (int)size);;
+- (std::shared_ptr<lt::torrent_info>)torrent_info {
+    char const *buffer = (char const *)[self.fileData bytes];
+    int size = (int)[self.fileData length];
+    lt::error_code ec;
+    auto ti = std::make_shared<lt::torrent_info>(buffer, size, ec);
+    if (ec) {
+        NSLog(@"Error parsing torrent_info: %s", ec.message().c_str());
+    }
+    return ti;
 }
 
 - (void)configureAddTorrentParams:(void *)params {
     lt::add_torrent_params *_params = (lt::add_torrent_params *)params;
-    lt::torrent_info ti = [self torrent_info];
-    _params->ti = std::make_shared<lt::torrent_info>(ti);
+    _params->ti = [self torrent_info];
     _params->flags |= libtorrent::torrent_flags::sequential_download;
 }
 

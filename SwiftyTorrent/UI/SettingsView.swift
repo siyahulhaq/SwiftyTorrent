@@ -25,6 +25,12 @@ struct SettingsView: View {
                         model.removeAllDownloads()
                     }
                 }
+                #if os(iOS)
+                Section(header: Text("Background Downloads"), footer: Text("Allows torrents to continue downloading while the app is in the background using continuous audio keep-alive.")) {
+                    Toggle("Background Download", isOn: $model.backgroundDownloadEnabled)
+                    Toggle("Background Seeding", isOn: $model.backgroundSeedingEnabled)
+                }
+                #endif
                 Section("About") {
                     SettingsRow(title: "Version", value: $model.appVersion)
                 }

@@ -17,39 +17,23 @@ final class TorrentsViewModel {
     private(set) var torrents: [Torrent] = []
     var isPresentingRemoveAlert = false
     
-    private var updateTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
     private let torrentManager: TorrentManagerProtocol
     private let updateInterval: TimeInterval = 1.0
     
     init(torrentManager: TorrentManagerProtocol = TorrentManager.shared()) {
         self.torrentManager = torrentManager
-        setupUpdateTimer()
         setupTorrentUpdates()
     }
     
     private func setupTorrentUpdates() {
-        // Use Combine for torrent updates
+        // Use Combine for periodic torrent updates
         Timer.publish(every: updateInterval, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                Task {
-                    await self?.reloadData()
-                }
+                self?.reloadData()
             }
             .store(in: &cancellables)
-    }
-    
-    private func setupUpdateTimer() {
-        updateTimer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { [weak self] _ in
-            self?.processPendingUpdates()
-        }
-    }
-    
-    private func processPendingUpdates() {
-        Task {
-            reloadData()
-        }
     }
     
     private func areArraysEqual(_ current: [Torrent], _ new: [Torrent]) -> Bool {
@@ -63,7 +47,8 @@ final class TorrentsViewModel {
             currentTorrent.numberOfPeers == newTorrent.numberOfPeers &&
             currentTorrent.numberOfSeeds == newTorrent.numberOfSeeds &&
             currentTorrent.downloadRate == newTorrent.downloadRate &&
-            currentTorrent.uploadRate == newTorrent.uploadRate
+            currentTorrent.uploadRate == newTorrent.uploadRate &&
+            currentTorrent.isPaused == newTorrent.isPaused
         }
     }
     
@@ -74,9 +59,13 @@ final class TorrentsViewModel {
             let sortedTorrents = torrentManager.torrents()
                 .sorted { $0.name < $1.name }
             
-            // Update activities for all incomplete torrents
-            for torrent in sortedTorrents where torrent.progress < 1.0 {
-                await ActivityManager.shared.updateActivity(with: torrent)
+            // Update activities for active torrents; end completed or paused ones
+            for torrent in sortedTorrents {
+                if torrent.progress < 1.0 && !torrent.isPaused {
+                    await ActivityManager.shared.updateActivity(with: torrent)
+                } else if torrent.progress >= 1.0 || torrent.isPaused {
+                    await ActivityManager.shared.endActivity(for: torrent)
+                }
             }
             
             // Only update the torrents array if there are changes
@@ -147,14 +136,16 @@ final class TorrentsViewModel {
     func pause(_ torrent: Torrent) {
         _ = torrentManager.pause(torrentWithInfoHash: torrent.infoHash)
         Task {
-            await reloadData()
+            await ActivityManager.shared.endActivity(for: torrent)
+            reloadData()
         }
     }
     
     func resume(_ torrent: Torrent) {
         _ = torrentManager.resume(torrentWithInfoHash: torrent.infoHash)
         Task {
-            await reloadData()
+            await ActivityManager.shared.startActivity(for: torrent)
+            reloadData()
         }
     }
 }

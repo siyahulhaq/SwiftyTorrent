@@ -20,5 +20,12 @@ struct TorrentsWidgetAttributes: ActivityAttributes {
     
     var torrentName: String
     var totalSize: Int64
+    var infoHash: String
+    
+    init(torrentName: String, totalSize: Int64, infoHash: String = "") {
+        self.torrentName = torrentName
+        self.totalSize = totalSize
+        self.infoHash = infoHash
+    }
 }
 

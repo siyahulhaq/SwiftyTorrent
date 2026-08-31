@@ -620,6 +620,8 @@ static NSErrorDomain STErrorDomain =
     return STTorrentStateAllocating;
   case lt::torrent_status::state_t::checking_resume_data:
     return STTorrentStateCheckingResumeData;
+  default:
+    return STTorrentStateCheckingFiles;
   }
 }
 

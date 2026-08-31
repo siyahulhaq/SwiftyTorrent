@@ -343,14 +343,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D329DB812CDA51A8005F9F1C /* Exceptions for "Torrents_Widget" folder in "Torrents_WidgetExtension" target */ = {
+		D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = D329DB672CDA51A6005F9F1C /* Torrents_WidgetExtension */;
 		};
-		D329DB902CDA5961005F9F1C /* Exceptions for "Torrents_Widget" folder in "SwiftyTorrent" target */ = {
+		D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				TorrentsWidgetAttributes.swift,
@@ -360,30 +360,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				D329DB902CDA5961005F9F1C /* Exceptions for "Torrents_Widget" folder in "SwiftyTorrent" target */,
-				D329DB812CDA51A8005F9F1C /* Exceptions for "Torrents_Widget" folder in "Torrents_WidgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Torrents_Widget;
-			sourceTree = "<group>";
-		};
-		D329DBCB2CDB5032005F9F1C /* Medias */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = Medias;
-			sourceTree = "<group>";
-		};
+		D329DB6D2CDA51A7005F9F1C /* Torrents_Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D329DB902CDA5961005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D329DB812CDA51A8005F9F1C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Torrents_Widget; sourceTree = "<group>"; };
+		D329DBCB2CDB5032005F9F1C /* Medias */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Medias; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

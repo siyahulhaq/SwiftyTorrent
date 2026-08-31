@@ -24,10 +24,33 @@ final class SettingsViewModel: ObservableObject {
         else { return "N\\A" }
         return "\(appVer) (\(buildVer))"
     }()
+    
+    #if os(iOS)
+    @Published var backgroundDownloadEnabled: Bool {
+        didSet {
+            BackgroundDownloadManager.shared.updateBackgroundMode(backgroundDownloadEnabled)
+        }
+    }
+    
+    @Published var backgroundSeedingEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(backgroundSeedingEnabled, forKey: "enableBackgroundSeeding")
+        }
+    }
+    #endif
         
     private let torrentManager = resolveComponent(TorrentManagerProtocol.self)
     
     init() {
+        #if os(iOS)
+        if UserDefaults.standard.object(forKey: "enableBackgroundMode") == nil {
+            self.backgroundDownloadEnabled = true
+        } else {
+            self.backgroundDownloadEnabled = UserDefaults.standard.bool(forKey: "enableBackgroundMode")
+        }
+        self.backgroundSeedingEnabled = UserDefaults.standard.bool(forKey: "enableBackgroundSeeding")
+        #endif
+        
         availableDiskSpace = calcAvailableDiskSpace()
         usedDiskSpace = calcUsedDiskSpace()
     }

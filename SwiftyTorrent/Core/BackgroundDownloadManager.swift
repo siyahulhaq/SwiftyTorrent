@@ -8,10 +8,13 @@
 import UIKit
 import BackgroundTasks
 import TorrentKit
+import AVFoundation
+import UserNotifications
 
 /// Manages background download tasks for torrents
 /// Uses BGContinuedProcessingTask (iOS 26+) for extended background execution
 /// Falls back to BGProcessingTask for iOS 13-25
+/// Uses continuous background audio keep-alive while active downloads are in progress
 final class BackgroundDownloadManager {
     
     static let shared = BackgroundDownloadManager()
@@ -24,6 +27,12 @@ final class BackgroundDownloadManager {
     
     private var isRegistered = false
     private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
+    
+    // MARK: - Keep-Alive & Audio Management
+    private var audioPlayer: AVAudioPlayer?
+    private var isAudioPlaying = false
+    private var interruptionObserver: NSObjectProtocol?
+    private var backgroundMonitoringTimer: DispatchSourceTimer?
     
     private init() {}
     
@@ -249,6 +258,183 @@ final class BackgroundDownloadManager {
         print("[BackgroundDownloadManager] Processing task expiring")
         task.setTaskCompleted(success: false)
     }
+    
+    // MARK: - Keep-Alive & Audio Management
+    
+    var isBackgroundDownloadEnabled: Bool {
+        if UserDefaults.standard.object(forKey: "enableBackgroundMode") == nil {
+            return true
+        }
+        return UserDefaults.standard.bool(forKey: "enableBackgroundMode")
+    }
+    
+    var isBackgroundSeedingEnabled: Bool {
+        return UserDefaults.standard.bool(forKey: "enableBackgroundSeeding")
+    }
+    
+    func hasActiveTorrents() -> Bool {
+        let torrentManager = TorrentManager.shared()
+        let torrents = torrentManager.torrents()
+        let seedingAllowed = isBackgroundSeedingEnabled
+        
+        return torrents.contains { torrent in
+            guard !torrent.isPaused else { return false }
+            switch torrent.state {
+            case .downloading, .downloadingMetadata, .checkingFiles, .checkingResumeData, .allocating:
+                return true
+            case .seeding:
+                return seedingAllowed
+            default:
+                return false
+            }
+        }
+    }
+    
+    private func setupAudioSession() -> Bool {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try session.setActive(true)
+            return true
+        } catch {
+            print("[BackgroundDownloadManager] Failed to setup audio session: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    func startBackgroundAudio() {
+        guard isBackgroundDownloadEnabled else {
+            print("[BackgroundDownloadManager] Background download is disabled by user setting")
+            return
+        }
+        guard !isAudioPlaying else { return }
+        guard setupAudioSession() else { return }
+        
+        let audioUrl = Bundle.main.url(forResource: "silence", withExtension: "mp3") ??
+                       Bundle.main.url(forResource: "silence", withExtension: "mp3", subdirectory: "Medias")
+        
+        guard let url = audioUrl else {
+            print("[BackgroundDownloadManager] silence.mp3 not found in bundle!")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.numberOfLoops = -1 // Loop indefinitely
+            audioPlayer?.volume = 0.0 // Silent
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+            isAudioPlaying = true
+            print("[BackgroundDownloadManager] Started continuous silent audio playback for background execution")
+            
+            setupAudioInterruptionObserver()
+        } catch {
+            print("[BackgroundDownloadManager] Failed to start audio player: \(error.localizedDescription)")
+        }
+    }
+    
+    func stopBackgroundAudio() {
+        guard isAudioPlaying || audioPlayer != nil else { return }
+        
+        audioPlayer?.stop()
+        audioPlayer = nil
+        isAudioPlaying = false
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+            print("[BackgroundDownloadManager] Stopped background audio playback and deactivated audio session")
+        } catch {
+            print("[BackgroundDownloadManager] Failed to deactivate audio session: \(error.localizedDescription)")
+        }
+    }
+    
+    private func setupAudioInterruptionObserver() {
+        guard interruptionObserver == nil else { return }
+        interruptionObserver = NotificationCenter.default.addObserver(
+            forName: AVAudioSession.interruptionNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let userInfo = notification.userInfo,
+                  let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                return
+            }
+            
+            if type == .ended {
+                let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) || optionsValue == 0 {
+                    DispatchQueue.main.async {
+                        self?.resumeAudioIfNeeded()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func resumeAudioIfNeeded() {
+        guard UIApplication.shared.applicationState != .active else { return }
+        if hasActiveTorrents() && isBackgroundDownloadEnabled {
+            print("[BackgroundDownloadManager] Resuming background audio after interruption")
+            startBackgroundAudio()
+        }
+    }
+    
+    func startBackgroundMonitoring() {
+        stopBackgroundMonitoring()
+        
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .utility))
+        timer.schedule(deadline: .now() + 5, repeating: 5)
+        timer.setEventHandler { [weak self] in
+            self?.checkBackgroundTorrentsStatus()
+        }
+        timer.resume()
+        backgroundMonitoringTimer = timer
+    }
+    
+    func stopBackgroundMonitoring() {
+        backgroundMonitoringTimer?.cancel()
+        backgroundMonitoringTimer = nil
+    }
+    
+    private func checkBackgroundTorrentsStatus() {
+        let hasActive = hasActiveTorrents()
+        
+        if hasActive {
+            Task {
+                await updateLiveActivitiesForActiveDownloads()
+            }
+        } else {
+            print("[BackgroundDownloadManager] All torrent downloads finished or inactive. Stopping background keep-alive.")
+            DispatchQueue.main.async { [weak self] in
+                self?.stopBackgroundAudio()
+                self?.stopBackgroundMonitoring()
+                self?.endBackgroundTask()
+                self?.postDownloadsCompletedNotification()
+            }
+        }
+    }
+    
+    private func postDownloadsCompletedNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "SwiftyTorrent"
+        content.body = "All downloads have finished."
+        content.sound = .default
+        let request = UNNotificationRequest(identifier: "TorrentsCompletedNotification", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    func updateBackgroundMode(_ enabled: Bool) {
+        UserDefaults.standard.set(enabled, forKey: "enableBackgroundMode")
+        if !enabled {
+            stopBackgroundAudio()
+            stopBackgroundMonitoring()
+        } else if UIApplication.shared.applicationState != .active && hasActiveTorrents() {
+            startBackgroundAudio()
+            startBackgroundMonitoring()
+        }
+    }
 }
 
 // MARK: - Scene Lifecycle Integration
@@ -259,6 +445,12 @@ extension BackgroundDownloadManager {
     func applicationDidEnterBackground() {
         // Start immediate background task first
         beginBackgroundTask()
+        
+        // If active downloads exist and background mode is enabled, keep alive via silent audio
+        if isBackgroundDownloadEnabled && hasActiveTorrents() {
+            startBackgroundAudio()
+            startBackgroundMonitoring()
+        }
         
         // Schedule longer background task
         scheduleBackgroundDownload()
@@ -273,6 +465,10 @@ extension BackgroundDownloadManager {
     func applicationWillEnterForeground() {
         // Cancel scheduled background tasks since we're in foreground
         cancelBackgroundDownload()
+        
+        // Stop background audio and monitoring in foreground
+        stopBackgroundMonitoring()
+        stopBackgroundAudio()
         
         // End any running background task
         endBackgroundTask()

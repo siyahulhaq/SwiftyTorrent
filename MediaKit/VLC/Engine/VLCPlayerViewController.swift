@@ -50,40 +50,22 @@ enum MediaHaptics {
 // MARK: - SwiftUI Host
 
 public struct VLCViewHost: UIViewControllerRepresentable {
-    
     public var previewItem: PreviewItem
     
     public init(previewItem: PreviewItem) {
         self.previewItem = previewItem
     }
     
-    public func makeCoordinator() -> VLCViewHost.Coordinator {
-        return Coordinator(previewItem: previewItem)
+    public func makeUIViewController(context: Context) -> VLCPlayerViewController {
+        return VLCPlayerViewController(previewItem: previewItem)
     }
     
-    public typealias Context = UIViewControllerRepresentableContext<VLCViewHost>
-    public typealias Controller = VLCPlayerViewController
-    
-    public func makeUIViewController(context: Context) -> Controller {
-        let item = context.coordinator.previewItem
-        return VLCPlayerViewController(previewItem: item)
-    }
-    
-    public func updateUIViewController(_ uiViewController: Controller, context: Context) {}
+    public func updateUIViewController(_ uiViewController: VLCPlayerViewController, context: Context) {}
     
     public static func dismantleUIViewController(
-        _ uiViewController: Controller, coordinator: Coordinator
+        _ uiViewController: VLCPlayerViewController, coordinator: ()
     ) {
         uiViewController.stopAndCleanup()
-    }
-    
-    public class Coordinator: NSObject {
-        let previewItem: PreviewItem
-        
-        init(previewItem: PreviewItem) {
-            self.previewItem = previewItem
-            super.init()
-        }
     }
 }
 
@@ -114,6 +96,7 @@ public final class VLCPlayerViewController: UIViewController {
     }
     
     public init(previewItem: PreviewItem) {
+        print("[VLCPlayerViewController] Initializing with item: '\(previewItem.previewItemTitle ?? "nil")', URL: \(previewItem.previewItemURL?.absoluteString ?? "nil")")
         self.playerVM = PlayerViewModel()
         self.engine = VLCPlaybackEngine(playerVM: self.playerVM)
         self.videoContainerView = VLCVideoContainerView(frame: .zero)
@@ -432,7 +415,8 @@ extension VLCPlayerViewController: VLCPlaybackEngineDelegate {
     }
     
     public func engineDidStop() {
-        dismiss(animated: true, completion: nil)
+        // Do not auto-dismiss on transient stopped/probing states.
+        // Dismissal is handled via user action (onClose).
     }
 }
 

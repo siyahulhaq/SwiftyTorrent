@@ -138,19 +138,10 @@ public struct PlayerTopBarView: View {
                         )
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 44)
-            .padding(.bottom, 24)
+            .padding(.horizontal, 16)
+            .padding(.top, 6)
+            .padding(.bottom, 12)
         }
-        .background(
-            LinearGradient(
-                colors: [Color.black.opacity(0.9), Color.black.opacity(0.45), Color.clear],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea(edges: .top)
-            .allowsHitTesting(false)
-        )
     }
     
     private var displayTitle: String {

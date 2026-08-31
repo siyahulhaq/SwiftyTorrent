@@ -8,18 +8,9 @@
 import SwiftUI
 
 struct FilesExplorerView: View {
-    @ObservedObject var model = FilesExplorerViewModel()
     var body: some View {
         NavigationStack {
-            if let directory = model.directory {
-                FilesView(model: directory)
-                    .navigationTitle("Files")
-            } else {
-                Text("Unable to access Documents folder")
-
-            }
-        }.onAppear {
-            model.getRootPath()
+            CloudLocationsView()
         }
     }
 }

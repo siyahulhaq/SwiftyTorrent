@@ -19,16 +19,8 @@ public struct PlayerBottomContainerView: View {
             // Subtitle, Audio, Volume Toolbar (does NOT re-render on ticks)
             PlayerBottomToolbarView(playerVM: playerVM, delegate: delegate)
         }
-        .padding(.bottom, 16)
-        .background(
-            LinearGradient(
-                colors: [Color.clear, Color.black.opacity(0.45), Color.black.opacity(0.9)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea(edges: .bottom)
-            .allowsHitTesting(false)
-        )
+        .padding(.horizontal, 16)
+        .padding(.bottom, 6)
     }
 }
 

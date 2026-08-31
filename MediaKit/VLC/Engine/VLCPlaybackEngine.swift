@@ -120,6 +120,7 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     }
     
     public func load(url: URL?, title: String?) {
+        print("[VLCPlaybackEngine] load called with url: \(url?.absoluteString ?? "nil"), title: \(title ?? "nil")")
         self.currentMediaKey = PlaybackHistoryManager.shared.key(for: url, title: title)
         
         if let url = url {
@@ -137,15 +138,18 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     }
     
     public func play() {
+        print("[VLCPlaybackEngine] play() called")
         player.play()
     }
     
     public func pause() {
+        print("[VLCPlaybackEngine] pause() called")
         player.pause()
         saveCurrentProgress()
     }
     
     public func stop() {
+        print("[VLCPlaybackEngine] stop() called")
         saveCurrentProgress()
         if player.isPlaying {
             player.stop()
@@ -153,6 +157,7 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     }
     
     public func cleanup() {
+        print("[VLCPlaybackEngine] cleanup() called")
         saveCurrentProgress()
         stop()
         player.drawable = nil
@@ -228,81 +233,89 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     // MARK: - VLCMediaPlayerDelegate
     
     public func mediaPlayerStateChanged(_ aNotification: Notification) {
-        switch player.state {
-        case .opening:
-            playerVM.isBuffering = false
-            populateAudioAndSubtitles()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
-        case .buffering:
-            playerVM.isBuffering = !player.isPlaying
-            populateAudioAndSubtitles()
-            
-        case .playing:
-            playerVM.isBuffering = false
-            playerVM.isPlaying = true
-            populateAudioAndSubtitles()
-            
-            if let pending = pendingResumeTime {
-                performSeekIfPossible(seconds: pending)
-            }
-            
-            if !hasDetectedVideoSize {
-                let size = player.videoSize
-                if size.width > 0 && size.height > 0 {
-                    hasDetectedVideoSize = true
-                    delegate?.engineDidDetectNativeVideoSize(size)
+            switch self.player.state {
+            case .opening:
+                self.playerVM.isBuffering = false
+                self.populateAudioAndSubtitles()
+                
+            case .buffering:
+                self.playerVM.isBuffering = !self.player.isPlaying
+                self.populateAudioAndSubtitles()
+                
+            case .playing:
+                self.playerVM.isBuffering = false
+                self.playerVM.isPlaying = true
+                self.populateAudioAndSubtitles()
+                
+                if let pending = self.pendingResumeTime {
+                    self.performSeekIfPossible(seconds: pending)
                 }
+                
+                if !self.hasDetectedVideoSize {
+                    let size = self.player.videoSize
+                    if size.width > 0 && size.height > 0 {
+                        self.hasDetectedVideoSize = true
+                        self.delegate?.engineDidDetectNativeVideoSize(size)
+                    }
+                }
+                
+                let vlcVol = self.player.audio?.volume ?? 0
+                if vlcVol > 0 {
+                    self.playerVM.volume = min(1.0, Float(vlcVol) / 100.0)
+                } else {
+                    self.player.audio?.volume = Int32(self.playerVM.volume * 100)
+                }
+                
+            case .paused:
+                self.playerVM.isBuffering = false
+                self.playerVM.isPlaying = false
+                self.saveCurrentProgress()
+                
+            case .stopped, .ended, .error:
+                self.playerVM.isPlaying = false
+                self.playerVM.isBuffering = false
+                if self.player.state == .ended, let key = self.currentMediaKey {
+                    PlaybackHistoryManager.shared.clearPosition(for: key)
+                }
+                self.delegate?.engineDidStop()
+                
+            default:
+                break
             }
-            
-            let vlcVol = player.audio?.volume ?? 0
-            if vlcVol > 0 {
-                playerVM.volume = min(1.0, Float(vlcVol) / 100.0)
-            } else {
-                player.audio?.volume = Int32(playerVM.volume * 100)
-            }
-            
-        case .paused:
-            playerVM.isBuffering = false
-            playerVM.isPlaying = false
-            saveCurrentProgress()
-            
-        case .stopped, .ended, .error:
-            playerVM.isPlaying = false
-            playerVM.isBuffering = false
-            if player.state == .ended, let key = currentMediaKey {
-                PlaybackHistoryManager.shared.clearPosition(for: key)
-            }
-            delegate?.engineDidStop()
-            
-        default:
-            break
         }
     }
     
     public func mediaPlayerTimeChanged(_ aNotification: Notification) {
-        if playerVM.isPlaying != player.isPlaying {
-            playerVM.isPlaying = player.isPlaying
-        }
-        
-        if let pending = pendingResumeTime {
-            let currentMs = player.time.value?.doubleValue ?? 0.0
-            let currentSec = currentMs / 1000.0
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
-            if abs(currentSec - pending) < 3.0 || (currentSec >= pending && pending > 5.0) {
-                pendingResumeTime = nil
-                resumeAttempts = 0
-            } else if resumeAttempts < 20 {
-                resumeAttempts += 1
-                performSeekIfPossible(seconds: pending)
-            } else {
-                pendingResumeTime = nil
-                resumeAttempts = 0
+            if self.playerVM.isPlaying != self.player.isPlaying {
+                self.playerVM.isPlaying = self.player.isPlaying
             }
-        }
-        
-        updateTime()
-        if abs(playerVM.progress.position - player.position) > 0.001 {
-            playerVM.progress.position = player.position
+            
+            if let pending = self.pendingResumeTime {
+                let currentMs = self.player.time.value?.doubleValue ?? 0.0
+                let currentSec = currentMs / 1000.0
+                
+                if abs(currentSec - pending) < 3.0 || (currentSec >= pending && pending > 5.0) {
+                    self.pendingResumeTime = nil
+                    self.resumeAttempts = 0
+                } else if self.resumeAttempts < 20 {
+                    self.resumeAttempts += 1
+                    self.performSeekIfPossible(seconds: pending)
+                } else {
+                    self.pendingResumeTime = nil
+                    self.resumeAttempts = 0
+                }
+            }
+            
+            self.updateTime()
+            if abs(self.playerVM.progress.position - self.player.position) > 0.001 {
+                self.playerVM.progress.position = self.player.position
+            }
         }
     }
     

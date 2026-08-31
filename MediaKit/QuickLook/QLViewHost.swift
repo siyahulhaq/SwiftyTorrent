@@ -71,4 +71,41 @@ public struct QLViewHost: UIViewControllerRepresentable {
         
     }
 }
+
+public struct QLPreviewModalView: View {
+    public let previewItem: PreviewItem
+    @Environment(\.dismiss) private var dismiss
+    
+    public init(previewItem: PreviewItem) {
+        self.previewItem = previewItem
+    }
+    
+    public var body: some View {
+        NavigationStack {
+            QLViewHost(previewItem: previewItem)
+                .ignoresSafeArea(edges: .bottom)
+                .navigationTitle(previewItem.previewItemTitle ?? "Preview")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Back")
+                            }
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") {
+                            dismiss()
+                        }
+                        .fontWeight(.semibold)
+                    }
+                }
+        }
+    }
+}
 #endif

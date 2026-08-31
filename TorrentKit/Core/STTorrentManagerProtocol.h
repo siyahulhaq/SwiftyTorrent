@@ -47,6 +47,10 @@ NS_SWIFT_NAME(TorrentManagerProtocol)
 
 - (NSURL *)downloadsDirectoryURL;
 
+- (void)updateNetworkInterfacesWithWiFiOnly:(BOOL)wifiOnly
+                          wifiInterfaceName:(nullable NSString *)wifiInterfaceName
+    NS_SWIFT_NAME(updateNetworkInterfaces(wifiOnly:wifiInterfaceName:));
+
 @end
 
 NS_ASSUME_NONNULL_END

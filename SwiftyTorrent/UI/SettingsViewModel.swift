@@ -37,6 +37,13 @@ final class SettingsViewModel: ObservableObject {
             UserDefaults.standard.set(backgroundSeedingEnabled, forKey: "enableBackgroundSeeding")
         }
     }
+    
+    @Published var wifiOnlyEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(wifiOnlyEnabled, forKey: NetworkMonitor.userDefaultsWiFiOnlyKey)
+            NetworkMonitor.shared.applyInterfaceSettings()
+        }
+    }
     #endif
         
     private let torrentManager = resolveComponent(TorrentManagerProtocol.self)
@@ -49,6 +56,11 @@ final class SettingsViewModel: ObservableObject {
             self.backgroundDownloadEnabled = UserDefaults.standard.bool(forKey: "enableBackgroundMode")
         }
         self.backgroundSeedingEnabled = UserDefaults.standard.bool(forKey: "enableBackgroundSeeding")
+        if UserDefaults.standard.object(forKey: NetworkMonitor.userDefaultsWiFiOnlyKey) == nil {
+            self.wifiOnlyEnabled = true
+        } else {
+            self.wifiOnlyEnabled = UserDefaults.standard.bool(forKey: NetworkMonitor.userDefaultsWiFiOnlyKey)
+        }
         #endif
         
         availableDiskSpace = calcAvailableDiskSpace()

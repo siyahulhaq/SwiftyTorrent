@@ -26,6 +26,9 @@ struct SettingsView: View {
                     }
                 }
                 #if os(iOS)
+                Section(header: Text("Network"), footer: Text("When enabled, torrent downloads and uploads only occur over Wi-Fi. When on Wi-Fi, traffic is strictly locked to the Wi-Fi interface so cellular data is never used.")) {
+                    Toggle("Wi-Fi Only", isOn: $model.wifiOnlyEnabled)
+                }
                 Section(header: Text("Background Downloads"), footer: Text("Allows torrents to continue downloading while the app is in the background using continuous audio keep-alive.")) {
                     Toggle("Background Download", isOn: $model.backgroundDownloadEnabled)
                     Toggle("Background Seeding", isOn: $model.backgroundSeedingEnabled)

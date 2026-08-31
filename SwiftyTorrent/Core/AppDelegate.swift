@@ -19,6 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // iOS 26+: BGContinuedProcessingTask for extended background execution with user visibility
         // iOS 13-25: BGProcessingTask for limited background time
         BackgroundDownloadManager.shared.registerBackgroundTasks()
+        
+        // Start monitoring network interface and lock libtorrent to Wi-Fi
+        NetworkMonitor.shared.startMonitoring()
+        
         return true
     }
 

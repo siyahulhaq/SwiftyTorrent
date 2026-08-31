@@ -20,6 +20,10 @@
 #import "libtorrent/alert_types.hpp"
 #import "libtorrent/session.hpp"
 
+#import <ifaddrs.h>
+#import <net/if.h>
+#import <arpa/inet.h>
+
 #import "libtorrent/create_torrent.hpp"
 #import "libtorrent/magnet_uri.hpp"
 #import "libtorrent/torrent_handle.hpp"
@@ -95,6 +99,14 @@ static NSErrorDomain STErrorDomain =
     } catch (...) {
       // Settings application failed, continue anyway
     }
+
+    // Immediately bind interface to Wi-Fi to prevent any cellular leak
+    BOOL wifiOnly = YES;
+    id wifiPref = [[NSUserDefaults standardUserDefaults] objectForKey:@"downloadOverWiFiOnly"];
+    if (wifiPref != nil) {
+      wifiOnly = [wifiPref boolValue];
+    }
+    [self updateNetworkInterfacesWithWiFiOnly:wifiOnly wifiInterfaceName:nil];
 
     _filesQueue = dispatch_queue_create(STFileEntriesQueueIdentifier,
                                         DISPATCH_QUEUE_SERIAL);
@@ -191,6 +203,19 @@ static NSErrorDomain STErrorDomain =
         } break;
 
         case lt::torrent_error_alert::alert_type: {
+        } break;
+
+        case lt::listen_succeeded_alert::alert_type: {
+          auto lsa = static_cast<lt::listen_succeeded_alert *>(alert);
+          NSLog(@"[STTorrentManager] Listen succeeded on %s port %d",
+                lsa->address.to_string().c_str(), lsa->port);
+        } break;
+
+        case lt::listen_failed_alert::alert_type: {
+          auto lfa = static_cast<lt::listen_failed_alert *>(alert);
+          NSLog(@"[STTorrentManager] Listen failed on %s port %d: %s",
+                lfa->address.to_string().c_str(), lfa->port,
+                lfa->error.message().c_str());
         } break;
 
         default:
@@ -730,6 +755,83 @@ static NSErrorDomain STErrorDomain =
     for (id<STTorrentManagerDelegate> delegate in self.delegates) {
       [delegate torrentManager:self didReceiveUpdatesForTorrents:allTorrents];
     }
+  }
+}
+
+#pragma mark - Network Interfaces & Mobile Data Control
+
++ (nullable NSString *)activeWiFiInterfaceFromSystem {
+  struct ifaddrs *interfaces = NULL;
+  if (getifaddrs(&interfaces) != 0) {
+    return nil;
+  }
+
+  NSString *foundInterface = nil;
+  for (struct ifaddrs *ifa = interfaces; ifa != NULL; ifa = ifa->ifa_next) {
+    if (!ifa->ifa_addr || !ifa->ifa_name) continue;
+
+    int flags = ifa->ifa_flags;
+    if (!(flags & IFF_UP) || !(flags & IFF_RUNNING) || (flags & IFF_LOOPBACK)) {
+      continue;
+    }
+
+    NSString *name = [NSString stringWithUTF8String:ifa->ifa_name];
+    if ([name hasPrefix:@"en"]) {
+      if (ifa->ifa_addr->sa_family == AF_INET || ifa->ifa_addr->sa_family == AF_INET6) {
+        foundInterface = name;
+        break;
+      }
+    }
+  }
+
+  freeifaddrs(interfaces);
+  return foundInterface;
+}
+
+- (void)updateNetworkInterfacesWithWiFiOnly:(BOOL)wifiOnly
+                          wifiInterfaceName:(nullable NSString *)wifiInterfaceName {
+  if (!_session) return;
+
+  NSString *interface = wifiInterfaceName;
+  if (!interface || interface.length == 0) {
+    interface = [STTorrentManager activeWiFiInterfaceFromSystem];
+  }
+
+  lt::settings_pack settings;
+
+  if (interface && interface.length > 0) {
+    // Wi-Fi / Ethernet is active.
+    // Strictly bind both listen_interfaces and outgoing_interfaces to this NIC.
+    // On Apple platforms, libtorrent uses IP_BOUND_IF, which locks sockets to the physical Wi-Fi NIC.
+    // This strictly prevents iOS Wi-Fi Assist from routing torrent traffic over cellular.
+    std::string ifName = [interface UTF8String];
+    std::string listenStr = ifName + ":6881,[" + ifName + "]:6881";
+    settings.set_str(lt::settings_pack::listen_interfaces, listenStr);
+    settings.set_str(lt::settings_pack::outgoing_interfaces, ifName);
+
+    NSLog(@"[STTorrentManager] Bound libtorrent strictly to Wi-Fi interface '%s' (listen: %s)",
+          ifName.c_str(), listenStr.c_str());
+  } else {
+    // No Wi-Fi interface active
+    if (wifiOnly) {
+      // Wi-Fi Only mode: bind to loopback so NO cellular data is used.
+      settings.set_str(lt::settings_pack::listen_interfaces, "127.0.0.1:6881");
+      settings.set_str(lt::settings_pack::outgoing_interfaces, "127.0.0.1");
+
+      NSLog(@"[STTorrentManager] No Wi-Fi available and Wi-Fi Only is enabled. Blocked cellular data.");
+    } else {
+      // Cellular allowed by user: allow all interfaces
+      settings.set_str(lt::settings_pack::listen_interfaces, "0.0.0.0:6881,[::]:6881");
+      settings.set_str(lt::settings_pack::outgoing_interfaces, "");
+
+      NSLog(@"[STTorrentManager] No Wi-Fi available, cellular allowed by user.");
+    }
+  }
+
+  try {
+    _session->apply_settings(std::move(settings));
+  } catch (const std::exception &e) {
+    NSLog(@"[STTorrentManager] Error applying interface settings: %s", e.what());
   }
 }
 

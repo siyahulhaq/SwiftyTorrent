@@ -447,7 +447,8 @@ extension BackgroundDownloadManager {
         beginBackgroundTask()
         
         // If active downloads exist and background mode is enabled, keep alive via silent audio
-        if isBackgroundDownloadEnabled && hasActiveTorrents() {
+        // Only run if network permits downloading (e.g. not blocked by Wi-Fi Only)
+        if isBackgroundDownloadEnabled && hasActiveTorrents() && NetworkMonitor.shared.canDownload {
             startBackgroundAudio()
             startBackgroundMonitoring()
         }

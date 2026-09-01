@@ -65,6 +65,10 @@ public final class CloudLocationsViewModel: ObservableObject {
         CloudProviderRegistry.shared.register(descriptor: GoogleDriveStorageProvider().descriptor) { account in
             GoogleDriveStorageProvider(account: account)
         }
+        
+        CloudProviderRegistry.shared.register(descriptor: SMBStorageProvider().descriptor) { account in
+            SMBStorageProvider(account: account)
+        }
     }
     
     public func reloadLocations() {

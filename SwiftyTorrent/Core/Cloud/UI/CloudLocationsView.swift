@@ -14,7 +14,9 @@ public struct CloudLocationsView: View {
     
     @State private var showDocumentPicker = false
     @State private var showGoogleDriveAuth = false
+    @State private var showSMBAuth = false
     @State private var showAddServiceSheet = false
+    @State private var accountToEdit: CloudAccount? = nil
     
     public init() {}
     
@@ -46,7 +48,31 @@ public struct CloudLocationsView: View {
                         .padding(.vertical, 4)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        if let accountId = location.accountId {
+                        if let accountId = location.accountId, let account = CloudAccountManager.shared.account(for: accountId) {
+                            Button(role: .destructive) {
+                                viewModel.disconnectAccount(accountId)
+                            } label: {
+                                Label("Disconnect", systemImage: "trash")
+                            }
+                            
+                            Button {
+                                accountToEdit = account
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            .tint(.blue)
+                        }
+                    }
+                    .contextMenu {
+                        if let accountId = location.accountId, let account = CloudAccountManager.shared.account(for: accountId) {
+                            Button {
+                                accountToEdit = account
+                            } label: {
+                                Label("Edit Connection", systemImage: "pencil")
+                            }
+                            
+                            Divider()
+                            
                             Button(role: .destructive) {
                                 viewModel.disconnectAccount(accountId)
                             } label: {
@@ -84,6 +110,8 @@ public struct CloudLocationsView: View {
                     Button(action: {
                         if descriptor.id == GoogleDriveStorageProvider.providerId {
                             showGoogleDriveAuth = true
+                        } else if descriptor.id == SMBStorageProvider.providerId {
+                            showSMBAuth = true
                         } else {
                             Task {
                                 await viewModel.connectProvider(descriptor)
@@ -122,6 +150,8 @@ public struct CloudLocationsView: View {
                         Button(action: {
                             if descriptor.id == GoogleDriveStorageProvider.providerId {
                                 showGoogleDriveAuth = true
+                            } else if descriptor.id == SMBStorageProvider.providerId {
+                                showSMBAuth = true
                             } else {
                                 Task {
                                     await viewModel.connectProvider(descriptor)
@@ -145,6 +175,26 @@ public struct CloudLocationsView: View {
         .sheet(isPresented: $showGoogleDriveAuth) {
             GoogleDriveAuthSheet {
                 viewModel.reloadLocations()
+            }
+        }
+        .sheet(isPresented: $showSMBAuth) {
+            SMBAuthSheet {
+                viewModel.reloadLocations()
+            }
+        }
+        .sheet(item: $accountToEdit) { account in
+            if account.providerId == SMBStorageProvider.providerId {
+                SMBAuthSheet(editingAccount: account) {
+                    viewModel.reloadLocations()
+                }
+            } else if account.providerId == ICloudStorageProvider.providerId {
+                ICloudEditSheet(account: account) {
+                    viewModel.reloadLocations()
+                }
+            } else if account.providerId == GoogleDriveStorageProvider.providerId {
+                GoogleDriveEditSheet(account: account) {
+                    viewModel.reloadLocations()
+                }
             }
         }
         .alert("Error", isPresented: Binding(

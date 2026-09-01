@@ -23,8 +23,10 @@ public enum ActiveModalPreview: Identifiable {
 
 public struct CloudExplorerView: View {
     @StateObject private var viewModel: CloudExplorerViewModel
+    @ObservedObject private var downloadManager = CloudDownloadManager.shared
     @State private var activeModal: ActiveModalPreview?
     @State private var openingItemId: String?
+    @State private var showDownloadsSheet: Bool = false
     
     public init(provider: CloudStorageProviderProtocol, folderId: String? = nil, folderName: String? = nil) {
         _viewModel = StateObject(wrappedValue: CloudExplorerViewModel(provider: provider, folderId: folderId, folderName: folderName))
@@ -58,7 +60,9 @@ public struct CloudExplorerView: View {
                             CloudFileRowView(
                                 item: file,
                                 dateSortField: viewModel.sortField,
-                                isPreparing: (openingItemId == file.id)
+                                isPreparing: (openingItemId == file.id),
+                                downloadProgress: downloadManager.activeDownloads[file.id],
+                                isDownloaded: downloadManager.isItemDownloaded(file)
                             )
                             .contentShape(Rectangle())
                         }
@@ -71,6 +75,43 @@ public struct CloudExplorerView: View {
                                     }
                                 } label: {
                                     Label("Delete", systemImage: "trash")
+                                }
+                            }
+                            
+                            if !file.isDirectory && viewModel.provider.descriptor.id != LocalStorageProvider.providerId {
+                                Button {
+                                    downloadManager.startDownload(item: file, provider: viewModel.provider)
+                                } label: {
+                                    Label("Download", systemImage: "arrow.down.circle")
+                                }
+                                .tint(.blue)
+                            }
+                        }
+                        .contextMenu {
+                            if !file.isDirectory {
+                                Button {
+                                    handleFileSelection(file)
+                                } label: {
+                                    Label(file.isPlayableMedia ? "Play Media" : "Preview File", systemImage: file.isPlayableMedia ? "play.circle" : "eye")
+                                }
+                                
+                                if viewModel.provider.descriptor.id != LocalStorageProvider.providerId {
+                                    Button {
+                                        downloadManager.startDownload(item: file, provider: viewModel.provider)
+                                    } label: {
+                                        Label("Download to Device", systemImage: "arrow.down.circle")
+                                    }
+                                }
+                                
+                                if viewModel.provider.descriptor.capabilities.contains(.deletion) {
+                                    Divider()
+                                    Button(role: .destructive) {
+                                        Task {
+                                            await viewModel.deleteItem(file)
+                                        }
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
@@ -98,7 +139,28 @@ public struct CloudExplorerView: View {
         .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search files & folders")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                sortMenu
+                HStack(spacing: 12) {
+                    Button(action: { showDownloadsSheet = true }) {
+                        ZStack(alignment: .topTrailing) {
+                            Image(systemName: "arrow.down.circle")
+                                .font(.system(size: 18))
+                            
+                            if !downloadManager.activeTasks.isEmpty {
+                                Circle()
+                                    .fill(Color.blue)
+                                    .frame(width: 8, height: 8)
+                                    .offset(x: 2, y: -2)
+                            }
+                        }
+                    }
+                    
+                    sortMenu
+                }
+            }
+        }
+        .sheet(isPresented: $showDownloadsSheet) {
+            NavigationStack {
+                DownloadsManagerView()
             }
         }
         .refreshable {
@@ -121,6 +183,12 @@ public struct CloudExplorerView: View {
             if let err = viewModel.errorMessage {
                 Text(err)
             }
+        }
+        .alert(downloadManager.alertMessage ?? "", isPresented: Binding(
+            get: { downloadManager.alertMessage != nil },
+            set: { if !$0 { downloadManager.alertMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
         }
         // Unified Full Screen Modal for Media and QuickLook Preview
         .fullScreenCover(item: $activeModal) { modal in

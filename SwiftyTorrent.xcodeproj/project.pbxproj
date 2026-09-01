@@ -53,12 +53,36 @@
 		FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
 		FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
 		FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
+		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
 		FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
+		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
 		FE0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000016 /* SMBBonjourBrowser.swift */; };
 		FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
 		FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
 		FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
+		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
 		FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
+		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
+		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
 		BBA000000000000000000003 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; };
 		BBA000000000000000000004 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7703512222DA513B00A9CC84 /* TorrentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7703512122DA513B00A9CC84 /* TorrentRow.swift */; };
@@ -332,6 +356,8 @@
 		EE0000000000000000000016 /* SMBBonjourBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/SMBBonjourBrowser.swift"; sourceTree = "<group>"; };
 		EE0000000000000000000017 /* ICloudEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/ICloudEditSheet.swift"; sourceTree = "<group>"; };
 		EE0000000000000000000018 /* GoogleDriveEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/GoogleDriveEditSheet.swift"; sourceTree = "<group>"; };
+		EE0000000000000000000019 /* CloudDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/CloudDownloadManager.swift"; sourceTree = "<group>"; };
+		EE000000000000000000001A /* DownloadsManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/DownloadsManagerView.swift"; sourceTree = "<group>"; };
 		7703512122DA513B00A9CC84 /* TorrentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentRow.swift; sourceTree = "<group>"; };
 		771B700522DA205D00132B5E /* uTorrent-320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uTorrent-320.png"; sourceTree = "<group>"; };
 		7723A22424AF8F1B007629A0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
@@ -567,6 +593,8 @@
 				EE0000000000000000000016 /* SMBBonjourBrowser.swift */,
 				EE0000000000000000000017 /* ICloudEditSheet.swift */,
 				EE0000000000000000000018 /* GoogleDriveEditSheet.swift */,
+				EE0000000000000000000019 /* CloudDownloadManager.swift */,
+				EE000000000000000000001A /* DownloadsManagerView.swift */,
 				D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */,
 				773FF94D22C10278008D58E4 /* AppDelegate.swift */,
 				773FF94F22C10278008D58E4 /* SceneDelegate.swift */,
@@ -1135,6 +1163,8 @@
 				FF0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */,
 				FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */,
 				FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */,
+				FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */,
+				FF000000000000000000001A /* DownloadsManagerView.swift in Sources */,
 				773FF94E22C10278008D58E4 /* AppDelegate.swift in Sources */,
 				77AD95472678CAFB00B57B0B /* SettingsViewModel.swift in Sources */,
 				774321E324AA58F600777C0A /* MainView.swift in Sources */,
@@ -1237,6 +1267,8 @@
 				FE0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */,
 				FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */,
 				FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */,
+				FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */,
+				FE000000000000000000001A /* DownloadsManagerView.swift in Sources */,
 				77AD95442678CAEF00B57B0B /* SettingsView.swift in Sources */,
 				D3F863152CEA154300A9CA6A /* FilesExplorerView.swift in Sources */,
 				7748DCCE24AE70A900AC5095 /* SearchViewModel.swift in Sources */,

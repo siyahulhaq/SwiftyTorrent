@@ -20,11 +20,21 @@ public struct CloudFileRowView: View {
     public let item: CloudFileItem
     public var dateSortField: FileSortField? = nil
     public var isPreparing: Bool = false
+    public var downloadProgress: Double? = nil
+    public var isDownloaded: Bool = false
     
-    public init(item: CloudFileItem, dateSortField: FileSortField? = nil, isPreparing: Bool = false) {
+    public init(
+        item: CloudFileItem,
+        dateSortField: FileSortField? = nil,
+        isPreparing: Bool = false,
+        downloadProgress: Double? = nil,
+        isDownloaded: Bool = false
+    ) {
         self.item = item
         self.dateSortField = dateSortField
         self.isPreparing = isPreparing
+        self.downloadProgress = downloadProgress
+        self.isDownloaded = isDownloaded
     }
     
     public var body: some View {
@@ -49,9 +59,22 @@ public struct CloudFileRowView: View {
             
             Spacer()
             
-            if isPreparing {
+            if let progress = downloadProgress {
+                VStack(alignment: .trailing, spacing: 3) {
+                    ProgressView(value: progress, total: 1.0)
+                        .progressViewStyle(LinearProgressViewStyle())
+                        .frame(width: 54)
+                    Text("\(Int(progress * 100))%")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.blue)
+                }
+            } else if isPreparing {
                 ProgressView()
                     .scaleEffect(0.85)
+            } else if isDownloaded {
+                Image(systemName: "arrow.down.circle.fill")
+                    .font(.system(size: 16))
+                    .foregroundColor(.green)
             } else if item.isDirectory {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .semibold))

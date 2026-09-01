@@ -28,6 +28,27 @@ public final class CloudPlaybackCoordinator {
             return item
         }
         
+        // If file was previously downloaded to on-device Downloads, use it directly
+        if let downloadedLocalURL = await CloudDownloadManager.shared.localFileURL(for: item) {
+            print("[CloudPlaybackCoordinator] Using already downloaded local URL: \(downloadedLocalURL)")
+            return CloudFileItem(
+                id: item.id,
+                providerId: item.providerId,
+                accountId: item.accountId,
+                name: item.name,
+                path: item.path,
+                size: item.size,
+                isDirectory: item.isDirectory,
+                mimeType: item.mimeType,
+                localURL: downloadedLocalURL,
+                remoteURL: nil,
+                streamHeaders: item.streamHeaders,
+                isDownloads: true,
+                createdAt: item.createdAt,
+                modifiedAt: item.modifiedAt
+            )
+        }
+        
         if item.isPlayableMedia {
             print("[CloudPlaybackCoordinator] Resolving streaming URL via provider...")
             let streamURL = try await provider.getStreamURL(for: item)

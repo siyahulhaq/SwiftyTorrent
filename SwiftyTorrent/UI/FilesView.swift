@@ -184,7 +184,7 @@ struct FilesView: View {
             }
         }
         .fullScreenCover(item: $selectedVideo) { item in
-            VLCViewHost(previewItem: item)
+            MediaPlayerViewHost(previewItem: item)
                 .ignoresSafeArea(.all)
         }
     }

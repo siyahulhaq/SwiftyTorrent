@@ -1,10 +1,8 @@
 import SwiftUI
 import UIKit
-
+import AVFoundation
 #if os(iOS)
-import MobileVLCKit
-#elseif os(tvOS)
-import TVVLCKit
+import MediaPlayer
 #endif
 
 // MARK: - Haptics
@@ -49,33 +47,35 @@ enum MediaHaptics {
 
 // MARK: - SwiftUI Host
 
-public struct VLCViewHost: UIViewControllerRepresentable {
+public struct MediaPlayerViewHost: UIViewControllerRepresentable {
     public var previewItem: PreviewItem
     
     public init(previewItem: PreviewItem) {
         self.previewItem = previewItem
     }
     
-    public func makeUIViewController(context: Context) -> VLCPlayerViewController {
-        return VLCPlayerViewController(previewItem: previewItem)
+    public func makeUIViewController(context: Context) -> MediaPlayerViewController {
+        return MediaPlayerViewController(previewItem: previewItem)
     }
     
-    public func updateUIViewController(_ uiViewController: VLCPlayerViewController, context: Context) {}
+    public func updateUIViewController(_ uiViewController: MediaPlayerViewController, context: Context) {}
     
     public static func dismantleUIViewController(
-        _ uiViewController: VLCPlayerViewController, coordinator: ()
+        _ uiViewController: MediaPlayerViewController, coordinator: ()
     ) {
         uiViewController.stopAndCleanup()
     }
 }
 
-// MARK: - VLCPlayerViewController
+public typealias VLCViewHost = MediaPlayerViewHost
 
-public final class VLCPlayerViewController: UIViewController {
+// MARK: - MediaPlayerViewController
+
+public final class MediaPlayerViewController: UIViewController {
     
     private let playerVM: PlayerViewModel
-    private let engine: VLCPlaybackEngine
-    private let videoContainerView: VLCVideoContainerView
+    private let engine: KSPlaybackEngine
+    private let videoContainerView: KSVideoContainerView
     
     private var controlsHostingController: UIHostingController<ControlsView>?
     private var nativeVideoSize: CGSize = .zero
@@ -91,15 +91,21 @@ public final class VLCPlayerViewController: UIViewController {
     
     private var currentItemKey: String?
     
+    #if os(iOS)
+    private var volumeView: MPVolumeView?
+    private var volumeSlider: UISlider?
+    private var volumeObserver: NSKeyValueObservation?
+    #endif
+    
     private enum SwipeType {
         case none, volume, brightness, seek
     }
     
     public init(previewItem: PreviewItem) {
-        print("[VLCPlayerViewController] Initializing with item: '\(previewItem.previewItemTitle ?? "nil")', URL: \(previewItem.previewItemURL?.absoluteString ?? "nil")")
+        print("[MediaPlayerViewController] Initializing with item: '\(previewItem.previewItemTitle ?? "nil")', URL: \(previewItem.previewItemURL?.absoluteString ?? "nil")")
         self.playerVM = PlayerViewModel()
-        self.engine = VLCPlaybackEngine(playerVM: self.playerVM)
-        self.videoContainerView = VLCVideoContainerView(frame: .zero)
+        self.engine = KSPlaybackEngine(playerVM: self.playerVM)
+        self.videoContainerView = KSVideoContainerView(frame: .zero)
         
         let key = PlaybackHistoryManager.shared.key(for: previewItem.previewItemURL, title: previewItem.previewItemTitle)
         self.currentItemKey = key
@@ -130,6 +136,13 @@ public final class VLCPlayerViewController: UIViewController {
         hideTimer?.invalidate()
         hudDismissTimer?.invalidate()
         rippleDismissTimer?.invalidate()
+        #if os(iOS)
+        volumeObserver?.invalidate()
+        volumeObserver = nil
+        volumeView?.removeFromSuperview()
+        volumeView = nil
+        volumeSlider = nil
+        #endif
         engine.cleanup()
     }
     
@@ -141,7 +154,7 @@ public final class VLCPlayerViewController: UIViewController {
         setupControlsView()
         setupGestureRecognizers()
         
-        engine.player.drawable = videoContainerView
+        videoContainerView.attach(playerView: engine.playerView)
         
         if !playerVM.showResumePrompt {
             engine.play()
@@ -149,6 +162,33 @@ public final class VLCPlayerViewController: UIViewController {
         
         #if os(iOS)
         playerVM.brightness = Float(UIScreen.main.brightness)
+        
+        let systemVol = AVAudioSession.sharedInstance().outputVolume
+        playerVM.volume = systemVol
+        engine.setVolume(systemVol, isHardwareControlled: true)
+        print("[MediaPlayerViewController] Initialized with system outputVolume: \(systemVol)")
+        
+        let volView = MPVolumeView(frame: CGRect(x: -1000, y: -1000, width: 1, height: 1))
+        volView.clipsToBounds = true
+        volView.alpha = 0.001
+        view.addSubview(volView)
+        self.volumeView = volView
+        
+        if let slider = volView.subviews.first(where: { $0 is UISlider }) as? UISlider {
+            self.volumeSlider = slider
+        }
+        
+        volumeObserver = AVAudioSession.sharedInstance().observe(\.outputVolume, options: [.new]) { [weak self] session, _ in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                let newVol = session.outputVolume
+                if abs(self.playerVM.volume - newVol) > 0.01 {
+                    self.playerVM.volume = newVol
+                    self.engine.setVolume(newVol, isHardwareControlled: true)
+                    self.showHUD(.volume(newVol))
+                }
+            }
+        }
         #endif
     }
     
@@ -159,15 +199,32 @@ public final class VLCPlayerViewController: UIViewController {
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        #if os(iOS)
+        if volumeSlider == nil, let volView = volumeView {
+            if let slider = volView.subviews.first(where: { $0 is UISlider }) as? UISlider {
+                self.volumeSlider = slider
+            }
+        }
+        #endif
+        guard view.bounds.width > 0 && view.bounds.height > 0 else { return }
         videoContainerView.applyAspectRatio(playerVM.aspectRatio, nativeVideoSize: nativeVideoSize, in: view.bounds, animated: false)
     }
     
+    #if os(iOS)
     public override var prefersHomeIndicatorAutoHidden: Bool {
         return !playerVM.isControlsVisible
     }
     
     public override var prefersStatusBarHidden: Bool {
         return !playerVM.isControlsVisible
+    }
+    #endif
+    
+    private func updateSystemUIVisibility() {
+        #if os(iOS)
+        setNeedsStatusBarAppearanceUpdate()
+        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        #endif
     }
     
     // MARK: - Setup
@@ -202,7 +259,9 @@ public final class VLCPlayerViewController: UIViewController {
     
     private func setupGestureRecognizers() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        #if os(iOS)
         panGesture.maximumNumberOfTouches = 1
+        #endif
         panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
     }
@@ -215,12 +274,11 @@ public final class VLCPlayerViewController: UIViewController {
         
         hideTimer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [weak self] _ in
             guard let self = self else { return }
-            if self.engine.player.isPlaying && self.playerVM.isControlsVisible {
+            if self.engine.isPlaying && self.playerVM.isControlsVisible {
                 withAnimation(.easeInOut(duration: 0.25)) {
                     self.playerVM.isControlsVisible = false
                 }
-                self.setNeedsStatusBarAppearanceUpdate()
-                self.setNeedsUpdateOfHomeIndicatorAutoHidden()
+                self.updateSystemUIVisibility()
             }
         }
     }
@@ -258,7 +316,7 @@ public final class VLCPlayerViewController: UIViewController {
         case .began:
             initialSwipePoint = location
             swipeType = .none
-            initialSeekPosition = engine.player.position
+            initialSeekPosition = engine.position
             #if os(iOS)
             initialValue = Float(UIScreen.main.brightness)
             #else
@@ -324,7 +382,18 @@ public final class VLCPlayerViewController: UIViewController {
             case .volume:
                 let verticalDelta = Float(-translation.y / (screenHeight * 0.6))
                 let newVolume = max(0.0, min(1.0, initialValue + verticalDelta))
-                engine.setVolume(newVolume)
+                #if os(iOS)
+                if let slider = volumeSlider {
+                    if abs(slider.value - newVolume) > 0.01 {
+                        slider.value = newVolume
+                    }
+                    engine.setVolume(newVolume, isHardwareControlled: true)
+                } else {
+                    engine.setVolume(newVolume, isHardwareControlled: false)
+                }
+                #else
+                engine.setVolume(newVolume, isHardwareControlled: false)
+                #endif
                 showHUD(.volume(newVolume))
                 
             case .none:
@@ -350,7 +419,7 @@ public final class VLCPlayerViewController: UIViewController {
             swipeType = .none
             scheduleHUDDismiss()
             
-            if playerVM.isControlsVisible && engine.player.isPlaying {
+            if playerVM.isControlsVisible && engine.isPlaying {
                 hidePlaybackControlsAfterDelay()
             }
             
@@ -376,7 +445,7 @@ public final class VLCPlayerViewController: UIViewController {
     private func togglePlayback() {
         MediaHaptics.medium()
         
-        if engine.player.isPlaying {
+        if engine.isPlaying {
             engine.pause()
             hideTimer?.invalidate()
         } else {
@@ -400,21 +469,23 @@ public final class VLCPlayerViewController: UIViewController {
 
 // MARK: - UIGestureRecognizerDelegate
 
-extension VLCPlayerViewController: UIGestureRecognizerDelegate {
+extension MediaPlayerViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-// MARK: - VLCPlaybackEngineDelegate
+// MARK: - KSPlaybackEngineDelegate
 
-extension VLCPlayerViewController: VLCPlaybackEngineDelegate {
-    public func engineDidDetectNativeVideoSize(_ size: CGSize) {
+extension MediaPlayerViewController: KSPlaybackEngineDelegate {
+    func engineDidDetectNativeVideoSize(_ size: CGSize) {
+        print("[MediaPlayerViewController] engineDidDetectNativeVideoSize: \(size)")
         nativeVideoSize = size
-        videoContainerView.applyAspectRatio(playerVM.aspectRatio, nativeVideoSize: nativeVideoSize, in: view.bounds, animated: true)
+        guard view.bounds.width > 0 && view.bounds.height > 0 else { return }
+        videoContainerView.applyAspectRatio(playerVM.aspectRatio, nativeVideoSize: size, in: view.bounds, animated: true)
     }
     
-    public func engineDidStop() {
+    func engineDidStop() {
         // Do not auto-dismiss on transient stopped/probing states.
         // Dismissal is handled via user action (onClose).
     }
@@ -422,25 +493,23 @@ extension VLCPlayerViewController: VLCPlaybackEngineDelegate {
 
 // MARK: - PlayerControlsProtocol Implementation
 
-extension VLCPlayerViewController: PlayerControlsProtocol {
+extension MediaPlayerViewController: PlayerControlsProtocol {
     
     public func onScreenTapped() {
         if playerVM.isLocked {
             withAnimation(.easeInOut(duration: 0.25)) {
                 playerVM.isControlsVisible.toggle()
             }
-            setNeedsStatusBarAppearanceUpdate()
-            setNeedsUpdateOfHomeIndicatorAutoHidden()
+            updateSystemUIVisibility()
             return
         }
         
         withAnimation(.easeInOut(duration: 0.25)) {
             playerVM.isControlsVisible.toggle()
         }
-        setNeedsStatusBarAppearanceUpdate()
-        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        updateSystemUIVisibility()
         
-        if playerVM.isControlsVisible && engine.player.isPlaying {
+        if playerVM.isControlsVisible && engine.isPlaying {
             hidePlaybackControlsAfterDelay()
         } else {
             hideTimer?.invalidate()
@@ -481,8 +550,7 @@ extension VLCPlayerViewController: PlayerControlsProtocol {
         } else {
             hidePlaybackControlsAfterDelay()
         }
-        setNeedsStatusBarAppearanceUpdate()
-        setNeedsUpdateOfHomeIndicatorAutoHidden()
+        updateSystemUIVisibility()
     }
     
     public func onBackward() {
@@ -498,7 +566,19 @@ extension VLCPlayerViewController: PlayerControlsProtocol {
     }
     
     public func changeVolume(_ value: Float) {
-        engine.setVolume(value)
+        let clamped = max(0.0, min(1.0, value))
+        #if os(iOS)
+        if let slider = volumeSlider {
+            if abs(slider.value - clamped) > 0.01 {
+                slider.value = clamped
+            }
+            engine.setVolume(clamped, isHardwareControlled: true)
+        } else {
+            engine.setVolume(clamped, isHardwareControlled: false)
+        }
+        #else
+        engine.setVolume(clamped, isHardwareControlled: false)
+        #endif
     }
     
     public func changeBrightness(_ value: Float) {
@@ -546,7 +626,6 @@ extension VLCPlayerViewController: PlayerControlsProtocol {
     
     public func onResumePlayback(at seconds: Double) {
         playerVM.showResumePrompt = false
-        engine.player.media?.addOption(":start-time=\(Int(seconds))")
         engine.seekTo(seconds: seconds)
         engine.play()
         hidePlaybackControlsAfterDelay()
@@ -558,9 +637,10 @@ extension VLCPlayerViewController: PlayerControlsProtocol {
             PlaybackHistoryManager.shared.clearPosition(for: key)
         }
         engine.pendingResumeTime = nil
-        engine.player.media?.addOption(":start-time=0")
         engine.seekTo(position: 0)
         engine.play()
         hidePlaybackControlsAfterDelay()
     }
 }
+
+public typealias VLCPlayerViewController = MediaPlayerViewController

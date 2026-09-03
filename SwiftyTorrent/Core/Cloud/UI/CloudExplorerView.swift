@@ -194,7 +194,7 @@ public struct CloudExplorerView: View {
         .fullScreenCover(item: $activeModal) { modal in
             switch modal {
             case .vlc(let item):
-                VLCViewHost(previewItem: item)
+                MediaPlayerViewHost(previewItem: item)
                     .ignoresSafeArea(.all)
             case .quickLook(let item):
                 QLPreviewModalView(previewItem: item)

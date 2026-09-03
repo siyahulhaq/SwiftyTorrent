@@ -1,15 +1,14 @@
 import Foundation
+import UIKit
+import KSPlayer
+import AVFoundation
 
-#if os(iOS)
-import MobileVLCKit
-#elseif os(tvOS)
-import TVVLCKit
-#endif
-
-public protocol VLCPlaybackEngineDelegate: AnyObject {
+protocol KSPlaybackEngineDelegate: AnyObject {
     func engineDidDetectNativeVideoSize(_ size: CGSize)
     func engineDidStop()
 }
+
+typealias VLCPlaybackEngineDelegate = KSPlaybackEngineDelegate
 
 // MARK: - Playback Record & History Manager
 
@@ -69,7 +68,6 @@ public final class PlaybackHistoryManager {
         }
         
         if totalDuration > 0 && currentTime >= (totalDuration - 15.0) {
-            // Video reached end, remove record so next playback starts from beginning
             dict.removeValue(forKey: key)
         } else {
             dict[key] = PlaybackRecord(key: key, savedTime: currentTime, totalDuration: totalDuration)
@@ -92,10 +90,50 @@ public final class PlaybackHistoryManager {
     }
 }
 
-public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
+final class KSVideoHostView: PlayerView {
     
-    public let player: VLCMediaPlayer
-    public weak var delegate: VLCPlaybackEngineDelegate?
+    private weak var currentVideoView: UIView?
+    
+    override func set(url: URL, options: KSOptions) {
+        super.set(url: url, options: options)
+        attachCurrentPlayerView()
+    }
+    
+    override func player(layer: KSPlayerLayer, state: KSPlayerState) {
+        super.player(layer: layer, state: state)
+        attachCurrentPlayerView()
+    }
+    
+    func attachCurrentPlayerView() {
+        guard let layer = playerLayer, let videoView = layer.player.view else {
+            return
+        }
+        if videoView != currentVideoView || videoView.superview != self {
+            currentVideoView?.removeFromSuperview()
+            currentVideoView = videoView
+            videoView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(videoView)
+            sendSubviewToBack(videoView)
+            NSLayoutConstraint.activate([
+                videoView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                videoView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                videoView.topAnchor.constraint(equalTo: topAnchor),
+                videoView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            ])
+            print("[KSVideoHostView] Successfully attached videoView (\(type(of: videoView))) to KSVideoHostView (bounds: \(bounds))")
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        attachCurrentPlayerView()
+    }
+}
+
+final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
+    
+    let playerView: KSVideoHostView
+    weak var delegate: KSPlaybackEngineDelegate?
     private let playerVM: PlayerViewModel
     
     public var currentMediaKey: String?
@@ -109,23 +147,54 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     private var hasDetectedVideoSize = false
     private var addedAudioTracks = false
     private var addedSubsTracks = false
-    private var addedTotalTime = false
     private var lastRecordedSecond: Int = -1
+    
+    public var isPlaying: Bool {
+        return playerVM.isPlaying
+    }
+    
+    public var position: Float {
+        return playerVM.progress.position
+    }
     
     public init(playerVM: PlayerViewModel) {
         self.playerVM = playerVM
-        self.player = VLCMediaPlayer()
+        self.playerView = KSVideoHostView()
         super.init()
-        self.player.delegate = self
+        
+        // Hide default KSPlayer toolbars so SwiftyTorrent's custom controls overlay takes over
+        self.playerView.toolBar.isHidden = true
+        self.playerView.delegate = self
+        
+        // Configure options for MKV playback
+        KSOptions.firstPlayerType = KSMEPlayer.self
+        KSOptions.secondPlayerType = KSAVPlayer.self
     }
     
     public func load(url: URL?, title: String?) {
-        print("[VLCPlaybackEngine] load called with url: \(url?.absoluteString ?? "nil"), title: \(title ?? "nil")")
+        print("[KSPlaybackEngine] load called with url: \(url?.absoluteString ?? "nil"), title: \(title ?? "nil")")
         self.currentMediaKey = PlaybackHistoryManager.shared.key(for: url, title: title)
         
         if let url = url {
-            let media = VLCMedia(url: url)
-            player.media = media
+            let isLocalFile = url.isFileURL
+            let options = KSOptions()
+            options.videoDisable = false
+            options.probesize = 10_000_000
+            options.maxAnalyzeDuration = 5_000_000
+            // For local files, reduce buffer requirements so post-seek resume is near-instant.
+            // isSecondOpen = true: video track uses preferredForwardBufferDuration/2 after seek (same as audio)
+            // preferredForwardBufferDuration = 1.0: only needs ~0.5s of frames decoded before resuming
+            if isLocalFile {
+                options.preferredForwardBufferDuration = 1.0
+                options.isSecondOpen = true
+                // AVSEEK_FLAG_ANY (4) = seek to any frame (including non-keyframe if accurate),
+                // vs AVSEEK_FLAG_BACKWARD (1) = seek to nearest keyframe before target.
+                // Keep BACKWARD (default) so we always land on a decodable frame, which is
+                // correct for MKV. The freeze is from buffering time, not seek flag.
+                options.seekFlags = Int32(1) // AVSEEK_FLAG_BACKWARD
+            }
+            playerView.set(url: url, options: options)
+            playerView.attachCurrentPlayerView()
             playerVM.fileName = url.lastPathComponent
         }
         if let title = title {
@@ -135,33 +204,37 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
         playerVM.isBuffering = false
         playerVM.isPlaying = false
         playerVM.isControlsVisible = true
+        hasDetectedVideoSize = false
+        addedAudioTracks = false
+        addedSubsTracks = false
     }
     
     public func play() {
-        print("[VLCPlaybackEngine] play() called")
-        player.play()
+        print("[KSPlaybackEngine] play() called")
+        playerView.play()
+        playerVM.isPlaying = true
+        playerVM.isBuffering = false
     }
     
     public func pause() {
-        print("[VLCPlaybackEngine] pause() called")
-        player.pause()
+        print("[KSPlaybackEngine] pause() called")
+        playerView.pause()
+        playerVM.isPlaying = false
         saveCurrentProgress()
     }
     
     public func stop() {
-        print("[VLCPlaybackEngine] stop() called")
+        print("[KSPlaybackEngine] stop() called")
         saveCurrentProgress()
-        if player.isPlaying {
-            player.stop()
-        }
+        playerView.resetPlayer()
+        playerVM.isPlaying = false
     }
     
     public func cleanup() {
-        print("[VLCPlaybackEngine] cleanup() called")
+        print("[KSPlaybackEngine] cleanup() called")
         saveCurrentProgress()
         stop()
-        player.drawable = nil
-        player.delegate = nil
+        playerView.delegate = nil
     }
     
     private func saveCurrentProgress() {
@@ -178,108 +251,168 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     // MARK: - Playback Control
     
     public func jumpForward(seconds: Int32) {
-        player.jumpForward(seconds)
+        let current = playerVM.progress.currentTimeInSeconds
+        let total = playerVM.progress.totalDurationInSeconds
+        let target = min(total > 0 ? total : current + Double(seconds), current + Double(seconds))
+        seekTo(seconds: target)
     }
     
     public func jumpBackward(seconds: Int32) {
-        player.jumpBackward(seconds)
+        let current = playerVM.progress.currentTimeInSeconds
+        let target = max(0.0, current - Double(seconds))
+        seekTo(seconds: target)
     }
     
     public func seekTo(position: Float) {
-        player.position = position
-        playerVM.position = position
-        updateTime()
+        let total = playerVM.progress.totalDurationInSeconds
+        if total > 0 {
+            let targetSeconds = Double(position) * total
+            seekTo(seconds: targetSeconds)
+        }
     }
     
     public func seekTo(seconds: Double) {
         pendingResumeTime = seconds
-        performSeekIfPossible(seconds: seconds)
-    }
-    
-    private func performSeekIfPossible(seconds: Double) {
-        guard player.isSeekable else { return }
-        
-        player.time = VLCTime(number: NSNumber(value: Int(seconds * 1000)))
-        
-        let duration = player.media?.length.value?.doubleValue ?? (playerVM.progress.totalDurationInSeconds * 1000.0)
-        if duration > 0 {
-            let targetPos = Float((seconds * 1000.0) / duration)
-            if targetPos > 0 && targetPos < 1.0 {
-                player.position = targetPos
+        playerVM.isBuffering = true
+        playerVM.isSeeking = true
+        playerView.seek(time: seconds) { [weak self] finished in
+            guard let self = self else { return }
+            self.pendingResumeTime = nil
+            DispatchQueue.main.async {
+                self.playerVM.isBuffering = false
+                self.playerVM.isSeeking = false
+                if finished {
+                    // Explicitly resume playback after seek — isSeekedAutoPlay triggers
+                    // KSMEPlayer.play() internally, but playerVM.isPlaying may be stale.
+                    // Calling play() here ensures the VM and engine are in sync.
+                    if self.playerVM.isPlaying {
+                        self.playerView.play()
+                    }
+                }
+                print("[KSPlaybackEngine] seekTo(\(seconds)) completed, finished=\(finished)")
             }
         }
     }
     
-    public func setVolume(_ volume: Float) {
-        player.audio?.volume = Int32(volume * 100)
-        playerVM.volume = volume
+    public func setVolume(_ volume: Float, isHardwareControlled: Bool = true) {
+        let clamped = max(0.0, min(1.0, volume))
+        playerVM.volume = clamped
+        if let player = playerView.playerLayer?.player {
+            if isHardwareControlled {
+                player.playbackVolume = 1.0
+            } else {
+                player.playbackVolume = clamped
+            }
+            player.isMuted = (clamped <= 0.001)
+            print("[KSPlaybackEngine] setVolume to \(clamped), isHardware: \(isHardwareControlled), isMuted: \(player.isMuted)")
+        }
     }
     
     public func setPlaybackSpeed(_ speed: Float) {
         playerVM.playbackSpeed = speed
-        player.rate = speed
+        playerView.playerLayer?.player.playbackRate = speed
+    }
+    
+    private func selectTrack(_ track: any MediaPlayerTrack, on player: any MediaPlayerProtocol) {
+        player.select(track: track)
     }
     
     public func setAudioTrack(_ index: Int32) {
+        print("[KSPlaybackEngine] setAudioTrack called with index: \(index)")
         playerVM.selectedAudioTrack = index
-        player.currentAudioTrackIndex = index
+        if let player = playerView.playerLayer?.player {
+            let tracks = player.tracks(mediaType: .audio)
+            print("[KSPlaybackEngine] Available audio tracks count: \(tracks.count)")
+            if index >= 0 && Int(index) < tracks.count {
+                let track = tracks[Int(index)]
+                print("[KSPlaybackEngine] Selecting audio track: \(track.name)")
+                selectTrack(track, on: player)
+            }
+        }
     }
     
     public func setSubtitleTrack(_ index: Int32) {
+        print("[KSPlaybackEngine] setSubtitleTrack called with index: \(index)")
         playerVM.selectedSubtitleTrack = index
-        player.currentVideoSubTitleIndex = index
+        if let player = playerView.playerLayer?.player {
+            let tracks = player.tracks(mediaType: .subtitle)
+            if index < 0 {
+                tracks.forEach { $0.isEnabled = false }
+            } else if Int(index) < tracks.count {
+                let track = tracks[Int(index)]
+                print("[KSPlaybackEngine] Selecting subtitle track: \(track.name)")
+                selectTrack(track, on: player)
+            }
+        }
     }
     
-    // MARK: - VLCMediaPlayerDelegate
+    // MARK: - PlayerControllerDelegate
     
-    public func mediaPlayerStateChanged(_ aNotification: Notification) {
+    public func playerController(state: KSPlayerState) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            switch self.player.state {
-            case .opening:
+            switch state {
+            case .readyToPlay:
+                // Attach video view only at readyToPlay — doing it on every state change
+                // (including buffering during seeks) triggers layout passes that cause visual freezes.
+                self.playerView.attachCurrentPlayerView()
                 self.playerVM.isBuffering = false
                 self.populateAudioAndSubtitles()
                 
-            case .buffering:
-                self.playerVM.isBuffering = !self.player.isPlaying
-                self.populateAudioAndSubtitles()
-                
-            case .playing:
-                self.playerVM.isBuffering = false
-                self.playerVM.isPlaying = true
-                self.populateAudioAndSubtitles()
+                if let player = self.playerView.playerLayer?.player {
+                    player.playbackVolume = 1.0
+                    player.isMuted = (self.playerVM.volume <= 0.001)
+                    print("[KSPlaybackEngine] readyToPlay initialized volume: \(self.playerVM.volume), isMuted: \(player.isMuted)")
+                }
                 
                 if let pending = self.pendingResumeTime {
-                    self.performSeekIfPossible(seconds: pending)
+                    self.seekTo(seconds: pending)
                 }
                 
                 if !self.hasDetectedVideoSize {
-                    let size = self.player.videoSize
-                    if size.width > 0 && size.height > 0 {
+                    if let size = self.playerView.playerLayer?.player.naturalSize, size.width > 0 && size.height > 0 {
                         self.hasDetectedVideoSize = true
+                        print("[KSPlaybackEngine] Detected nativeVideoSize at readyToPlay: \(size)")
                         self.delegate?.engineDidDetectNativeVideoSize(size)
                     }
                 }
                 
-                let vlcVol = self.player.audio?.volume ?? 0
-                if vlcVol > 0 {
-                    self.playerVM.volume = min(1.0, Float(vlcVol) / 100.0)
-                } else {
-                    self.player.audio?.volume = Int32(self.playerVM.volume * 100)
+            case .buffering:
+                // Don't re-attach view or re-populate tracks during buffering — this fires
+                // during every seek and the layout churn causes the post-seek video freeze.
+                self.playerVM.isBuffering = true
+                
+            case .bufferFinished:
+                self.playerVM.isBuffering = false
+                // Restore isPlaying so the UI reflects the actual playing state after a seek.
+                if self.playerView.playerLayer?.state == .bufferFinished {
+                    self.playerVM.isPlaying = true
+                }
+                if !self.hasDetectedVideoSize {
+                    if let size = self.playerView.playerLayer?.player.naturalSize, size.width > 0 && size.height > 0 {
+                        self.hasDetectedVideoSize = true
+                        print("[KSPlaybackEngine] Detected nativeVideoSize at bufferFinished: \(size)")
+                        self.delegate?.engineDidDetectNativeVideoSize(size)
+                    }
                 }
                 
             case .paused:
-                self.playerVM.isBuffering = false
                 self.playerVM.isPlaying = false
+                self.playerVM.isBuffering = false
                 self.saveCurrentProgress()
                 
-            case .stopped, .ended, .error:
+            case .playedToTheEnd:
                 self.playerVM.isPlaying = false
                 self.playerVM.isBuffering = false
-                if self.player.state == .ended, let key = self.currentMediaKey {
+                if let key = self.currentMediaKey {
                     PlaybackHistoryManager.shared.clearPosition(for: key)
                 }
+                self.delegate?.engineDidStop()
+                
+            case .error:
+                self.playerVM.isPlaying = false
+                self.playerVM.isBuffering = false
                 self.delegate?.engineDidStop()
                 
             default:
@@ -288,69 +421,55 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
         }
     }
     
-    public func mediaPlayerTimeChanged(_ aNotification: Notification) {
+    public func playerController(currentTime: TimeInterval, totalTime: TimeInterval) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
-            if self.playerVM.isPlaying != self.player.isPlaying {
-                self.playerVM.isPlaying = self.player.isPlaying
-            }
-            
-            if let pending = self.pendingResumeTime {
-                let currentMs = self.player.time.value?.doubleValue ?? 0.0
-                let currentSec = currentMs / 1000.0
-                
-                if abs(currentSec - pending) < 3.0 || (currentSec >= pending && pending > 5.0) {
-                    self.pendingResumeTime = nil
-                    self.resumeAttempts = 0
-                } else if self.resumeAttempts < 20 {
-                    self.resumeAttempts += 1
-                    self.performSeekIfPossible(seconds: pending)
-                } else {
-                    self.pendingResumeTime = nil
-                    self.resumeAttempts = 0
-                }
-            }
-            
-            self.updateTime()
-            if abs(self.playerVM.progress.position - self.player.position) > 0.001 {
-                self.playerVM.progress.position = self.player.position
-            }
+            self.updateTime(currentTime: currentTime, totalDuration: totalTime)
         }
     }
     
-    // MARK: - Private Helpers
+    public func playerController(finish error: Error?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.playerVM.isPlaying = false
+            self.playerVM.isBuffering = false
+            self.delegate?.engineDidStop()
+        }
+    }
     
-    private func updateTime() {
-        let currentMs = player.time.value?.doubleValue ?? 0.0
-        let currentSeconds = currentMs / 1000.0
-        let wholeSecond = Int(currentSeconds)
-        
+    public func playerController(maskShow: Bool) {}
+    public func playerController(action: PlayerButtonType) {}
+    public func playerController(bufferedCount: Int, consumeTime: TimeInterval) {}
+    public func playerController(seek: TimeInterval) {}
+    
+    // MARK: - Helpers
+    
+    private func updateTime(currentTime: TimeInterval, totalDuration: TimeInterval) {
+        let wholeSecond = Int(currentTime)
         if wholeSecond != lastRecordedSecond {
             lastRecordedSecond = wholeSecond
-            playerVM.progress.currentTimeInSeconds = currentSeconds
-            playerVM.progress.currentTime = formatSeconds(currentSeconds)
+            playerVM.progress.currentTimeInSeconds = currentTime
+            playerVM.progress.currentTime = formatSeconds(currentTime)
             
-            if let remainingMs = player.remainingTime?.value?.doubleValue {
-                let remainingSeconds = abs(remainingMs / 1000.0)
-                playerVM.progress.remainingTime = "-\(formatSeconds(remainingSeconds))"
-                
-                if !addedTotalTime || playerVM.progress.totalDurationInSeconds == 0 {
-                    let totalSeconds = currentSeconds + remainingSeconds
-                    if totalSeconds > 0 {
-                        playerVM.progress.totalDurationInSeconds = totalSeconds
-                        playerVM.progress.totalTime = formatSeconds(totalSeconds)
-                        addedTotalTime = true
-                    }
+            if totalDuration > 0 {
+                playerVM.progress.totalDurationInSeconds = totalDuration
+                playerVM.progress.totalTime = formatSeconds(totalDuration)
+                let remaining = max(0, totalDuration - currentTime)
+                playerVM.progress.remainingTime = "-\(formatSeconds(remaining))"
+                playerVM.progress.position = Float(currentTime / totalDuration)
+            }
+            
+            if !hasDetectedVideoSize {
+                if let size = playerView.playerLayer?.player.naturalSize, size.width > 0 && size.height > 0 {
+                    hasDetectedVideoSize = true
+                    delegate?.engineDidDetectNativeVideoSize(size)
                 }
             }
             
-            // Periodically save playback progress (every 5 seconds)
-            // Never save while pendingResumeTime is active to avoid saving 0.0
             if wholeSecond % 5 == 0, pendingResumeTime == nil, let key = currentMediaKey {
                 PlaybackHistoryManager.shared.savePosition(
                     for: key,
-                    currentTime: currentSeconds,
+                    currentTime: currentTime,
                     totalDuration: playerVM.progress.totalDurationInSeconds
                 )
             }
@@ -370,36 +489,57 @@ public final class VLCPlaybackEngine: NSObject, VLCMediaPlayerDelegate {
     }
     
     private func populateAudioAndSubtitles() {
+        guard let player = playerView.playerLayer?.player else { return }
+        
         if !addedAudioTracks {
-            var audioList: [Tracks] = []
-            for (index, element) in player.audioTrackIndexes.enumerated() {
-                if let name = player.audioTrackNames[index] as? String,
-                   let trackIdx = element as? NSNumber {
-                    audioList.append(Tracks(index: trackIdx.int32Value, name: name))
+            let audioTracks = player.tracks(mediaType: .audio)
+            var list: [Tracks] = []
+            for (idx, track) in audioTracks.enumerated() {
+                let displayName: String
+                if !track.name.isEmpty {
+                    displayName = track.name
+                } else if let lang = track.languageCode, !lang.isEmpty {
+                    displayName = lang.uppercased()
+                } else {
+                    displayName = "Track \(idx + 1)"
                 }
+                list.append(Tracks(index: Int32(idx), name: displayName))
             }
-            if !audioList.isEmpty {
-                playerVM.audioTracks = audioList
-                playerVM.selectedAudioTrack = player.currentAudioTrackIndex
+            if !list.isEmpty {
+                playerVM.audioTracks = list
+                let activeIndex = audioTracks.firstIndex(where: { $0.isEnabled }) ?? 0
+                playerVM.selectedAudioTrack = Int32(activeIndex)
                 addedAudioTracks = true
+                print("[KSPlaybackEngine] Populated \(list.count) audio tracks, active index: \(playerVM.selectedAudioTrack)")
             }
         }
         
         if !addedSubsTracks {
-            var subsList: [Tracks] = []
-            for (index, element) in player.videoSubTitlesIndexes.enumerated() {
-                if let name = player.videoSubTitlesNames[index] as? String,
-                   let trackIdx = element as? NSNumber {
-                    let idx = trackIdx.int32Value
-                    let trackName = (idx == -1) ? "Off" : name
-                    subsList.append(Tracks(index: idx, name: trackName))
+            let subTracks = player.tracks(mediaType: .subtitle)
+            var list: [Tracks] = [Tracks(index: -1, name: "Off")]
+            for (idx, track) in subTracks.enumerated() {
+                let displayName: String
+                if !track.name.isEmpty {
+                    displayName = track.name
+                } else if let lang = track.languageCode, !lang.isEmpty {
+                    displayName = lang.uppercased()
+                } else {
+                    displayName = "Subtitle \(idx + 1)"
                 }
+                list.append(Tracks(index: Int32(idx), name: displayName))
             }
-            if !subsList.isEmpty {
-                playerVM.subtitleTracks = subsList
-                playerVM.selectedSubtitleTrack = player.currentVideoSubTitleIndex
+            if list.count > 1 {
+                playerVM.subtitleTracks = list
+                if let activeIndex = subTracks.firstIndex(where: { $0.isEnabled }) {
+                    playerVM.selectedSubtitleTrack = Int32(activeIndex)
+                } else {
+                    playerVM.selectedSubtitleTrack = -1
+                }
                 addedSubsTracks = true
+                print("[KSPlaybackEngine] Populated \(subTracks.count) subtitle tracks, active index: \(playerVM.selectedSubtitleTrack)")
             }
         }
     }
 }
+
+typealias VLCPlaybackEngine = KSPlaybackEngine

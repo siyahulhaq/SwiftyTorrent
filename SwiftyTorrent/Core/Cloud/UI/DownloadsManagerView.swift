@@ -116,7 +116,7 @@ public struct DownloadsManagerView: View {
         .fullScreenCover(item: $activeModal) { modal in
             switch modal {
             case .vlc(let item):
-                VLCViewHost(previewItem: item)
+                MediaPlayerViewHost(previewItem: item)
                     .ignoresSafeArea(.all)
             case .quickLook(let item):
                 QLPreviewModalView(previewItem: item)
@@ -464,6 +464,3 @@ private struct ActivityViewControllerPresenter: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
-extension URL: @retroactive Identifiable {
-    public var id: String { absoluteString }
-}

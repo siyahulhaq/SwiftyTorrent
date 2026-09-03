@@ -15,10 +15,23 @@ public final class VLCVideoContainerView: UIView {
     private func setup() {
         backgroundColor = .black
         clipsToBounds = true
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        autoresizingMask = []
+    }
+    
+    public func attach(playerView: UIView) {
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(playerView)
+        NSLayoutConstraint.activate([
+            playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            playerView.topAnchor.constraint(equalTo: topAnchor),
+            playerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
     }
     
     public func applyAspectRatio(_ ratio: VideoAspectRatio, nativeVideoSize: CGSize, in screenBounds: CGRect, animated: Bool = true) {
+        guard screenBounds.width > 0 && screenBounds.height > 0 else { return }
+        
         let apply = {
             self.transform = .identity
             
@@ -82,6 +95,9 @@ public final class VLCVideoContainerView: UIView {
     }
     
     private func fitRect(videoAR: CGFloat, in container: CGRect) -> CGRect {
+        guard container.width > 0 && container.height > 0, videoAR > 0 else {
+            return container
+        }
         let containerAR = container.width / container.height
         var fitSize: CGSize
         if videoAR > containerAR {
@@ -97,6 +113,9 @@ public final class VLCVideoContainerView: UIView {
     }
     
     private func fillRect(videoAR: CGFloat, in container: CGRect) -> CGRect {
+        guard container.width > 0 && container.height > 0, videoAR > 0 else {
+            return container
+        }
         let containerAR = container.width / container.height
         var fillSize: CGSize
         if videoAR > containerAR {
@@ -111,3 +130,6 @@ public final class VLCVideoContainerView: UIView {
         return CGRect(origin: origin, size: fillSize)
     }
 }
+
+public typealias KSVideoContainerView = VLCVideoContainerView
+

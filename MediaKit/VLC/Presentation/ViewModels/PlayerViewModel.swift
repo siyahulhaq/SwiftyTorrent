@@ -14,6 +14,7 @@ public final class PlayerViewModel: ObservableObject {
     
     @Published public var isPlaying: Bool = false
     @Published public var isBuffering: Bool = false
+    @Published public var isSeeking: Bool = false
     @Published public var isLocked: Bool = false
     @Published public var isControlsVisible: Bool = true
     

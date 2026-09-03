@@ -13,6 +13,7 @@ public struct ControlsView: View {
         GeometryReader { proxy in
             ZStack {
                 // 1. Full-screen gesture receiver across physical screen
+                #if os(iOS)
                 Color.black.opacity(0.001)
                     .contentShape(Rectangle())
                     .ignoresSafeArea(.all)
@@ -22,8 +23,35 @@ public struct ControlsView: View {
                     .onTapGesture(count: 1) {
                         delegate.onScreenTapped()
                     }
+                #else
+                Color.black.opacity(0.001)
+                    .contentShape(Rectangle())
+                    .ignoresSafeArea(.all)
+                    .onTapGesture {
+                        delegate.onScreenTapped()
+                    }
+                #endif
                 
-                // 2. Active Controls with Edge-to-Edge gradient backdrops
+                // 2a. Seek freeze mask — covers the stale video frame during seek buffering.
+                // AVSampleBufferDisplayLayer holds the last decoded frame while the output queue
+                // is being refilled after seek. This overlay hides that frozen frame.
+                if playerVM.isSeeking {
+                    ZStack {
+                        Color.black.opacity(0.55)
+                            .ignoresSafeArea()
+                        VStack(spacing: 12) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.4)
+                            Text(playerVM.progress.currentTime)
+                                .font(.system(size: 22, weight: .semibold, design: .monospaced))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .transition(.opacity)
+                }
+                
+                // 2b. Active Controls with Edge-to-Edge gradient backdrops
                 if playerVM.isLocked {
                     lockedOverlay(proxy: proxy)
                         .opacity(playerVM.isControlsVisible ? 1.0 : 0.0)
@@ -85,6 +113,7 @@ public struct ControlsView: View {
             }
         }
         .ignoresSafeArea(.all)
+        .animation(.easeInOut(duration: 0.2), value: playerVM.isSeeking)
         .animation(.easeInOut(duration: 0.25), value: playerVM.isControlsVisible)
         .animation(.easeInOut(duration: 0.25), value: playerVM.isLocked)
         .alert("Resume Playback", isPresented: $playerVM.showResumePrompt) {

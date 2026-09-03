@@ -63,6 +63,7 @@ struct PlayerTimelineView: View {
                         .offset(x: max(0, CGFloat(clampedPos) * width - (isScrubbing ? 9 : 6)))
                 }
                 .contentShape(Rectangle())
+                #if os(iOS)
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
@@ -70,7 +71,9 @@ struct PlayerTimelineView: View {
                             let newPos = Float(max(0.0, min(1.0, value.location.x / width)))
                             scrubPosition = newPos
                             progress.position = newPos
-                            delegate.onSliderChange(newPos)
+                            // Do NOT call delegate.onSliderChange here — each drag event triggers
+                            // a full FFmpeg av_seek_frame, causing the video to freeze until
+                            // buffering completes. Only commit the seek when the user lifts their finger.
                         }
                         .onEnded { value in
                             let newPos = Float(max(0.0, min(1.0, value.location.x / width)))
@@ -80,6 +83,7 @@ struct PlayerTimelineView: View {
                             isScrubbing = false
                         }
                 )
+                #endif
                 .animation(.spring(response: 0.2, dampingFraction: 0.8), value: isScrubbing)
             }
             .frame(height: 24)
@@ -183,14 +187,24 @@ struct PlayerBottomToolbarView: View {
                 }
             }
             
+            #if os(iOS)
             Spacer()
             
             // Inline Volume Slider
             HStack(spacing: 8) {
-                Image(systemName: volumeIconName)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.white.opacity(0.85))
-                    .frame(width: 18)
+                Button(action: {
+                    if playerVM.volume > 0 {
+                        delegate.changeVolume(0)
+                    } else {
+                        delegate.changeVolume(0.5)
+                    }
+                }) {
+                    Image(systemName: volumeIconName)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.85))
+                        .frame(width: 18)
+                }
+                .buttonStyle(PlainButtonStyle())
                 
                 Slider(
                     value: Binding(
@@ -212,6 +226,7 @@ struct PlayerBottomToolbarView: View {
                     .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 1))
                     .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 2)
             )
+            #endif
         }
         .padding(.horizontal, 20)
         .padding(.top, 4)

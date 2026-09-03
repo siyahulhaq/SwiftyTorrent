@@ -7,84 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FF0000000000000000000001 /* CloudProviderDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000001 /* CloudProviderDescriptor.swift */; };
-		FE0000000000000000000001 /* CloudProviderDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000001 /* CloudProviderDescriptor.swift */; };
-		FF0000000000000000000002 /* CloudAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000002 /* CloudAccount.swift */; };
-		FE0000000000000000000002 /* CloudAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000002 /* CloudAccount.swift */; };
-		FF0000000000000000000003 /* CloudFileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000003 /* CloudFileItem.swift */; };
-		FE0000000000000000000003 /* CloudFileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000003 /* CloudFileItem.swift */; };
-		FF0000000000000000000004 /* CloudStorageProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000004 /* CloudStorageProviderProtocol.swift */; };
-		FE0000000000000000000004 /* CloudStorageProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000004 /* CloudStorageProviderProtocol.swift */; };
-		FF0000000000000000000005 /* CloudProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000005 /* CloudProviderRegistry.swift */; };
-		FE0000000000000000000005 /* CloudProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000005 /* CloudProviderRegistry.swift */; };
-		FF0000000000000000000006 /* CloudAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000006 /* CloudAccountManager.swift */; };
-		FE0000000000000000000006 /* CloudAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000006 /* CloudAccountManager.swift */; };
-		FF0000000000000000000007 /* LocalStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000007 /* LocalStorageProvider.swift */; };
-		FE0000000000000000000007 /* LocalStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000007 /* LocalStorageProvider.swift */; };
-		FF0000000000000000000008 /* ICloudStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000008 /* ICloudStorageProvider.swift */; };
-		FE0000000000000000000008 /* ICloudStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000008 /* ICloudStorageProvider.swift */; };
-		FF0000000000000000000009 /* GoogleDriveStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000009 /* GoogleDriveStorageProvider.swift */; };
-		FE0000000000000000000009 /* GoogleDriveStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000009 /* GoogleDriveStorageProvider.swift */; };
-		FF000000000000000000000A /* CloudPlaybackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000A /* CloudPlaybackCoordinator.swift */; };
-		FE000000000000000000000A /* CloudPlaybackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000A /* CloudPlaybackCoordinator.swift */; };
-		FF000000000000000000000B /* CloudLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000B /* CloudLocationsViewModel.swift */; };
-		FE000000000000000000000B /* CloudLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000B /* CloudLocationsViewModel.swift */; };
-		FF000000000000000000000C /* CloudExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000C /* CloudExplorerViewModel.swift */; };
-		FE000000000000000000000C /* CloudExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000C /* CloudExplorerViewModel.swift */; };
-		FF000000000000000000000D /* DocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000D /* DocumentPickerPresenter.swift */; };
-		FE000000000000000000000D /* DocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000D /* DocumentPickerPresenter.swift */; };
-		FF000000000000000000000E /* CloudFileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000E /* CloudFileRowView.swift */; };
-		FE000000000000000000000E /* CloudFileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000E /* CloudFileRowView.swift */; };
-		FF000000000000000000000F /* CloudExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000F /* CloudExplorerView.swift */; };
-		FE000000000000000000000F /* CloudExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000F /* CloudExplorerView.swift */; };
-		FF0000000000000000000010 /* CloudLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000010 /* CloudLocationsView.swift */; };
-		FE0000000000000000000010 /* CloudLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000010 /* CloudLocationsView.swift */; };
-		FF0000000000000000000011 /* GoogleDriveAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000011 /* GoogleDriveAuthSheet.swift */; };
-		FE0000000000000000000011 /* GoogleDriveAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000011 /* GoogleDriveAuthSheet.swift */; };
-		FF0000000000000000000012 /* CloudMediaProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000012 /* CloudMediaProxyServer.swift */; };
-		FE0000000000000000000012 /* CloudMediaProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000012 /* CloudMediaProxyServer.swift */; };
-		FF0000000000000000000013 /* SMBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000013 /* SMBClient.swift */; };
-		FE0000000000000000000013 /* SMBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000013 /* SMBClient.swift */; };
-		FF0000000000000000000014 /* SMBStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000014 /* SMBStorageProvider.swift */; };
-		FE0000000000000000000014 /* SMBStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000014 /* SMBStorageProvider.swift */; };
-		FF0000000000000000000015 /* SMBAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000015 /* SMBAuthSheet.swift */; };
-		FE0000000000000000000015 /* SMBAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000015 /* SMBAuthSheet.swift */; };
-		FF0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000016 /* SMBBonjourBrowser.swift */; };
-		FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
-		FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
-		FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
-		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
-		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000016 /* SMBBonjourBrowser.swift */; };
-		FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
-		FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* ICloudEditSheet.swift */; };
-		FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
-		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* GoogleDriveEditSheet.swift */; };
-		FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* CloudDownloadManager.swift */; };
-		FF000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		FE000000000000000000001A /* DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* DownloadsManagerView.swift */; };
-		BBA000000000000000000003 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; };
-		BBA000000000000000000004 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7703512222DA513B00A9CC84 /* TorrentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7703512122DA513B00A9CC84 /* TorrentRow.swift */; };
 		771B700622DA205D00132B5E /* uTorrent-320.png in Resources */ = {isa = PBXBuildFile; fileRef = 771B700522DA205D00132B5E /* uTorrent-320.png */; };
 		7723A22624AF8F1B007629A0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7723A22424AF8F1B007629A0 /* SystemConfiguration.framework */; };
@@ -95,8 +17,6 @@
 		772CEA0822DDFC41000CD2BD /* FilesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772CEA0722DDFC41000CD2BD /* FilesViewModel.swift */; };
 		772CEA0A22DDFC47000CD2BD /* FileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772CEA0922DDFC47000CD2BD /* FileRow.swift */; };
 		772CEA0C22DDFC4D000CD2BD /* FileRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772CEA0B22DDFC4D000CD2BD /* FileRowModel.swift */; };
-		773EFD1A26B241D600DC35A4 /* MobileVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1626B2414100DC35A4 /* MobileVLCKit.xcframework */; platformFilters = (ios, maccatalyst, ); };
-		773EFD1F26B241D600DC35A4 /* TVVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1E26B241D600DC35A4 /* TVVLCKit.xcframework */; platformFilters = (tvos, ); };
 		773FF94E22C10278008D58E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773FF94D22C10278008D58E4 /* AppDelegate.swift */; };
 		773FF95022C10278008D58E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773FF94F22C10278008D58E4 /* SceneDelegate.swift */; };
 		773FF95422C10279008D58E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 773FF95322C10279008D58E4 /* Assets.xcassets */; };
@@ -190,14 +110,9 @@
 		77AD95442678CAEF00B57B0B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD95422678CAEF00B57B0B /* SettingsView.swift */; };
 		77AD95472678CAFB00B57B0B /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD95462678CAFB00B57B0B /* SettingsViewModel.swift */; };
 		77AD95482678CAFB00B57B0B /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD95462678CAFB00B57B0B /* SettingsViewModel.swift */; };
-		77C9039F28B2D70500C35FE6 /* MobileVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1626B2414100DC35A4 /* MobileVLCKit.xcframework */; };
-		77C903A028B2D70500C35FE6 /* MobileVLCKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1626B2414100DC35A4 /* MobileVLCKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77C903A128B2D70700C35FE6 /* Swinject.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7764455E28A34D780017E867 /* Swinject.xcframework */; };
-		77C903A228B2D70700C35FE6 /* Swinject.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7764455E28A34D780017E867 /* Swinject.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77C903A328B2D71000C35FE6 /* Swinject.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7764455E28A34D780017E867 /* Swinject.xcframework */; };
-		77C903A428B2D71000C35FE6 /* Swinject.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7764455E28A34D780017E867 /* Swinject.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77C903A528B2D71A00C35FE6 /* TVVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1E26B241D600DC35A4 /* TVVLCKit.xcframework */; };
-		77C903A628B2D71A00C35FE6 /* TVVLCKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773EFD1E26B241D600DC35A4 /* TVVLCKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77D000000000000000000004 /* KSPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 77D000000000000000000002 /* KSPlayer */; };
+		77D000000000000000000012 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 77D000000000000000000011 /* Swinject */; };
+		77D000000000000000000013 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 77D000000000000000000011 /* Swinject */; };
 		77D8122522CA336A001CA13E /* TorrentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D8122422CA336A001CA13E /* TorrentsView.swift */; };
 		77E4CA0824AB747500C21354 /* SearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E4CA0724AB747500C21354 /* SearchRow.swift */; };
 		77FC2AF422D896F100A544AA /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FC2AF322D896F100A544AA /* AppCoordinator.swift */; };
@@ -219,6 +134,8 @@
 		AA000000000000000000000E /* Engine/VLCPlaybackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */; };
 		AA000000000000000000000F /* Engine/VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */; };
 		AA0000000000000000000010 /* Engine/VLCVideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */; };
+		BBA000000000000000000003 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; };
+		BBA000000000000000000004 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB692CDA51A6005F9F1C /* WidgetKit.framework */; };
 		D329DB6C2CDA51A7005F9F1C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB6B2CDA51A7005F9F1C /* SwiftUI.framework */; };
 		D329DB7D2CDA51A8005F9F1C /* Torrents_WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -228,6 +145,58 @@
 		D3F863162CEA154300A9CA6A /* FilesExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */; };
 		D3F863392CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */; };
 		D3F8633A2CEA279600A9CA6A /* FilesExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */; };
+		FE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift */; };
+		FE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift */; };
+		FE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift */; };
+		FE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift */; };
+		FE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift */; };
+		FE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift */; };
+		FE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift */; };
+		FE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift */; };
+		FE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift */; };
+		FE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift */; };
+		FE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift */; };
+		FE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift */; };
+		FE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift */; };
+		FE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift */; };
+		FE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift */; };
+		FE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift */; };
+		FE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift */; };
+		FE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift */; };
+		FE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift */; };
+		FE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift */; };
+		FE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift */; };
+		FE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift */; };
+		FE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift */; };
+		FE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift */; };
+		FE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift */; };
+		FE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift */; };
+		FF0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift */; };
+		FF0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift */; };
+		FF0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift */; };
+		FF0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift */; };
+		FF0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift */; };
+		FF0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift */; };
+		FF0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift */; };
+		FF0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift */; };
+		FF0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift */; };
+		FF000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift */; };
+		FF000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift */; };
+		FF000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift */; };
+		FF000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift */; };
+		FF000000000000000000000E /* Cloud/UI/CloudFileRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift */; };
+		FF000000000000000000000F /* Cloud/UI/CloudExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift */; };
+		FF0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift */; };
+		FF0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift */; };
+		FF0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift */; };
+		FF0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift */; };
+		FF0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift */; };
+		FF0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift */; };
+		FF0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift */; };
+		FF0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift */; };
+		FF0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift */; };
+		FF0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift */; };
+		FF000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,8 +256,6 @@
 			files = (
 				BBA000000000000000000004 /* AMSMB2 in Embed Frameworks */,
 				7748DC7C24AE38EA00AC5095 /* MediaKit.framework in Embed Frameworks */,
-				77C903A028B2D70500C35FE6 /* MobileVLCKit.xcframework in Embed Frameworks */,
-				77C903A228B2D70700C35FE6 /* Swinject.xcframework in Embed Frameworks */,
 				774321B024AA37EE00777C0A /* TorrentKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -301,8 +268,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7748DCDA24AE713500AC5095 /* MediaKit.framework in Embed Frameworks */,
-				77C903A428B2D71000C35FE6 /* Swinject.xcframework in Embed Frameworks */,
-				77C903A628B2D71A00C35FE6 /* TVVLCKit.xcframework in Embed Frameworks */,
 				7748DCDE24AE713500AC5095 /* TorrentKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -332,32 +297,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EE0000000000000000000001 /* CloudProviderDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Domain/Models/CloudProviderDescriptor.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000002 /* CloudAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Domain/Models/CloudAccount.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000003 /* CloudFileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Domain/Models/CloudFileItem.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000004 /* CloudStorageProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000005 /* CloudProviderRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Registry/CloudProviderRegistry.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000006 /* CloudAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/CloudAccountManager.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000007 /* LocalStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Providers/LocalStorageProvider.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000008 /* ICloudStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Providers/ICloudStorageProvider.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000009 /* GoogleDriveStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000A /* CloudPlaybackCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000B /* CloudLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Presentation/CloudLocationsViewModel.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000C /* CloudExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Presentation/CloudExplorerViewModel.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000D /* DocumentPickerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/DocumentPickerPresenter.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000E /* CloudFileRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/CloudFileRowView.swift"; sourceTree = "<group>"; };
-		EE000000000000000000000F /* CloudExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/CloudExplorerView.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000010 /* CloudLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/CloudLocationsView.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000011 /* GoogleDriveAuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/GoogleDriveAuthSheet.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000012 /* CloudMediaProxyServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/CloudMediaProxyServer.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000013 /* SMBClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/SMBClient.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000014 /* SMBStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Providers/SMBStorageProvider.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000015 /* SMBAuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/SMBAuthSheet.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000016 /* SMBBonjourBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/SMBBonjourBrowser.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000017 /* ICloudEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/ICloudEditSheet.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000018 /* GoogleDriveEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/GoogleDriveEditSheet.swift"; sourceTree = "<group>"; };
-		EE0000000000000000000019 /* CloudDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/Infrastructure/Services/CloudDownloadManager.swift"; sourceTree = "<group>"; };
-		EE000000000000000000001A /* DownloadsManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud/UI/DownloadsManagerView.swift"; sourceTree = "<group>"; };
 		7703512122DA513B00A9CC84 /* TorrentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorrentRow.swift; sourceTree = "<group>"; };
 		771B700522DA205D00132B5E /* uTorrent-320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uTorrent-320.png"; sourceTree = "<group>"; };
 		7723A22424AF8F1B007629A0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
@@ -368,8 +307,6 @@
 		772CEA0722DDFC41000CD2BD /* FilesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesViewModel.swift; sourceTree = "<group>"; };
 		772CEA0922DDFC47000CD2BD /* FileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRow.swift; sourceTree = "<group>"; };
 		772CEA0B22DDFC4D000CD2BD /* FileRowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileRowModel.swift; sourceTree = "<group>"; };
-		773EFD1626B2414100DC35A4 /* MobileVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MobileVLCKit.xcframework; path = Carthage/Build/MobileVLCKit.xcframework; sourceTree = "<group>"; };
-		773EFD1E26B241D600DC35A4 /* TVVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TVVLCKit.xcframework; path = Carthage/Build/TVVLCKit.xcframework; sourceTree = "<group>"; };
 		773FF94A22C10278008D58E4 /* SwiftyTorrent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyTorrent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		773FF94D22C10278008D58E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		773FF94F22C10278008D58E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -414,10 +351,7 @@
 		7748DCC024AE703000AC5095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7748DCE224AE728700AC5095 /* PreviewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewItem.swift; sourceTree = "<group>"; };
 		774FE51C289649FF0021A5DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7764455E28A34D780017E867 /* Swinject.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Swinject.xcframework; path = Carthage/Build/Swinject.xcframework; sourceTree = "<group>"; };
 		776FD9F622C3B43800CD7CEB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7774227B267BA866008FAA57 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
-		7774227F267BA89C008FAA57 /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/tvOS/Swinject.framework; sourceTree = "<group>"; };
 		7774228B267BB037008FAA57 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
 		77742294267C010F008FAA57 /* StubTorrentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubTorrentManager.swift; sourceTree = "<group>"; };
 		77742298267C0185008FAA57 /* StubIMDBDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubIMDBDataProvider.swift; sourceTree = "<group>"; };
@@ -471,6 +405,32 @@
 		D329DBA42CDA934F005F9F1C /* SwiftyTorrent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftyTorrent.entitlements; sourceTree = "<group>"; };
 		D3F863142CEA153D00A9CA6A /* FilesExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerView.swift; sourceTree = "<group>"; };
 		D3F863382CEA279400A9CA6A /* FilesExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesExplorerViewModel.swift; sourceTree = "<group>"; };
+		EE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Domain/Models/CloudProviderDescriptor.swift; sourceTree = "<group>"; };
+		EE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Domain/Models/CloudAccount.swift; sourceTree = "<group>"; };
+		EE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Domain/Models/CloudFileItem.swift; sourceTree = "<group>"; };
+		EE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift; sourceTree = "<group>"; };
+		EE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Registry/CloudProviderRegistry.swift; sourceTree = "<group>"; };
+		EE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/CloudAccountManager.swift; sourceTree = "<group>"; };
+		EE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Providers/LocalStorageProvider.swift; sourceTree = "<group>"; };
+		EE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Providers/ICloudStorageProvider.swift; sourceTree = "<group>"; };
+		EE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift; sourceTree = "<group>"; };
+		EE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift; sourceTree = "<group>"; };
+		EE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Presentation/CloudLocationsViewModel.swift; sourceTree = "<group>"; };
+		EE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Presentation/CloudExplorerViewModel.swift; sourceTree = "<group>"; };
+		EE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/DocumentPickerPresenter.swift; sourceTree = "<group>"; };
+		EE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/CloudFileRowView.swift; sourceTree = "<group>"; };
+		EE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/CloudExplorerView.swift; sourceTree = "<group>"; };
+		EE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/CloudLocationsView.swift; sourceTree = "<group>"; };
+		EE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/GoogleDriveAuthSheet.swift; sourceTree = "<group>"; };
+		EE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/CloudMediaProxyServer.swift; sourceTree = "<group>"; };
+		EE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/SMBClient.swift; sourceTree = "<group>"; };
+		EE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Providers/SMBStorageProvider.swift; sourceTree = "<group>"; };
+		EE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/SMBAuthSheet.swift; sourceTree = "<group>"; };
+		EE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/SMBBonjourBrowser.swift; sourceTree = "<group>"; };
+		EE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/ICloudEditSheet.swift; sourceTree = "<group>"; };
+		EE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/GoogleDriveEditSheet.swift; sourceTree = "<group>"; };
+		EE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/Infrastructure/Services/CloudDownloadManager.swift; sourceTree = "<group>"; };
+		EE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/UI/DownloadsManagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -501,9 +461,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBA000000000000000000003 /* AMSMB2 in Frameworks */,
-				77C9039F28B2D70500C35FE6 /* MobileVLCKit.xcframework in Frameworks */,
+				77D000000000000000000012 /* Swinject in Frameworks */,
 				7774227E267BA87A008FAA57 /* MediaKit.framework in Frameworks */,
-				77C903A128B2D70700C35FE6 /* Swinject.xcframework in Frameworks */,
 				774321AE24AA37EE00777C0A /* TorrentKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,7 +484,7 @@
 				777A0E6C24AF8DFC00713146 /* AudioToolbox.framework in Frameworks */,
 				777A0E6A24AF8DF500713146 /* CFNetwork.framework in Frameworks */,
 				777A0E6824AF8DEF00713146 /* CoreFoundation.framework in Frameworks */,
-				773EFD1A26B241D600DC35A4 /* MobileVLCKit.xcframework in Frameworks */,
+				77D000000000000000000004 /* KSPlayer in Frameworks */,
 				777A0E6624AF8DE800713146 /* CoreGraphics.framework in Frameworks */,
 				777A0E6424AF8DE000713146 /* CoreMedia.framework in Frameworks */,
 				777A0E6224AF8DDA00713146 /* CoreText.framework in Frameworks */,
@@ -537,7 +496,6 @@
 				777A0E5624AF8DA700713146 /* VideoToolbox.framework in Frameworks */,
 				777A0E5424AF8DA100713146 /* libbz2.tbd in Frameworks */,
 				777A0E5224AF8D9A00713146 /* libc++.tbd in Frameworks */,
-				773EFD1F26B241D600DC35A4 /* TVVLCKit.xcframework in Frameworks */,
 				777A0E5024AF8D9300713146 /* libiconv.tbd in Frameworks */,
 				777A0E4E24AF8D8C00713146 /* libxml2.tbd in Frameworks */,
 			);
@@ -548,8 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7748DCD924AE713500AC5095 /* MediaKit.framework in Frameworks */,
-				77C903A328B2D71000C35FE6 /* Swinject.xcframework in Frameworks */,
-				77C903A528B2D71A00C35FE6 /* TVVLCKit.xcframework in Frameworks */,
+				77D000000000000000000013 /* Swinject in Frameworks */,
 				7748DCDD24AE713500AC5095 /* TorrentKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -569,32 +526,32 @@
 		7723376322DB9331008ECD5F /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				EE0000000000000000000001 /* CloudProviderDescriptor.swift */,
-				EE0000000000000000000002 /* CloudAccount.swift */,
-				EE0000000000000000000003 /* CloudFileItem.swift */,
-				EE0000000000000000000004 /* CloudStorageProviderProtocol.swift */,
-				EE0000000000000000000005 /* CloudProviderRegistry.swift */,
-				EE0000000000000000000006 /* CloudAccountManager.swift */,
-				EE0000000000000000000007 /* LocalStorageProvider.swift */,
-				EE0000000000000000000008 /* ICloudStorageProvider.swift */,
-				EE0000000000000000000009 /* GoogleDriveStorageProvider.swift */,
-				EE000000000000000000000A /* CloudPlaybackCoordinator.swift */,
-				EE000000000000000000000B /* CloudLocationsViewModel.swift */,
-				EE000000000000000000000C /* CloudExplorerViewModel.swift */,
-				EE000000000000000000000D /* DocumentPickerPresenter.swift */,
-				EE000000000000000000000E /* CloudFileRowView.swift */,
-				EE000000000000000000000F /* CloudExplorerView.swift */,
-				EE0000000000000000000010 /* CloudLocationsView.swift */,
-				EE0000000000000000000011 /* GoogleDriveAuthSheet.swift */,
-				EE0000000000000000000012 /* CloudMediaProxyServer.swift */,
-				EE0000000000000000000013 /* SMBClient.swift */,
-				EE0000000000000000000014 /* SMBStorageProvider.swift */,
-				EE0000000000000000000015 /* SMBAuthSheet.swift */,
-				EE0000000000000000000016 /* SMBBonjourBrowser.swift */,
-				EE0000000000000000000017 /* ICloudEditSheet.swift */,
-				EE0000000000000000000018 /* GoogleDriveEditSheet.swift */,
-				EE0000000000000000000019 /* CloudDownloadManager.swift */,
-				EE000000000000000000001A /* DownloadsManagerView.swift */,
+				EE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift */,
+				EE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift */,
+				EE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift */,
+				EE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift */,
+				EE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift */,
+				EE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift */,
+				EE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift */,
+				EE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift */,
+				EE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift */,
+				EE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift */,
+				EE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift */,
+				EE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift */,
+				EE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift */,
+				EE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift */,
+				EE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift */,
+				EE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift */,
+				EE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift */,
+				EE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift */,
+				EE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift */,
+				EE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift */,
+				EE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift */,
+				EE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift */,
+				EE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift */,
+				EE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift */,
+				EE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift */,
+				EE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift */,
 				D329DB8C2CDA5820005F9F1C /* ActivityManager.swift */,
 				773FF94D22C10278008D58E4 /* AppDelegate.swift */,
 				773FF94F22C10278008D58E4 /* SceneDelegate.swift */,
@@ -658,13 +615,8 @@
 		773FF96722C105CE008D58E4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7764455E28A34D780017E867 /* Swinject.xcframework */,
 				7746A26F28931DD0002D7196 /* libtorrent.xcframework */,
 				77810F7E28936C43008B7804 /* libtorrent.xcframework */,
-				773EFD1E26B241D600DC35A4 /* TVVLCKit.xcframework */,
-				773EFD1626B2414100DC35A4 /* MobileVLCKit.xcframework */,
-				7774227B267BA866008FAA57 /* Swinject.framework */,
-				7774227F267BA89C008FAA57 /* Swinject.framework */,
 				7723A22424AF8F1B007629A0 /* SystemConfiguration.framework */,
 				777A0E6D24AF8E0200713146 /* AVFoundation.framework */,
 				777A0E6B24AF8DFC00713146 /* AudioToolbox.framework */,
@@ -912,6 +864,7 @@
 			name = SwiftyTorrent;
 			packageProductDependencies = (
 				BBA000000000000000000002 /* AMSMB2 */,
+				77D000000000000000000011 /* Swinject */,
 			);
 			productName = SwiftyTorrent;
 			productReference = 773FF94A22C10278008D58E4 /* SwiftyTorrent.app */;
@@ -951,6 +904,9 @@
 			dependencies = (
 			);
 			name = MediaKit;
+			packageProductDependencies = (
+				77D000000000000000000002 /* KSPlayer */,
+			);
 			productName = MediaKit;
 			productReference = 7748DC7424AE38EA00AC5095 /* MediaKit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -972,6 +928,9 @@
 				7748DCE024AE713500AC5095 /* PBXTargetDependency */,
 			);
 			name = SwiftyTV;
+			packageProductDependencies = (
+				77D000000000000000000011 /* Swinject */,
+			);
 			productName = SwiftyTV;
 			productReference = 7748DCB224AE702E00AC5095 /* SwiftyTV.app */;
 			productType = "com.apple.product-type.application";
@@ -1037,6 +996,8 @@
 			mainGroup = 773FF94122C10278008D58E4;
 			packageReferences = (
 				BBA000000000000000000001 /* XCRemoteSwiftPackageReference "AMSMB2" */,
+				77D000000000000000000001 /* XCRemoteSwiftPackageReference "KSPlayer" */,
+				77D000000000000000000010 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 773FF94B22C10278008D58E4 /* Products */;
 			projectDirPath = "";
@@ -1139,32 +1100,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF0000000000000000000001 /* CloudProviderDescriptor.swift in Sources */,
-				FF0000000000000000000002 /* CloudAccount.swift in Sources */,
-				FF0000000000000000000003 /* CloudFileItem.swift in Sources */,
-				FF0000000000000000000004 /* CloudStorageProviderProtocol.swift in Sources */,
-				FF0000000000000000000005 /* CloudProviderRegistry.swift in Sources */,
-				FF0000000000000000000006 /* CloudAccountManager.swift in Sources */,
-				FF0000000000000000000007 /* LocalStorageProvider.swift in Sources */,
-				FF0000000000000000000008 /* ICloudStorageProvider.swift in Sources */,
-				FF0000000000000000000009 /* GoogleDriveStorageProvider.swift in Sources */,
-				FF000000000000000000000A /* CloudPlaybackCoordinator.swift in Sources */,
-				FF000000000000000000000B /* CloudLocationsViewModel.swift in Sources */,
-				FF000000000000000000000C /* CloudExplorerViewModel.swift in Sources */,
-				FF000000000000000000000D /* DocumentPickerPresenter.swift in Sources */,
-				FF000000000000000000000E /* CloudFileRowView.swift in Sources */,
-				FF000000000000000000000F /* CloudExplorerView.swift in Sources */,
-				FF0000000000000000000010 /* CloudLocationsView.swift in Sources */,
-				FF0000000000000000000011 /* GoogleDriveAuthSheet.swift in Sources */,
-				FF0000000000000000000012 /* CloudMediaProxyServer.swift in Sources */,
-				FF0000000000000000000013 /* SMBClient.swift in Sources */,
-				FF0000000000000000000014 /* SMBStorageProvider.swift in Sources */,
-				FF0000000000000000000015 /* SMBAuthSheet.swift in Sources */,
-				FF0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */,
-				FF0000000000000000000017 /* ICloudEditSheet.swift in Sources */,
-				FF0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */,
-				FF0000000000000000000019 /* CloudDownloadManager.swift in Sources */,
-				FF000000000000000000001A /* DownloadsManagerView.swift in Sources */,
+				FF0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift in Sources */,
+				FF0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift in Sources */,
+				FF0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift in Sources */,
+				FF0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift in Sources */,
+				FF0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift in Sources */,
+				FF0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift in Sources */,
+				FF0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift in Sources */,
+				FF0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift in Sources */,
+				FF0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift in Sources */,
+				FF000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift in Sources */,
+				FF000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift in Sources */,
+				FF000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift in Sources */,
+				FF000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift in Sources */,
+				FF000000000000000000000E /* Cloud/UI/CloudFileRowView.swift in Sources */,
+				FF000000000000000000000F /* Cloud/UI/CloudExplorerView.swift in Sources */,
+				FF0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift in Sources */,
+				FF0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift in Sources */,
+				FF0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift in Sources */,
+				FF0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift in Sources */,
+				FF0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift in Sources */,
+				FF0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift in Sources */,
+				FF0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift in Sources */,
+				FF0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift in Sources */,
+				FF0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift in Sources */,
+				FF0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift in Sources */,
+				FF000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift in Sources */,
 				773FF94E22C10278008D58E4 /* AppDelegate.swift in Sources */,
 				77AD95472678CAFB00B57B0B /* SettingsViewModel.swift in Sources */,
 				774321E324AA58F600777C0A /* MainView.swift in Sources */,
@@ -1243,32 +1204,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE0000000000000000000001 /* CloudProviderDescriptor.swift in Sources */,
-				FE0000000000000000000002 /* CloudAccount.swift in Sources */,
-				FE0000000000000000000003 /* CloudFileItem.swift in Sources */,
-				FE0000000000000000000004 /* CloudStorageProviderProtocol.swift in Sources */,
-				FE0000000000000000000005 /* CloudProviderRegistry.swift in Sources */,
-				FE0000000000000000000006 /* CloudAccountManager.swift in Sources */,
-				FE0000000000000000000007 /* LocalStorageProvider.swift in Sources */,
-				FE0000000000000000000008 /* ICloudStorageProvider.swift in Sources */,
-				FE0000000000000000000009 /* GoogleDriveStorageProvider.swift in Sources */,
-				FE000000000000000000000A /* CloudPlaybackCoordinator.swift in Sources */,
-				FE000000000000000000000B /* CloudLocationsViewModel.swift in Sources */,
-				FE000000000000000000000C /* CloudExplorerViewModel.swift in Sources */,
-				FE000000000000000000000D /* DocumentPickerPresenter.swift in Sources */,
-				FE000000000000000000000E /* CloudFileRowView.swift in Sources */,
-				FE000000000000000000000F /* CloudExplorerView.swift in Sources */,
-				FE0000000000000000000010 /* CloudLocationsView.swift in Sources */,
-				FE0000000000000000000011 /* GoogleDriveAuthSheet.swift in Sources */,
-				FE0000000000000000000012 /* CloudMediaProxyServer.swift in Sources */,
-				FE0000000000000000000013 /* SMBClient.swift in Sources */,
-				FE0000000000000000000014 /* SMBStorageProvider.swift in Sources */,
-				FE0000000000000000000015 /* SMBAuthSheet.swift in Sources */,
-				FE0000000000000000000016 /* SMBBonjourBrowser.swift in Sources */,
-				FE0000000000000000000017 /* ICloudEditSheet.swift in Sources */,
-				FE0000000000000000000018 /* GoogleDriveEditSheet.swift in Sources */,
-				FE0000000000000000000019 /* CloudDownloadManager.swift in Sources */,
-				FE000000000000000000001A /* DownloadsManagerView.swift in Sources */,
+				FE0000000000000000000001 /* Cloud/Domain/Models/CloudProviderDescriptor.swift in Sources */,
+				FE0000000000000000000002 /* Cloud/Domain/Models/CloudAccount.swift in Sources */,
+				FE0000000000000000000003 /* Cloud/Domain/Models/CloudFileItem.swift in Sources */,
+				FE0000000000000000000004 /* Cloud/Domain/Protocols/CloudStorageProviderProtocol.swift in Sources */,
+				FE0000000000000000000005 /* Cloud/Infrastructure/Registry/CloudProviderRegistry.swift in Sources */,
+				FE0000000000000000000006 /* Cloud/Infrastructure/Services/CloudAccountManager.swift in Sources */,
+				FE0000000000000000000007 /* Cloud/Infrastructure/Providers/LocalStorageProvider.swift in Sources */,
+				FE0000000000000000000008 /* Cloud/Infrastructure/Providers/ICloudStorageProvider.swift in Sources */,
+				FE0000000000000000000009 /* Cloud/Infrastructure/Providers/GoogleDriveStorageProvider.swift in Sources */,
+				FE000000000000000000000A /* Cloud/Infrastructure/Services/CloudPlaybackCoordinator.swift in Sources */,
+				FE000000000000000000000B /* Cloud/Presentation/CloudLocationsViewModel.swift in Sources */,
+				FE000000000000000000000C /* Cloud/Presentation/CloudExplorerViewModel.swift in Sources */,
+				FE000000000000000000000D /* Cloud/UI/DocumentPickerPresenter.swift in Sources */,
+				FE000000000000000000000E /* Cloud/UI/CloudFileRowView.swift in Sources */,
+				FE000000000000000000000F /* Cloud/UI/CloudExplorerView.swift in Sources */,
+				FE0000000000000000000010 /* Cloud/UI/CloudLocationsView.swift in Sources */,
+				FE0000000000000000000011 /* Cloud/UI/GoogleDriveAuthSheet.swift in Sources */,
+				FE0000000000000000000012 /* Cloud/Infrastructure/Services/CloudMediaProxyServer.swift in Sources */,
+				FE0000000000000000000013 /* Cloud/Infrastructure/Services/SMBClient.swift in Sources */,
+				FE0000000000000000000014 /* Cloud/Infrastructure/Providers/SMBStorageProvider.swift in Sources */,
+				FE0000000000000000000015 /* Cloud/UI/SMBAuthSheet.swift in Sources */,
+				FE0000000000000000000016 /* Cloud/Infrastructure/Services/SMBBonjourBrowser.swift in Sources */,
+				FE0000000000000000000017 /* Cloud/UI/ICloudEditSheet.swift in Sources */,
+				FE0000000000000000000018 /* Cloud/UI/GoogleDriveEditSheet.swift in Sources */,
+				FE0000000000000000000019 /* Cloud/Infrastructure/Services/CloudDownloadManager.swift in Sources */,
+				FE000000000000000000001A /* Cloud/UI/DownloadsManagerView.swift in Sources */,
 				77AD95442678CAEF00B57B0B /* SettingsView.swift in Sources */,
 				D3F863152CEA154300A9CA6A /* FilesExplorerView.swift in Sources */,
 				7748DCCE24AE70A900AC5095 /* SearchViewModel.swift in Sources */,
@@ -1489,10 +1450,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZXH2LGQX9F;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = SwiftyTorrent/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iTorrent;
 				IPHONEOS_DEPLOYMENT_TARGET = 18;
@@ -1520,10 +1477,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZXH2LGQX9F;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = SwiftyTorrent/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iTorrent;
 				IPHONEOS_DEPLOYMENT_TARGET = 18;
@@ -1625,7 +1578,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				INFOPLIST_FILE = MediaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17;
@@ -1657,7 +1609,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build";
 				INFOPLIST_FILE = MediaKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 17;
@@ -1686,10 +1637,6 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A7C323MNMM;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = SwiftyTV/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1711,10 +1658,6 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A7C323MNMM;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build",
-				);
 				INFOPLIST_FILE = SwiftyTV/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1857,6 +1800,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		77D000000000000000000001 /* XCRemoteSwiftPackageReference "KSPlayer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kingslay/KSPlayer.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		77D000000000000000000010 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
 		BBA000000000000000000001 /* XCRemoteSwiftPackageReference "AMSMB2" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/amosavian/AMSMB2.git";
@@ -1868,6 +1827,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		77D000000000000000000002 /* KSPlayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77D000000000000000000001 /* XCRemoteSwiftPackageReference "KSPlayer" */;
+			productName = KSPlayer;
+		};
+		77D000000000000000000011 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77D000000000000000000010 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		BBA000000000000000000002 /* AMSMB2 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BBA000000000000000000001 /* XCRemoteSwiftPackageReference "AMSMB2" */;

@@ -134,6 +134,11 @@
 		AA000000000000000000000E /* Engine/VLCPlaybackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */; };
 		AA000000000000000000000F /* Engine/VLCPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */; };
 		AA0000000000000000000010 /* Engine/VLCVideoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */; };
+		AA0000000000000000000011 /* Engine/Transmuxer/MediaProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000011 /* Engine/Transmuxer/MediaProbe.swift */; };
+		AA0000000000000000000012 /* Engine/Transmuxer/FFmpegRemuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000012 /* Engine/Transmuxer/FFmpegRemuxer.swift */; };
+		AA0000000000000000000013 /* Engine/Transmuxer/LocalHLSServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000013 /* Engine/Transmuxer/LocalHLSServer.swift */; };
+		AA0000000000000000000014 /* Engine/Transmuxer/PlaybackRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000014 /* Engine/Transmuxer/PlaybackRoute.swift */; };
+		AA0000000000000000000015 /* Engine/Transmuxer/PlaybackRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000015 /* Engine/Transmuxer/PlaybackRouter.swift */; };
 		BBA000000000000000000003 /* AMSMB2 in Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; };
 		BBA000000000000000000004 /* AMSMB2 in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BBA000000000000000000002 /* AMSMB2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D329DB6A2CDA51A7005F9F1C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D329DB692CDA51A6005F9F1C /* WidgetKit.framework */; };
@@ -396,6 +401,11 @@
 		BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCPlaybackEngine.swift; sourceTree = "<group>"; };
 		BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCPlayerViewController.swift; sourceTree = "<group>"; };
 		BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/VLCVideoContainerView.swift; sourceTree = "<group>"; };
+		BB0000000000000000000011 /* Engine/Transmuxer/MediaProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Transmuxer/MediaProbe.swift; sourceTree = "<group>"; };
+		BB0000000000000000000012 /* Engine/Transmuxer/FFmpegRemuxer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Transmuxer/FFmpegRemuxer.swift; sourceTree = "<group>"; };
+		BB0000000000000000000013 /* Engine/Transmuxer/LocalHLSServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Transmuxer/LocalHLSServer.swift; sourceTree = "<group>"; };
+		BB0000000000000000000014 /* Engine/Transmuxer/PlaybackRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Transmuxer/PlaybackRoute.swift; sourceTree = "<group>"; };
+		BB0000000000000000000015 /* Engine/Transmuxer/PlaybackRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Transmuxer/PlaybackRouter.swift; sourceTree = "<group>"; };
 		C0C3E3A840707493201B7902 /* BackgroundDownloadManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BackgroundDownloadManager.swift; path = SwiftyTorrent/Core/BackgroundDownloadManager.swift; sourceTree = SOURCE_ROOT; };
 		C0C3E3A940707493201B7903 /* NetworkMonitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = SwiftyTorrent/Core/NetworkMonitor.swift; sourceTree = SOURCE_ROOT; };
 		D329DB682CDA51A6005F9F1C /* Torrents_WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Torrents_WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -755,6 +765,11 @@
 				BB000000000000000000000E /* Engine/VLCPlaybackEngine.swift */,
 				BB000000000000000000000F /* Engine/VLCPlayerViewController.swift */,
 				BB0000000000000000000010 /* Engine/VLCVideoContainerView.swift */,
+				BB0000000000000000000011 /* Engine/Transmuxer/MediaProbe.swift */,
+				BB0000000000000000000012 /* Engine/Transmuxer/FFmpegRemuxer.swift */,
+				BB0000000000000000000013 /* Engine/Transmuxer/LocalHLSServer.swift */,
+				BB0000000000000000000014 /* Engine/Transmuxer/PlaybackRoute.swift */,
+				BB0000000000000000000015 /* Engine/Transmuxer/PlaybackRouter.swift */,
 			);
 			path = VLC;
 			sourceTree = "<group>";
@@ -1197,6 +1212,11 @@
 				AA000000000000000000000E /* Engine/VLCPlaybackEngine.swift in Sources */,
 				AA000000000000000000000F /* Engine/VLCPlayerViewController.swift in Sources */,
 				AA0000000000000000000010 /* Engine/VLCVideoContainerView.swift in Sources */,
+				AA0000000000000000000011 /* Engine/Transmuxer/MediaProbe.swift in Sources */,
+				AA0000000000000000000012 /* Engine/Transmuxer/FFmpegRemuxer.swift in Sources */,
+				AA0000000000000000000013 /* Engine/Transmuxer/LocalHLSServer.swift in Sources */,
+				AA0000000000000000000014 /* Engine/Transmuxer/PlaybackRoute.swift in Sources */,
+				AA0000000000000000000015 /* Engine/Transmuxer/PlaybackRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,15 +34,15 @@ public struct PlayerCenterControlsView: View {
                 delegate.onTogglePlayPause()
             }) {
                 ZStack {
-                    Image(systemName: playerVM.isPlaying ? "pause.fill" : "play.fill")
-                        .font(.system(size: 32, weight: .bold))
-                        .foregroundColor(.white)
-                        .offset(x: playerVM.isPlaying ? 0 : 2)
-                    
-                    if playerVM.isBuffering && !playerVM.isPlaying {
+                    if playerVM.isBuffering {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(1.6)
+                    } else {
+                        Image(systemName: playerVM.isPlaying ? "pause.fill" : "play.fill")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundColor(.white)
+                            .offset(x: playerVM.isPlaying ? 0 : 2)
                     }
                 }
                 .frame(width: 72, height: 72)

@@ -143,6 +143,7 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
             resumeAttempts = 0
         }
     }
+    private var activeRoute: PlaybackRoute?
     
     private var hasDetectedVideoSize = false
     private var addedAudioTracks = false
@@ -165,35 +166,51 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
         // Hide default KSPlayer toolbars so SwiftyTorrent's custom controls overlay takes over
         self.playerView.toolBar.isHidden = true
         self.playerView.delegate = self
-        
-        // Configure options for MKV playback
-        KSOptions.firstPlayerType = KSMEPlayer.self
-        KSOptions.secondPlayerType = KSAVPlayer.self
     }
     
     public func load(url: URL?, title: String?) {
         print("[KSPlaybackEngine] load called with url: \(url?.absoluteString ?? "nil"), title: \(title ?? "nil")")
         self.currentMediaKey = PlaybackHistoryManager.shared.key(for: url, title: title)
         
+        activeRoute?.cleanup()
+        activeRoute = nil
+        
         if let url = url {
-            let isLocalFile = url.isFileURL
+            let route = PlaybackRouter.resolveRoute(for: url)
+            self.activeRoute = route
+            
             let options = KSOptions()
             options.videoDisable = false
-            options.probesize = 10_000_000
-            options.maxAnalyzeDuration = 5_000_000
-            // For local files, reduce buffer requirements so post-seek resume is near-instant.
-            // isSecondOpen = true: video track uses preferredForwardBufferDuration/2 after seek (same as audio)
-            // preferredForwardBufferDuration = 1.0: only needs ~0.5s of frames decoded before resuming
-            if isLocalFile {
+            KSOptions.isAutoPlay = false
+            
+            switch route {
+            case .directAVPlayer(let targetURL):
+                KSOptions.firstPlayerType = KSAVPlayer.self
+                KSOptions.secondPlayerType = KSMEPlayer.self
+                playerView.set(url: targetURL, options: options)
+                
+            case .transmuxedHLS(_, let hlsURL, _):
+                // AVPlayer handles HLS natively with hardware Dolby Vision and Dolby Atmos
+                KSOptions.firstPlayerType = KSAVPlayer.self
+                KSOptions.secondPlayerType = KSMEPlayer.self
                 options.preferredForwardBufferDuration = 1.0
-                options.isSecondOpen = true
-                // AVSEEK_FLAG_ANY (4) = seek to any frame (including non-keyframe if accurate),
-                // vs AVSEEK_FLAG_BACKWARD (1) = seek to nearest keyframe before target.
-                // Keep BACKWARD (default) so we always land on a decodable frame, which is
-                // correct for MKV. The freeze is from buffering time, not seek flag.
-                options.seekFlags = Int32(1) // AVSEEK_FLAG_BACKWARD
+                playerView.set(url: hlsURL, options: options)
+                
+            case .ffmpegDirect(let targetURL):
+                KSOptions.firstPlayerType = KSMEPlayer.self
+                KSOptions.secondPlayerType = KSAVPlayer.self
+                options.probesize = 5_000_000
+                options.maxAnalyzeDuration = 2_000_000
+                if url.isFileURL {
+                    options.preferredForwardBufferDuration = 0.5
+                    options.isSecondOpen = true
+                    options.isAccurateSeek = false
+                    options.syncDecodeVideo = true
+                    options.seekFlags = Int32(1) // AVSEEK_FLAG_BACKWARD
+                }
+                playerView.set(url: targetURL, options: options)
             }
-            playerView.set(url: url, options: options)
+            
             playerView.attachCurrentPlayerView()
             playerVM.fileName = url.lastPathComponent
         }
@@ -201,7 +218,7 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
             playerVM.title = title
         }
         
-        playerVM.isBuffering = false
+        playerVM.isBuffering = true
         playerVM.isPlaying = false
         playerVM.isControlsVisible = true
         hasDetectedVideoSize = false
@@ -210,6 +227,10 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
     }
     
     public func play() {
+        guard !playerVM.showResumePrompt else {
+            print("[KSPlaybackEngine] play() suppressed because showResumePrompt is active")
+            return
+        }
         print("[KSPlaybackEngine] play() called")
         playerView.play()
         playerVM.isPlaying = true
@@ -228,12 +249,16 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
         saveCurrentProgress()
         playerView.resetPlayer()
         playerVM.isPlaying = false
+        activeRoute?.cleanup()
+        activeRoute = nil
     }
     
     public func cleanup() {
         print("[KSPlaybackEngine] cleanup() called")
         saveCurrentProgress()
         stop()
+        activeRoute?.cleanup()
+        activeRoute = nil
         playerView.delegate = nil
     }
     
@@ -353,6 +378,9 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
             guard let self = self else { return }
             
             switch state {
+            case .initialized, .preparing:
+                self.playerVM.isBuffering = true
+                
             case .readyToPlay:
                 // Attach video view only at readyToPlay — doing it on every state change
                 // (including buffering during seeks) triggers layout passes that cause visual freezes.
@@ -366,7 +394,11 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
                     print("[KSPlaybackEngine] readyToPlay initialized volume: \(self.playerVM.volume), isMuted: \(player.isMuted)")
                 }
                 
-                if let pending = self.pendingResumeTime {
+                if self.playerVM.showResumePrompt {
+                    print("[KSPlaybackEngine] showResumePrompt is active. Pausing playback until user choice.")
+                    self.playerView.pause()
+                    self.playerVM.isPlaying = false
+                } else if let pending = self.pendingResumeTime {
                     self.seekTo(seconds: pending)
                 }
                 
@@ -431,6 +463,24 @@ final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {
     public func playerController(finish error: Error?) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            if let error = error {
+                if case .transmuxedHLS(let origURL, _, let server) = self.activeRoute {
+                    print("[KSPlaybackEngine] Transmuxed playback error: \(error). Falling back to KSMEPlayer for \(origURL.lastPathComponent)")
+                    server.stop()
+                    self.activeRoute = .ffmpegDirect(url: origURL)
+                    KSOptions.firstPlayerType = KSMEPlayer.self
+                    let options = KSOptions()
+                    options.preferredForwardBufferDuration = 0.5
+                    options.isSecondOpen = true
+                    options.isAccurateSeek = false
+                    options.syncDecodeVideo = true
+                    options.seekFlags = Int32(1)
+                    self.playerView.set(url: origURL, options: options)
+                    self.playerView.attachCurrentPlayerView()
+                    self.playerView.play()
+                    return
+                }
+            }
             self.playerVM.isPlaying = false
             self.playerVM.isBuffering = false
             self.delegate?.engineDidStop()

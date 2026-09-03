@@ -51,7 +51,24 @@ public struct ControlsView: View {
                     .transition(.opacity)
                 }
                 
-                // 2b. Active Controls with Edge-to-Edge gradient backdrops
+                // 2b. Standalone Centered Buffering Indicator (Visible when controls are hidden)
+                if playerVM.isBuffering && !playerVM.isSeeking && !playerVM.isControlsVisible {
+                    ZStack {
+                        Circle()
+                            .fill(Color.black.opacity(0.5))
+                            .frame(width: 72, height: 72)
+                            .overlay(Circle().stroke(Color.white.opacity(0.2), lineWidth: 1))
+                            .shadow(color: .black.opacity(0.35), radius: 10, x: 0, y: 4)
+                        
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.5)
+                    }
+                    .allowsHitTesting(false)
+                    .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                }
+                
+                // 2c. Active Controls with Edge-to-Edge gradient backdrops
                 if playerVM.isLocked {
                     lockedOverlay(proxy: proxy)
                         .opacity(playerVM.isControlsVisible ? 1.0 : 0.0)
@@ -114,6 +131,7 @@ public struct ControlsView: View {
         }
         .ignoresSafeArea(.all)
         .animation(.easeInOut(duration: 0.2), value: playerVM.isSeeking)
+        .animation(.easeInOut(duration: 0.2), value: playerVM.isBuffering)
         .animation(.easeInOut(duration: 0.25), value: playerVM.isControlsVisible)
         .animation(.easeInOut(duration: 0.25), value: playerVM.isLocked)
         .alert("Resume Playback", isPresented: $playerVM.showResumePrompt) {

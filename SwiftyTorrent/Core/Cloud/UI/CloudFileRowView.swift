@@ -78,7 +78,7 @@ public struct CloudFileRowView: View {
             } else if item.isDirectory {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(UIColor.tertiaryLabel))
+                    .foregroundColor(Color.secondary)
             }
         }
         .padding(.vertical, 3)

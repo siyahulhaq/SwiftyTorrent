@@ -6,7 +6,11 @@
 //  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import Foundation
 
 public final class LocalStorageProvider: CloudStorageProviderProtocol {
@@ -30,7 +34,7 @@ public final class LocalStorageProvider: CloudStorageProviderProtocol {
         self.account = account
     }
     
-    public func authenticate(from presentingVC: UIViewController?) async throws -> CloudAccount {
+    public func authenticate(from presentingVC: PlatformViewController?) async throws -> CloudAccount {
         return CloudAccount(providerId: Self.providerId, accountName: "Local Storage", displayName: "Downloads")
     }
     

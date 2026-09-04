@@ -6,6 +6,7 @@
 //  Copyright © 2024 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(ActivityKit) && os(iOS)
 import ActivityKit
 import Combine
 import Foundation
@@ -278,4 +279,25 @@ final class ActivityManager: ObservableObject {
         BackgroundDownloadManager.shared.updateBackgroundMode(enabled)
     }
 }
+#else
+import Combine
+import Foundation
+import TorrentKit
+import SwiftUI
+
+final class ActivityManager: ObservableObject {
+    @MainActor @Published private(set) var activityID: String?
+    
+    static let shared = ActivityManager()
+    
+    init(torrentManager: TorrentManagerProtocol = TorrentManager.shared()) {}
+    
+    func syncExistingActivities() {}
+    func startActivity(for torrent: Torrent) async {}
+    func updateActivity(with torrent: Torrent) async {}
+    func endActivity(for torrent: Torrent) async {}
+    func endAllActivities() async {}
+    func updateBackgroundMode(_ enabled: Bool) {}
+}
+#endif
 

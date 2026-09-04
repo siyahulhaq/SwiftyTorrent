@@ -6,7 +6,11 @@
 //  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 import Combine
 
@@ -176,7 +180,7 @@ public final class CloudLocationsViewModel: ObservableObject {
     }
     
     @MainActor
-    public func connectProvider(_ descriptor: CloudProviderDescriptor, from viewController: UIViewController? = nil) async {
+    public func connectProvider(_ descriptor: CloudProviderDescriptor, from viewController: PlatformViewController? = nil) async {
         guard let provider = CloudProviderRegistry.shared.createProvider(for: descriptor.id) else {
             self.errorMessage = "Provider not found."
             return

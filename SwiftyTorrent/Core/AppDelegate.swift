@@ -6,6 +6,7 @@
 //  Copyright © 2019 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 import AVFoundation
 import BackgroundTasks
@@ -45,3 +46,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+#elseif canImport(AppKit)
+import AppKit
+import SwiftUI
+import TorrentKit
+
+@main
+struct SwiftyTorrentMacApp: App {
+    @NSApplicationDelegateAdaptor(MacAppDelegate.self) var appDelegate
+    
+    init() {
+        registerDependencies()
+        NetworkMonitor.shared.startMonitoring()
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            MainView()
+                .frame(minWidth: 900, minHeight: 600)
+        }
+    }
+}
+
+final class MacAppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        registerDependencies()
+        NetworkMonitor.shared.startMonitoring()
+    }
+    
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+        let torrentManager = resolveComponent(TorrentManagerProtocol.self)
+        torrentManager.open(url)
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+}
+#endif

@@ -67,6 +67,7 @@ public struct CloudExplorerView: View {
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(PlainButtonStyle())
+                        #if !os(tvOS)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             if viewModel.provider.descriptor.capabilities.contains(.deletion) {
                                 Button(role: .destructive) {
@@ -87,6 +88,7 @@ public struct CloudExplorerView: View {
                                 .tint(.blue)
                             }
                         }
+                        #endif
                         .contextMenu {
                             if !file.isDirectory {
                                 Button {
@@ -135,10 +137,14 @@ public struct CloudExplorerView: View {
             }
         }
         .navigationTitle(viewModel.folderName)
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationBarTitle()
+        #if os(iOS)
         .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search files & folders")
+        #else
+        .searchable(text: $viewModel.searchText, prompt: "Search files & folders")
+        #endif
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 12) {
                     Button(action: { showDownloadsSheet = true }) {
                         ZStack(alignment: .topTrailing) {
@@ -191,6 +197,18 @@ public struct CloudExplorerView: View {
             Button("OK", role: .cancel) {}
         }
         // Unified Full Screen Modal for Media and QuickLook Preview
+        #if os(macOS)
+        .sheet(item: $activeModal) { modal in
+            switch modal {
+            case .vlc(let item):
+                MediaPlayerViewHost(previewItem: item)
+                    .frame(minWidth: 700, minHeight: 450)
+            case .quickLook(let item):
+                QLPreviewModalView(previewItem: item)
+                    .frame(minWidth: 700, minHeight: 450)
+            }
+        }
+        #else
         .fullScreenCover(item: $activeModal) { modal in
             switch modal {
             case .vlc(let item):
@@ -201,6 +219,7 @@ public struct CloudExplorerView: View {
                     .ignoresSafeArea(.all)
             }
         }
+        #endif
     }
     
     private func handleFileSelection(_ file: CloudFileItem) {

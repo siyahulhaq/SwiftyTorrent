@@ -103,9 +103,10 @@ public struct SMBAuthSheet: View {
                             .foregroundColor(.indigo)
                             .frame(width: 24)
                         TextField("Server IP or Host (e.g. 192.168.0.19)", text: $host)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
+                            .disableAutocapitalizationIfAvailable()
+                            #if os(iOS) || os(tvOS)
                             .keyboardType(.URL)
+                            #endif
                     }
                     
                     HStack {
@@ -113,7 +114,9 @@ public struct SMBAuthSheet: View {
                             .foregroundColor(.secondary)
                             .frame(width: 24)
                         TextField("Port (Default: 445)", text: $port)
+                            #if os(iOS) || os(tvOS)
                             .keyboardType(.numberPad)
+                            #endif
                     }
                     
                     HStack {
@@ -121,8 +124,7 @@ public struct SMBAuthSheet: View {
                             .foregroundColor(.orange)
                             .frame(width: 24)
                         TextField("Share Name (Optional: leave blank for all shares)", text: $share)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
+                            .disableAutocapitalizationIfAvailable()
                         
                         Button(action: discoverShares) {
                             if isDiscoveringShares {
@@ -160,7 +162,7 @@ public struct SMBAuthSheet: View {
                                         .font(.system(size: 13, weight: .medium))
                                         .padding(.horizontal, 10)
                                         .padding(.vertical, 6)
-                                        .background(self.share.isEmpty ? Color.blue : Color(UIColor.secondarySystemBackground))
+                                        .background(self.share.isEmpty ? Color.blue : Color.secondary.opacity(0.15))
                                         .foregroundColor(self.share.isEmpty ? .white : .primary)
                                         .cornerRadius(8)
                                     }
@@ -177,7 +179,7 @@ public struct SMBAuthSheet: View {
                                             .font(.system(size: 13, weight: .medium))
                                             .padding(.horizontal, 10)
                                             .padding(.vertical, 6)
-                                            .background(self.share.caseInsensitiveCompare(s) == .orderedSame ? Color.blue : Color(UIColor.secondarySystemBackground))
+                                            .background(self.share.caseInsensitiveCompare(s) == .orderedSame ? Color.blue : Color.secondary.opacity(0.15))
                                             .foregroundColor(self.share.caseInsensitiveCompare(s) == .orderedSame ? .white : .primary)
                                             .cornerRadius(8)
                                         }
@@ -194,8 +196,7 @@ public struct SMBAuthSheet: View {
                             .foregroundColor(.secondary)
                             .frame(width: 24)
                         TextField("Subfolder Path (Optional, e.g. /Movies)", text: $basePath)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
+                            .disableAutocapitalizationIfAvailable()
                     }
                 }
                 
@@ -209,8 +210,7 @@ public struct SMBAuthSheet: View {
                                 .foregroundColor(.blue)
                                 .frame(width: 24)
                             TextField("Username (macOS Account Name)", text: $username)
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
+                                .disableAutocapitalizationIfAvailable()
                         }
                         
                         HStack {
@@ -219,8 +219,7 @@ public struct SMBAuthSheet: View {
                                 .frame(width: 24)
                             if isShowPassword {
                                 TextField("Password", text: $password)
-                                    .autocapitalization(.none)
-                                    .disableAutocorrection(true)
+                                    .disableAutocapitalizationIfAvailable()
                             } else {
                                 SecureField("Password", text: $password)
                             }
@@ -236,8 +235,7 @@ public struct SMBAuthSheet: View {
                                 .foregroundColor(.secondary)
                                 .frame(width: 24)
                             TextField("Workgroup / Domain (Optional)", text: $domain)
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
+                                .disableAutocapitalizationIfAvailable()
                         }
                     }
                 }
@@ -332,9 +330,9 @@ public struct SMBAuthSheet: View {
                 }
             }
             .navigationTitle(editingAccount != nil ? "Edit SMB Connection" : "Connect to SMB Server")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationBarTitle()
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }

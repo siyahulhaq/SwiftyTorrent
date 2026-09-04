@@ -6,6 +6,7 @@
 //  Copyright © 2019 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 import SwiftUI
 import Combine
@@ -59,3 +60,4 @@ final class AppCoordinator: ApplicationCoordinator {
     }
 
 }
+#endif

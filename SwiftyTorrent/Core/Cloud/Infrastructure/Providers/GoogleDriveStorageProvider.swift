@@ -6,11 +6,17 @@
 //  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import Foundation
+#if !os(tvOS)
 import AuthenticationServices
+#endif
 
-public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderProtocol, ASWebAuthenticationPresentationContextProviding {
+public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderProtocol {
     public static let providerId = "google_drive"
     
     // Standard Google Drive OAuth2 endpoints
@@ -41,7 +47,9 @@ public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderPro
     }
     
     public var account: CloudAccount?
-    private weak var presentationAnchor: UIWindow?
+    #if !os(tvOS)
+    private weak var presentationAnchor: ASPresentationAnchor?
+    #endif
     
     public init(account: CloudAccount? = nil) {
         self.account = account
@@ -49,15 +57,26 @@ public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderPro
     
     // MARK: - Authentication
     
+    #if os(tvOS)
     @MainActor
-    public func authenticate(from presentingVC: UIViewController?) async throws -> CloudAccount {
+    public func authenticate(from presentingVC: PlatformViewController?) async throws -> CloudAccount {
+        throw NSError(domain: "GoogleDrive", code: 400, userInfo: [NSLocalizedDescriptionKey: "Google Drive OAuth web login is not supported on Apple TV. Please sign in on iOS or Mac."])
+    }
+    
+    @MainActor
+    public func authenticate(clientId: String, clientSecret: String? = nil, from presentingVC: PlatformViewController?) async throws -> CloudAccount {
+        throw NSError(domain: "GoogleDrive", code: 400, userInfo: [NSLocalizedDescriptionKey: "Google Drive OAuth web login is not supported on Apple TV. Please sign in on iOS or Mac."])
+    }
+    #else
+    @MainActor
+    public func authenticate(from presentingVC: PlatformViewController?) async throws -> CloudAccount {
         let configuredClientId = UserDefaults.standard.string(forKey: "google_drive_client_id") ?? account?.customProperties["clientId"] ?? Self.defaultClientId
         let configuredClientSecret = UserDefaults.standard.string(forKey: "google_drive_client_secret") ?? account?.customProperties["clientSecret"]
         return try await authenticate(clientId: configuredClientId, clientSecret: configuredClientSecret, from: presentingVC)
     }
     
     @MainActor
-    public func authenticate(clientId: String, clientSecret: String? = nil, from presentingVC: UIViewController?) async throws -> CloudAccount {
+    public func authenticate(clientId: String, clientSecret: String? = nil, from presentingVC: PlatformViewController?) async throws -> CloudAccount {
         let cleanClientId = clientId.replacingOccurrences(of: ".apps.googleusercontent.com", with: "")
         let callbackScheme = "com.googleusercontent.apps.\(cleanClientId)"
         let redirectURI = "\(callbackScheme):/oauth2redirect"
@@ -80,7 +99,11 @@ public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderPro
             throw NSError(domain: "GoogleDrive", code: 400, userInfo: [NSLocalizedDescriptionKey: "Failed to construct OAuth URL"])
         }
         
+        #if canImport(UIKit)
         self.presentationAnchor = presentingVC?.view.window ?? UIApplication.shared.windows.first
+        #elseif canImport(AppKit)
+        self.presentationAnchor = presentingVC?.view.window ?? NSApplication.shared.windows.first
+        #endif
         
         let callbackURL = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<URL, Error>) in
             let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: callbackScheme) { callbackURL, error in
@@ -104,6 +127,7 @@ public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderPro
         // Exchange code for tokens
         return try await exchangeCodeForTokens(code: code, clientId: clientId, clientSecret: clientSecret, redirectURI: redirectURI)
     }
+    #endif
     
     public func authenticateWithToken(accessToken: String, refreshToken: String? = nil) async throws -> CloudAccount {
         let userProfile = try? await fetchUserProfile(accessToken: accessToken)
@@ -411,9 +435,14 @@ public final class GoogleDriveStorageProvider: NSObject, CloudStorageProviderPro
         }
     }
     
-    // MARK: - ASWebAuthenticationPresentationContextProviding
-    
+}
+
+#if !os(tvOS)
+// MARK: - ASWebAuthenticationPresentationContextProviding
+
+extension GoogleDriveStorageProvider: ASWebAuthenticationPresentationContextProviding {
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return presentationAnchor ?? ASPresentationAnchor()
     }
 }
+#endif

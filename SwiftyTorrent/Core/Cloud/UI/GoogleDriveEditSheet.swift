@@ -102,9 +102,9 @@ public struct GoogleDriveEditSheet: View {
                 }
             }
             .navigationTitle("Edit Google Drive")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationBarTitle()
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }

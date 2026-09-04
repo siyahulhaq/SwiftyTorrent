@@ -6,6 +6,7 @@
 //  Copyright © 2024 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(ActivityKit) && os(iOS)
 import ActivityKit
 
 struct TorrentsWidgetAttributes: ActivityAttributes {
@@ -28,4 +29,5 @@ struct TorrentsWidgetAttributes: ActivityAttributes {
         self.infoHash = infoHash
     }
 }
+#endif
 

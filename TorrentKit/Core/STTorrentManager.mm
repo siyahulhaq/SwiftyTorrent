@@ -303,12 +303,12 @@ static NSErrorDomain STErrorDomain =
 }
 
 - (NSString *)storageDirPath {
-#if TARGET_OS_IOS
-  return [NSSearchPathForDirectoriesInDomains(
-      NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-#elif TARGET_OS_TV
+#if TARGET_OS_TV
   return [NSSearchPathForDirectoriesInDomains(
       NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+#else
+  return [NSSearchPathForDirectoriesInDomains(
+      NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
 #endif
 }
 

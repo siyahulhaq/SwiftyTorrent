@@ -5,6 +5,7 @@
 //  Background download support for iOS 13+ with iOS 26 BGContinuedProcessingTask
 //
 
+#if canImport(UIKit)
 import UIKit
 import BackgroundTasks
 import TorrentKit
@@ -510,3 +511,15 @@ extension BackgroundDownloadManager {
         }
     }
 }
+#else
+import Foundation
+
+final class BackgroundDownloadManager {
+    static let shared = BackgroundDownloadManager()
+    private init() {}
+    func registerBackgroundTasks() {}
+    func updateBackgroundMode(_ enabled: Bool) {}
+    func applicationWillEnterForeground() {}
+    func applicationDidEnterBackground() {}
+}
+#endif

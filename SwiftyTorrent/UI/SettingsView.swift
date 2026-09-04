@@ -40,7 +40,7 @@ struct SettingsView: View {
             }
             .onAppear { model.reloadData() }
             .refreshable { model.reloadData() }
-            .listStyle(GroupedListStyle())
+            .groupedListStyleIfAvailable()
             .navigationTitle("Settings")
         }
     }

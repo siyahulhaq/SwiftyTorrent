@@ -6,7 +6,11 @@
 //  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import Foundation
 
 public final class ICloudStorageProvider: CloudStorageProviderProtocol {
@@ -30,7 +34,7 @@ public final class ICloudStorageProvider: CloudStorageProviderProtocol {
         self.account = account
     }
     
-    public func authenticate(from presentingVC: UIViewController?) async throws -> CloudAccount {
+    public func authenticate(from presentingVC: PlatformViewController?) async throws -> CloudAccount {
         guard let account = self.account else {
             throw NSError(domain: "ICloudStorageProvider", code: 401, userInfo: [NSLocalizedDescriptionKey: "Please select an iCloud Drive folder."])
         }

@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 public final class VLCVideoContainerView: UIView {
@@ -132,4 +133,35 @@ public final class VLCVideoContainerView: UIView {
 }
 
 public typealias KSVideoContainerView = VLCVideoContainerView
+
+#elseif canImport(AppKit)
+import AppKit
+
+public final class VLCVideoContainerView: NSView {
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.black.cgColor
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.black.cgColor
+    }
+    
+    public func attach(playerView: NSView) {
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(playerView)
+        NSLayoutConstraint.activate([
+            playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            playerView.topAnchor.constraint(equalTo: topAnchor),
+            playerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
+}
+
+public typealias KSVideoContainerView = VLCVideoContainerView
+#endif
 

@@ -10,7 +10,36 @@ import SwiftUI
 
 extension View {
     @ViewBuilder func onlyStackView() -> some View {
+        #if os(iOS) || os(tvOS)
         self.navigationViewStyle(.stack)
+        #else
+        self
+        #endif
+    }
+    
+    @ViewBuilder func inlineNavigationBarTitle() -> some View {
+        #if os(iOS)
+        self.navigationBarTitleDisplayMode(.inline)
+        #else
+        self
+        #endif
+    }
+    
+    @ViewBuilder func groupedListStyleIfAvailable() -> some View {
+        #if os(iOS)
+        self.listStyle(InsetGroupedListStyle())
+        #else
+        self.listStyle(.automatic)
+        #endif
+    }
+    
+    @ViewBuilder func disableAutocapitalizationIfAvailable() -> some View {
+        #if os(iOS) || os(tvOS)
+        self.autocapitalization(.none)
+            .disableAutocorrection(true)
+        #else
+        self
+        #endif
     }
 }
 

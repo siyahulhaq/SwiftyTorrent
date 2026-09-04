@@ -153,15 +153,29 @@ struct FilesView: View {
                 fileListView
             }
         }
+        #if os(iOS)
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .automatic),
             prompt: "Search in \(navigationTitleText)"
         )
+        #else
+        .searchable(
+            text: $searchText,
+            prompt: "Search in \(navigationTitleText)"
+        )
+        #endif
         #if os(iOS)
         .navigationBarTitle(navigationTitleText, displayMode: .inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
+                sortMenu
+            }
+        }
+        #else
+        .navigationTitle(navigationTitleText)
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
                 sortMenu
             }
         }
@@ -177,16 +191,29 @@ struct FilesView: View {
                     Text(item.name)
                     #endif
                 }
-                .navigationBarItems(leading: Button("Done") { selectedItem = nil })
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done") { selectedItem = nil }
+                    }
+                }
                 #if os(iOS)
                 .navigationBarTitle(item.name, displayMode: .inline)
+                #else
+                .navigationTitle(item.name)
                 #endif
             }
         }
+        #if os(macOS)
+        .sheet(item: $selectedVideo) { item in
+            MediaPlayerViewHost(previewItem: item)
+                .frame(minWidth: 700, minHeight: 450)
+        }
+        #else
         .fullScreenCover(item: $selectedVideo) { item in
             MediaPlayerViewHost(previewItem: item)
                 .ignoresSafeArea(.all)
         }
+        #endif
     }
     
     // MARK: - Subviews
@@ -232,7 +259,7 @@ struct FilesView: View {
                 .listRowBackground(Color.clear)
             }
         }
-        .listStyle(InsetGroupedListStyle())
+        .groupedListStyleIfAvailable()
     }
     
     private var emptyDirectoryView: some View {

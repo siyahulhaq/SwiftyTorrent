@@ -85,9 +85,9 @@ public struct ICloudEditSheet: View {
                 }
             }
             .navigationTitle("Edit iCloud Folder")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationBarTitle()
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }

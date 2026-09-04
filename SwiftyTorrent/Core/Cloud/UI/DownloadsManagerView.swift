@@ -76,22 +76,26 @@ public struct DownloadsManagerView: View {
                     emptyStateView
                 }
             }
-            .listStyle(InsetGroupedListStyle())
+            .groupedListStyleIfAvailable()
+            #if os(iOS)
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search downloaded files")
+            #else
+            .searchable(text: $searchText, prompt: "Search downloaded files")
+            #endif
             .refreshable {
                 downloadManager.reloadDownloadedFiles()
             }
         }
         .navigationTitle("Downloads")
-        .navigationBarTitleDisplayMode(.inline)
+        .inlineNavigationBarTitle()
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItem(placement: .confirmationAction) {
                 Button("Done") {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .destructiveAction) {
                 if !downloadManager.completedFiles.isEmpty {
                     Button(role: .destructive) {
                         showClearAllAlert = true
@@ -110,9 +114,23 @@ public struct DownloadsManagerView: View {
         } message: {
             Text("This will permanently remove all downloaded files from this device.")
         }
+        #if os(iOS)
         .sheet(item: $fileToShare) { url in
             ActivityViewControllerPresenter(activityItems: [url])
         }
+        #endif
+        #if os(macOS)
+        .sheet(item: $activeModal) { modal in
+            switch modal {
+            case .vlc(let item):
+                MediaPlayerViewHost(previewItem: item)
+                    .frame(minWidth: 700, minHeight: 450)
+            case .quickLook(let item):
+                QLPreviewModalView(previewItem: item)
+                    .frame(minWidth: 700, minHeight: 450)
+            }
+        }
+        #else
         .fullScreenCover(item: $activeModal) { modal in
             switch modal {
             case .vlc(let item):
@@ -123,6 +141,7 @@ public struct DownloadsManagerView: View {
                     .ignoresSafeArea(.all)
             }
         }
+        #endif
         .onAppear {
             downloadManager.reloadDownloadedFiles()
         }
@@ -165,7 +184,7 @@ public struct DownloadsManagerView: View {
             Spacer()
         }
         .padding(12)
-        .background(Color(UIColor.secondarySystemGroupedBackground))
+        .background(Color.secondary.opacity(0.12))
         .cornerRadius(12)
     }
     
@@ -277,6 +296,7 @@ public struct DownloadsManagerView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
+        #if !os(tvOS)
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button(role: .destructive) {
                 downloadManager.deleteDownloadedFile(file)
@@ -293,6 +313,7 @@ public struct DownloadsManagerView: View {
             }
             .tint(.blue)
         }
+        #endif
         .contextMenu {
             Button {
                 handlePlayCompleted(file)
@@ -332,7 +353,7 @@ public struct DownloadsManagerView: View {
             
             Text("Files downloaded from SMB shares, Google Drive, or iCloud will be saved and managed here.")
                 .font(.subheadline)
-                .foregroundColor(Color(UIColor.tertiaryLabel))
+                .foregroundColor(Color.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
         }
@@ -453,6 +474,7 @@ public struct DownloadsManagerView: View {
     }
 }
 
+#if os(iOS)
 // Presenter for native iOS Share Sheet with URL
 private struct ActivityViewControllerPresenter: UIViewControllerRepresentable {
     let activityItems: [Any]
@@ -463,4 +485,5 @@ private struct ActivityViewControllerPresenter: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
+#endif
 

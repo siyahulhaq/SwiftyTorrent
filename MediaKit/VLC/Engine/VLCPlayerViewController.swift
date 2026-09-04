@@ -1,8 +1,10 @@
 import SwiftUI
-import UIKit
 import AVFoundation
 #if os(iOS)
+import UIKit
 import MediaPlayer
+#elseif canImport(UIKit)
+import UIKit
 #endif
 
 // MARK: - Haptics
@@ -47,6 +49,7 @@ enum MediaHaptics {
 
 // MARK: - SwiftUI Host
 
+#if canImport(UIKit)
 public struct MediaPlayerViewHost: UIViewControllerRepresentable {
     public var previewItem: PreviewItem
     
@@ -644,3 +647,36 @@ extension MediaPlayerViewController: PlayerControlsProtocol {
 }
 
 public typealias VLCPlayerViewController = MediaPlayerViewController
+#elseif canImport(AppKit)
+import AppKit
+import KSPlayer
+
+public struct MediaPlayerViewHost: View {
+    public var previewItem: PreviewItem
+    
+    public init(previewItem: PreviewItem) {
+        self.previewItem = previewItem
+    }
+    
+    public var body: some View {
+        MacMediaPlayerView(previewItem: previewItem)
+    }
+}
+
+public typealias VLCViewHost = MediaPlayerViewHost
+
+struct MacMediaPlayerView: NSViewRepresentable {
+    let previewItem: PreviewItem
+    
+    func makeNSView(context: Context) -> KSVideoHostView {
+        let hostView = KSVideoHostView()
+        if let url = previewItem.previewItemURL {
+            let options = KSOptions()
+            hostView.set(url: url, options: options)
+        }
+        return hostView
+    }
+    
+    func updateNSView(_ nsView: KSVideoHostView, context: Context) {}
+}
+#endif

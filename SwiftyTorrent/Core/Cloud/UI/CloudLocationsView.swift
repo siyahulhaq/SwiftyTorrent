@@ -93,6 +93,7 @@ public struct CloudLocationsView: View {
                         }
                         .padding(.vertical, 4)
                     }
+                    #if !os(tvOS)
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         if let accountId = location.accountId, let account = CloudAccountManager.shared.account(for: accountId) {
                             Button(role: .destructive) {
@@ -109,6 +110,7 @@ public struct CloudLocationsView: View {
                             .tint(.blue)
                         }
                     }
+                    #endif
                     .contextMenu {
                         if let accountId = location.accountId, let account = CloudAccountManager.shared.account(for: accountId) {
                             Button {
@@ -184,10 +186,10 @@ public struct CloudLocationsView: View {
                 }
             }
         }
-        .listStyle(InsetGroupedListStyle())
+        .groupedListStyleIfAvailable()
         .navigationTitle("Files & Cloud")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 12) {
                     Button(action: { showDownloadsSheet = true }) {
                         ZStack(alignment: .topTrailing) {
@@ -280,7 +282,7 @@ public struct CloudLocationsView: View {
                     Color.black.opacity(0.3).ignoresSafeArea()
                     ProgressView("Connecting...")
                         .padding()
-                        .background(Color(UIColor.systemBackground))
+                        .background(Material.regular)
                         .cornerRadius(12)
                         .shadow(radius: 8)
                 }

@@ -6,7 +6,13 @@
 //  Copyright © 2026 Siyahul Haq. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
+public typealias PlatformViewController = UIViewController
+#elseif canImport(AppKit)
+import AppKit
+public typealias PlatformViewController = NSViewController
+#endif
 import Foundation
 
 public struct CloudFolderContents {
@@ -25,7 +31,7 @@ public protocol CloudStorageProviderProtocol: AnyObject {
     var descriptor: CloudProviderDescriptor { get }
     var account: CloudAccount? { get set }
     
-    func authenticate(from presentingVC: UIViewController?) async throws -> CloudAccount
+    func authenticate(from presentingVC: PlatformViewController?) async throws -> CloudAccount
     func disconnect() async throws
     
     func listFolder(folderId: String?, cursor: String?) async throws -> CloudFolderContents

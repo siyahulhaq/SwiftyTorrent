@@ -7,7 +7,11 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 public struct GoogleDriveAuthSheet: View {
     @Environment(\.dismiss) private var dismiss
@@ -18,9 +22,10 @@ public struct GoogleDriveAuthSheet: View {
     @State private var clientId: String = UserDefaults.standard.string(forKey: "google_drive_client_id") ?? ""
     @State private var clientSecret: String = UserDefaults.standard.string(forKey: "google_drive_client_secret") ?? ""
     
-    // Direct Access Token configuration
+    // Direct Access Token
     @State private var directAccessToken: String = ""
     
+    // State
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showCopiedAlert = false
@@ -32,29 +37,37 @@ public struct GoogleDriveAuthSheet: View {
     }
     
     public var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 // MARK: - Method Picker
                 Section {
-                    Picker("Sign-in Method", selection: $selectedTab) {
+                    Picker("Method", selection: $selectedTab) {
                         Text("OAuth 2.0").tag(0)
-                        Text("Access Token").tag(1)
+                        Text("Direct Token").tag(1)
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 
                 if selectedTab == 0 {
                     // MARK: - OAuth Section
-                    Section(header: Text("Google Cloud Client Configuration"), footer: Text("Google requires an OAuth 2.0 Client ID from Google Cloud Console. Enter your Client ID below to sign in.")) {
-                        TextField("Google Client ID", text: $clientId)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .font(.system(size: 14, design: .monospaced))
+                    Section(header: Text("Google Drive Credentials"), footer: Text("Enter your OAuth 2.0 Client ID created in Google Cloud Console. Leave Client Secret empty unless configured as Web Application.")) {
+                        HStack {
+                            Image(systemName: "person.crop.circle.badge.key")
+                                .foregroundColor(.blue)
+                                .frame(width: 24)
+                            TextField("Client ID (e.g. 123...apps.googleusercontent.com)", text: $clientId)
+                                .disableAutocapitalizationIfAvailable()
+                                .font(.system(size: 14))
+                        }
                         
-                        SecureField("Client Secret (Optional)", text: $clientSecret)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .font(.system(size: 14, design: .monospaced))
+                        HStack {
+                            Image(systemName: "lock")
+                                .foregroundColor(.secondary)
+                                .frame(width: 24)
+                            SecureField("Client Secret (Optional)", text: $clientSecret)
+                                .disableAutocapitalizationIfAvailable()
+                                .font(.system(size: 14))
+                        }
                     }
                     
                     Section {
@@ -65,7 +78,6 @@ public struct GoogleDriveAuthSheet: View {
                                     ProgressView()
                                         .padding(.trailing, 8)
                                 }
-                                Image(systemName: "person.crop.circle.badge.checkmark")
                                 Text("Sign in with Google")
                                     .fontWeight(.semibold)
                                 Spacer()
@@ -76,48 +88,24 @@ public struct GoogleDriveAuthSheet: View {
                     
                     // MARK: - Setup Instructions
                     Section(header: Text("How to get a free Google Client ID")) {
+                        #if !os(tvOS)
                         DisclosureGroup("Step-by-step setup guide") {
-                            VStack(alignment: .leading, spacing: 10) {
-                                instructionStep(
-                                    number: "1",
-                                    text: "Visit Google Cloud Console",
-                                    link: "https://console.cloud.google.com/apis/credentials"
-                                )
-                                instructionStep(
-                                    number: "2",
-                                    text: "Create a Project and enable 'Google Drive API' in APIs & Services."
-                                )
-                                instructionStep(
-                                    number: "3",
-                                    text: "Go to Credentials > Create Credentials > OAuth client ID."
-                                )
-                                instructionStep(
-                                    number: "4",
-                                    text: "Select 'iOS' (Bundle ID: com.siyahul.SwiftyTorrent) or 'Web application'."
-                                )
-                                instructionStep(
-                                    number: "5",
-                                    text: "Paste your Client ID above and tap Sign in with Google."
-                                )
-                                
-                                Button(action: copyBundleId) {
-                                    HStack {
-                                        Image(systemName: "doc.on.doc")
-                                        Text("Copy Bundle Identifier (com.siyahul.SwiftyTorrent)")
-                                            .font(.caption)
-                                    }
-                                }
-                                .padding(.top, 4)
-                            }
-                            .padding(.vertical, 6)
+                            instructionStepsView
                         }
+                        #else
+                        instructionStepsView
+                        #endif
                     }
                 } else {
                     // MARK: - Direct Token Section
                     Section(header: Text("Direct Access Token"), footer: Text("Paste a Google OAuth access token or bearer token for direct access.")) {
+                        #if !os(tvOS)
                         TextEditor(text: $directAccessToken)
                             .frame(minHeight: 100)
                             .font(.system(size: 13, design: .monospaced))
+                        #else
+                        TextField("Access Token", text: $directAccessToken)
+                        #endif
                     }
                     
                     Section {
@@ -146,9 +134,9 @@ public struct GoogleDriveAuthSheet: View {
                 }
             }
             .navigationTitle("Google Drive Setup")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationBarTitle()
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }
@@ -160,6 +148,44 @@ public struct GoogleDriveAuthSheet: View {
                 Text("Bundle ID 'com.siyahul.SwiftyTorrent' copied to clipboard.")
             }
         }
+    }
+    
+    private var instructionStepsView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            instructionStep(
+                number: "1",
+                text: "Visit Google Cloud Console",
+                link: "https://console.cloud.google.com/apis/credentials"
+            )
+            instructionStep(
+                number: "2",
+                text: "Create a Project and enable 'Google Drive API' in APIs & Services."
+            )
+            instructionStep(
+                number: "3",
+                text: "Go to Credentials > Create Credentials > OAuth client ID."
+            )
+            instructionStep(
+                number: "4",
+                text: "Select 'iOS' (Bundle ID: com.siyahul.SwiftyTorrent) or 'Web application'."
+            )
+            instructionStep(
+                number: "5",
+                text: "Paste your Client ID above and tap Sign in with Google."
+            )
+            
+            #if !os(tvOS)
+            Button(action: copyBundleId) {
+                HStack {
+                    Image(systemName: "doc.on.doc")
+                    Text("Copy Bundle Identifier (com.siyahul.SwiftyTorrent)")
+                        .font(.caption)
+                }
+            }
+            .padding(.top, 4)
+            #endif
+        }
+        .padding(.vertical, 6)
     }
     
     private func instructionStep(number: String, text: String, link: String? = nil) -> some View {
@@ -183,8 +209,14 @@ public struct GoogleDriveAuthSheet: View {
     }
     
     private func copyBundleId() {
+        #if canImport(UIKit) && !os(tvOS)
         UIPasteboard.general.string = "com.siyahul.SwiftyTorrent"
         showCopiedAlert = true
+        #elseif canImport(AppKit)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString("com.siyahul.SwiftyTorrent", forType: .string)
+        showCopiedAlert = true
+        #endif
     }
     
     private func startOAuthSignIn() {
@@ -203,10 +235,16 @@ public struct GoogleDriveAuthSheet: View {
         Task {
             do {
                 let provider = GoogleDriveStorageProvider()
-                let rootVC = await UIApplication.shared.connectedScenes
+                #if os(tvOS)
+                let rootVC: PlatformViewController? = nil
+                #elseif canImport(UIKit)
+                let rootVC: PlatformViewController? = await UIApplication.shared.connectedScenes
                     .compactMap { $0 as? UIWindowScene }
                     .flatMap { $0.windows }
                     .first(where: { $0.isKeyWindow })?.rootViewController
+                #elseif canImport(AppKit)
+                let rootVC: PlatformViewController? = await NSApplication.shared.keyWindow?.contentViewController
+                #endif
                 
                 _ = try await provider.authenticate(
                     clientId: trimmedClientId,

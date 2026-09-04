@@ -7,8 +7,10 @@
 //
 
 import SwiftUI
-import UIKit
 import UniformTypeIdentifiers
+
+#if os(iOS)
+import UIKit
 
 public struct DocumentPickerPresenter: UIViewControllerRepresentable {
     public let contentTypes: [UTType]
@@ -58,3 +60,51 @@ public struct DocumentPickerPresenter: UIViewControllerRepresentable {
         }
     }
 }
+#elseif os(macOS)
+import AppKit
+
+public struct DocumentPickerPresenter: View {
+    public let contentTypes: [UTType]
+    public let onPick: (URL) -> Void
+    public let onCancel: () -> Void
+    @Environment(\.dismiss) private var dismiss
+    
+    public init(
+        contentTypes: [UTType] = [.folder],
+        onPick: @escaping (URL) -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) {
+        self.contentTypes = contentTypes
+        self.onPick = onPick
+        self.onCancel = onCancel
+    }
+    
+    public var body: some View {
+        Color.clear
+            .onAppear {
+                let panel = NSOpenPanel()
+                panel.canChooseFiles = contentTypes.contains(where: { $0 != .folder })
+                panel.canChooseDirectories = contentTypes.contains(.folder)
+                panel.allowsMultipleSelection = false
+                if panel.runModal() == .OK, let url = panel.url {
+                    onPick(url)
+                } else {
+                    onCancel()
+                }
+                dismiss()
+            }
+    }
+}
+#else
+public struct DocumentPickerPresenter: View {
+    public init(
+        contentTypes: [UTType] = [.folder],
+        onPick: @escaping (URL) -> Void,
+        onCancel: @escaping () -> Void = {}
+    ) {}
+    
+    public var body: some View {
+        Text("Document picker is not available on this platform")
+    }
+}
+#endif

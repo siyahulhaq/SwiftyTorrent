@@ -126,8 +126,9 @@ final class TorrentsViewModel {
         
         #if os(iOS)
         UIPasteboard.general.string = magnetURL
-        #elseif os(tvOS)
-        UIPasteboard.general.string = magnetURL
+        #elseif os(macOS)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(magnetURL, forType: .string)
         #endif
         
         print("Copied magnet URL to clipboard: \(magnetURL)")

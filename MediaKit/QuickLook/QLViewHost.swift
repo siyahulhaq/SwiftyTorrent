@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-#if canImport(QuickLook)
+#if canImport(QuickLook) && canImport(UIKit)
 import QuickLook
 
 class QLPreviewItemWrapper: NSObject, QLPreviewItem {
@@ -106,6 +106,82 @@ public struct QLPreviewModalView: View {
                     }
                 }
         }
+    }
+}
+#elseif canImport(QuickLookUI) && canImport(AppKit)
+import QuickLookUI
+import AppKit
+
+public struct QLViewHost: NSViewRepresentable {
+    public var previewItem: PreviewItem
+    
+    public init(previewItem: PreviewItem) {
+        self.previewItem = previewItem
+    }
+    
+    public func makeNSView(context: Context) -> QLPreviewView {
+        let view = QLPreviewView(frame: .zero, style: .normal) ?? QLPreviewView()
+        if let url = previewItem.previewItemURL {
+            view.previewItem = url as QLPreviewItem
+        }
+        return view
+    }
+    
+    public func updateNSView(_ nsView: QLPreviewView, context: Context) {
+        if let url = previewItem.previewItemURL {
+            nsView.previewItem = url as QLPreviewItem
+        }
+    }
+}
+
+public struct QLPreviewModalView: View {
+    public let previewItem: PreviewItem
+    @Environment(\.dismiss) private var dismiss
+    
+    public init(previewItem: PreviewItem) {
+        self.previewItem = previewItem
+    }
+    
+    public var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(previewItem.previewItemTitle ?? "Preview")
+                    .font(.headline)
+                Spacer()
+                Button("Done") {
+                    dismiss()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .padding()
+            
+            QLViewHost(previewItem: previewItem)
+                .frame(minWidth: 500, minHeight: 400)
+        }
+    }
+}
+#else
+public struct QLPreviewModalView: View {
+    public let previewItem: PreviewItem
+    @Environment(\.dismiss) private var dismiss
+    
+    public init(previewItem: PreviewItem) {
+        self.previewItem = previewItem
+    }
+    
+    public var body: some View {
+        VStack(spacing: 16) {
+            Text(previewItem.previewItemTitle ?? "Preview")
+                .font(.headline)
+            if let url = previewItem.previewItemURL {
+                Text(url.lastPathComponent)
+                    .foregroundColor(.secondary)
+            }
+            Button("Done") {
+                dismiss()
+            }
+        }
+        .padding()
     }
 }
 #endif

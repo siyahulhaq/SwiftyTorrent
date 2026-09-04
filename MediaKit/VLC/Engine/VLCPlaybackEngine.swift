@@ -1,5 +1,11 @@
 import Foundation
+#if canImport(UIKit)
 import UIKit
+typealias PlatformView = UIView
+#elseif canImport(AppKit)
+import AppKit
+typealias PlatformView = NSView
+#endif
 import KSPlayer
 import AVFoundation
 
@@ -92,7 +98,7 @@ public final class PlaybackHistoryManager {
 
 final class KSVideoHostView: PlayerView {
     
-    private weak var currentVideoView: UIView?
+    private weak var currentVideoView: PlatformView?
     
     override func set(url: URL, options: KSOptions) {
         super.set(url: url, options: options)
@@ -112,8 +118,12 @@ final class KSVideoHostView: PlayerView {
             currentVideoView?.removeFromSuperview()
             currentVideoView = videoView
             videoView.translatesAutoresizingMaskIntoConstraints = false
+            #if canImport(UIKit)
             addSubview(videoView)
             sendSubviewToBack(videoView)
+            #elseif canImport(AppKit)
+            addSubview(videoView, positioned: .below, relativeTo: nil)
+            #endif
             NSLayoutConstraint.activate([
                 videoView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 videoView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -124,10 +134,17 @@ final class KSVideoHostView: PlayerView {
         }
     }
     
+    #if canImport(UIKit)
     override func layoutSubviews() {
         super.layoutSubviews()
         attachCurrentPlayerView()
     }
+    #elseif canImport(AppKit)
+    override func layout() {
+        super.layout()
+        attachCurrentPlayerView()
+    }
+    #endif
 }
 
 final class KSPlaybackEngine: NSObject, PlayerControllerDelegate {

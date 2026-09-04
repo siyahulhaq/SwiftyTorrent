@@ -34,7 +34,7 @@ struct SearchView: View {
             }
             .listStyle(PlainListStyle())
             .searchable(text: $model.searchText, prompt: "Search...")
-            .navigationBarTitle("Search")
+            .navigationTitle("Search")
         }
     }
 
